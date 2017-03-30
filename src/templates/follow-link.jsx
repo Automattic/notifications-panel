@@ -73,7 +73,7 @@ export const FollowLink = React.createClass({
 
         return (
             <a className="follow-link" onClick={this.toggleFollowStatus} href="#">
-                <span className={'noticon ' + noticon_class} />{link_text}
+                <span className={'wpnc__noticon ' + noticon_class} />{link_text}
             </a>
         );
     },

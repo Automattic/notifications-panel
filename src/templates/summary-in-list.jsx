@@ -58,7 +58,7 @@ export const SummaryInList = React.createClass({
                             />
                         }
                     />
-                    <span className="noticon">{this.props.note.noticon}</span>
+                  <span className="wpnc__noticon">{this.props.note.noticon}</span>
                 </div>
                 <div className="wpnc__text-summary">
                     <div className="wpnc__subject" dangerouslySetInnerHTML={{ __html: subject }} />

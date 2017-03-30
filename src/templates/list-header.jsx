@@ -60,7 +60,7 @@ const ListHeader = React.createClass({
         return (
             <li className="wpnc__time-group-wrap">
                 <div className={classNames} style={style}>
-                    <span className="noticon noticon-time" />{title}
+                    <span className="wpnc__noticon noticon-time" />{title}
                 </div>
             </li>
         );

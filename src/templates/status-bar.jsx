@@ -65,7 +65,7 @@ export const StatusBar = React.createClass({
                         __html: this.props.statusMessage,
                     }}
                 />
-              <span className="wpnc__status-bar__wpnc__close-link noticon" onClick={this.disappear}>
+              <span className="wpnc__status-bar__wpnc__close-link wpnc__noticon" onClick={this.disappear}>
                     
                 </span>
             </div>
