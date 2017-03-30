@@ -8,10 +8,10 @@
 @import './shared/forms';
 @import './shared/buttons';
 
-@import 'main';
-@import 'block-user';
-@import 'note-common';
-@import 'actions';
-@import 'overlay-bars';
-@import 'spinner';
+@import './main';
+@import './block-user';
+@import './note-common';
+@import './actions';
+@import './overlay-bars';
+@import './spinner';
 @import '../../suggestions/styles';
