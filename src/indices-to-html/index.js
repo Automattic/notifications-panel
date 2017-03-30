@@ -26,7 +26,7 @@ function render_range(new_sub_text, new_sub_range, range_info, range_data, optio
             range_info_type = type_mappings[range_info.type];
         }
 
-        new_classes.push(range_info.type);
+        new_classes.push(`wpnc__${ range_info.type }`);
     }
 
     // We want to do different things depending on the range type.
