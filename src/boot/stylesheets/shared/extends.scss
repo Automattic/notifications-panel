@@ -3,14 +3,14 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-%noticon {
+%wpnc__noticon {
 	@extend %clear-text;
 	display: inline-block;
 	font: normal 16px/1 'Noticons';
 	vertical-align: middle;
 }
 
-%bignoticon {
+%wpnc__bignoticon {
 	@extend %clear-text;
 	display: inline-block;
 	font: normal 18px/1 'Noticons';

@@ -78,7 +78,7 @@
     		float: left;
 
     		&:before {
-    			@extend %noticon;
+    			@extend %wpnc__noticon;
     			content: '\f431';
     			transform: rotate( 90deg );
     		}
@@ -95,13 +95,13 @@
     	}
 
     	.wpnc__prev:before {
-    		@extend %bignoticon;
+    		@extend %wpnc__bignoticon;
     		content: '\f430';
     		transform: rotate( 90deg );
     	}
 
     	.wpnc__next:before {
-    		@extend %bignoticon;
+    		@extend %wpnc__bignoticon;
     		content: '\f429';
     		transform: rotate( 90deg ) translateX( 2px ); // Vertical nudge
     	}
@@ -159,7 +159,7 @@
     }
 
     .rtl header .back:after {
-    	@extend %noticon;
+    	@extend %wpnc__noticon;
     	content: '\f432';
     	transform: rotate( 90deg );
     }
@@ -280,8 +280,8 @@
     		height: $icon-size;
     	}
 
-    	.wpnc__note-icon .noticon {
-    		@extend %noticon;
+    	.wpnc__note-icon .wpnc__noticon {
+    		@extend %wpnc__noticon;
     		text-decoration: none;
     		color: white;
     		padding: 2px;
@@ -353,7 +353,7 @@
     		cursor: pointer;
     	}
 
-    	.wpnc__note-icon .noticon {
+    	.wpnc__note-icon .wpnc__noticon {
     		position: absolute;
     		bottom: -.333em;
     		right: -.5em;
@@ -365,12 +365,12 @@
     		border-radius: 50%;
     	}
 
-    	.unread .wpnc__note-icon .noticon {
+    	.unread .wpnc__note-icon .wpnc__noticon {
     		background: $blue-medium;
     		border-color: $gray-light;
     	}
 
-    	.wpnc__comment-unapproved .wpnc__note-icon .noticon {
+    	.wpnc__comment-unapproved .wpnc__note-icon .wpnc__noticon {
     		background: $alert-yellow;
     		border-color: $alert-yellow-lighter;
     	}
@@ -398,7 +398,7 @@
     			@extend %ellipsy-box;
     		}
 
-    		.wpnc__subject .noticon {
+    		.wpnc__subject .wpnc__noticon {
     			color: $gray;
     			padding: 2px 5px 0 0;
     		}
@@ -428,7 +428,7 @@
     		background: rgba(255, 255, 255, 0.95);
     		border-bottom: 1px solid lighten( $gray, 30 );
 
-    		span.noticon {
+    		span.wpnc__noticon {
     			font-size: 16px;
     			margin-top: 3px;
     			padding-left: $padding-medium;
@@ -468,8 +468,8 @@
     		margin-left: 2em;
     	}
 
-    	.noticon {
-    		@extend %noticon;
+    	.wpnc__noticon {
+    		@extend %wpnc__noticon;
     	}
 
     	.wpnc__close-link {
@@ -569,7 +569,7 @@
     		padding: $padding-medium 0;
     		border-bottom: 1px solid lighten( $gray, 30 );
 
-    		.noticon {
+    		.wpnc__noticon {
     			padding: 0 10px;
     		}
 
@@ -588,7 +588,7 @@
     		border: none;
     	}
 
-    	.wpnc__note-icon .noticon {
+    	.wpnc__note-icon .wpnc__noticon {
     		font-size: 2em;
     		background-color: lighten( $gray, 20 );
     		border-color: lighten( $gray, 20 );

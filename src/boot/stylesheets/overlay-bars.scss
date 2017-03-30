@@ -27,8 +27,8 @@
 		color: $white;
 	}
 
-	.noticon {
-		@extend %noticon;
+	.wpnc__noticon {
+		@extend %wpnc__noticon;
 	}
 
 	.wpnc__status-bar__wpnc__close-link {

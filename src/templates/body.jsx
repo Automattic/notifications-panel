@@ -151,7 +151,7 @@ export const NoteBody = React.createClass({
 
             replyBlock = (
                 <div className="wpnc__reply">
-                    <span className="noticon"></span>
+                    <span className="wpnc__noticon"></span>
                     {replyMessage}
                 </div>
             );
