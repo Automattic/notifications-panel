@@ -1,0 +1,105 @@
+.wpnc__note-actions {
+	.wpnc__reply-box {
+		font-family: $serif;
+		display: block;
+		position: relative;
+		padding: $padding-medium;
+		background-color: $gray-light;
+
+		textarea {
+			padding-right: 52px;
+			min-height: 37px;
+			width: 100%;
+			font-size: 14px;
+			font-family: inherit;
+			transition:
+				border .15s ease-in-out,
+				box-shadow .15s ease-in-out;
+			resize: vertical;
+		}
+
+		textarea:focus + a {
+			display: block;
+		}
+
+		a {
+			font-family: $sans;
+			color: lighten( $gray, 10% );
+			display: none;
+			position: absolute;
+			top: 26px;
+			right: 25px;
+			text-transform: uppercase;
+			font-weight: 600;
+			font-size: 12px;
+		}
+		a.active {
+			display: block;
+			color: $blue-medium;
+		}
+		a.inactive {
+			cursor: default;
+		}
+
+		.spinner {
+			display: block;
+			position: absolute;
+			right: 20px;
+			left: initial;
+		}
+	}
+}
+
+.wpnc__note-actions__buttons div.wpnc__action-link {
+	display: inline-block;
+	vertical-align: top;
+	max-width: 25%;
+	padding: 0 18px;
+	box-sizing: border-box;
+
+	@media screen and (max-width: 370px) {
+		padding: 0 12px;
+	}
+
+	&:first-child {
+		padding-left: 0;
+	}
+
+	&:last-child {
+		padding-right: 0;
+	}
+
+	&:only-child {
+		padding: 0 18px;
+	}
+
+	a {
+		outline: none;
+	}
+
+	a.inactive-action:hover {
+		color: $orange-jazzy;
+	}
+
+	a.active-action:hover {
+		color: $gray;
+	}
+}
+
+.wpnc__action-link {
+	text-align: center;
+	font-size: 12px;
+
+	.noticon {
+		font-size: 24px;
+	}
+
+	a.active-action {
+		color: $orange-jazzy;
+	}
+
+	a.inactive-action {
+		color: $gray;
+	}
+
+}

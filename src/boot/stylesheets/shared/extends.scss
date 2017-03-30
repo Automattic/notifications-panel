@@ -1,0 +1,44 @@
+%clear-text {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+%noticon {
+	@extend %clear-text;
+	display: inline-block;
+	font: normal 16px/1 'Noticons';
+	vertical-align: middle;
+}
+
+%bignoticon {
+	@extend %clear-text;
+	display: inline-block;
+	font: normal 18px/1 'Noticons';
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+%container {
+	&:after {
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden;
+	}
+}
+
+%ellipsy {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+%ellipsy-box {
+	@extend %ellipsy;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+%calypso-border {
+	border-bottom: 1px solid lighten( $gray, 30 );
+}

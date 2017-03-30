@@ -1,0 +1,19 @@
+{
+  "name": "notifications-panel",
+  "version": "1.0.0",
+  "description": "The core notifications panel for WordPress.com notifications",
+  "main": "Notifications.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Automattic/notifications-panel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Automattic/notifications-panel/issues"
+  },
+  "homepage": "https://github.com/Automattic/notifications-panel#readme"
+}
