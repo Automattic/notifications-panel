@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 
 import { store } from './state';
+import actions from './state/actions';
 
 import RestClient from './rest-client';
-import { receiveMessage, sendMessage } from './boot/messaging';
+import { sendMessage } from './boot/messaging';
 import { setGlobalData } from './flux/app-actions';
 import repliesCache from './comment-replies-cache';
 
@@ -27,19 +28,19 @@ export class Notifications extends PureComponent {
         client = new RestClient();
         client.global = globalData;
         client.sendMessage = sendMessage;
-        client.receiveMessage = receiveMessage(client.handleIncomingMessage.bind(client));
-
-        window.addEventListener('message', client.receiveMessage);
-
-        // Send iFrameReady message as soon as we're loaded
-        // (innocuous if we're not actually in an iframe)
-        client.sendMessage({ action: 'iFrameReady' });
     }
 
-    componentWillReceiveProps({ isVisible, wpcom }) {
+    componentWillReceiveProps({ isOpen, wpcom }) {
         initAPI(wpcom);
 
-        client.setVisibility(isVisible);
+        if ( isOpen && ! this.props.isOpen ) {
+            store.dispatch( actions.ui.openPanel() );
+            client.updateLastSeenTime(0);
+            client.main();
+            client.refreshNotes();
+        } else if ( ! isOpen && this.props.isOpen ) {
+            store.dispatch( actions.ui.closePanel() );
+        }
     }
 
     render() {

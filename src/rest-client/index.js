@@ -7,6 +7,7 @@ import { store } from '../state';
 import actions from '../state/actions';
 
 import getAllNotes from '../state/selectors/get-all-notes';
+import isPanelOpen from '../state/selectors/get-is-panel-open';
 
 import events from 'events';
 import inherits from 'inherits';
@@ -28,13 +29,7 @@ const settings = {
  * Module exports.
  */
 
-function inIframe() {
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
-}
+const isVisible = () => document && document.visibilityState === 'visible';
 
 export function Client() {
     events.EventEmitter.call(this);
@@ -43,12 +38,10 @@ export function Client() {
     this.noteList = [];
     this.gettingNotes = false;
     this.timeout = false;
-    this.showing = !inIframe(); // false until togglePanel{showing:true} from parent
     this.lastSeenTime = 0;
     this.hasNewNoteData = false;
     this.noteRequestLimit = settings['initial_limit'];
     this.retries = 0;
-    this.visible = false; // tied to Page Visibility API, i.e. tab switching and prerendering
     this.subscribeTry = 0;
     this.subscribeTries = 3;
     this.subscribing = false;
@@ -56,15 +49,6 @@ export function Client() {
     this.inbox = [];
 
     window.addEventListener('storage', handleStorageEvent.bind(this));
-    if (typeof document.hidden !== 'undefined') {
-        document.addEventListener('visibilitychange', () =>
-            setVisibility.call(this, !document.hidden));
-    }
-
-    /*
-	 * Start the loading process unless the document is hidden.
-	 */
-    setVisibility.call(this, !document.hidden);
 }
 
 function main() {
@@ -97,7 +81,7 @@ function main() {
     this.reschedule();
 
     // nobody's looking. take a nap until they return.
-    if (!this.visible) {
+    if (!isVisible()) {
         return debug('main: not visible. sleeping.');
     }
 
@@ -392,6 +376,7 @@ function cleanupLocalCache() {
  * @returns {Boolean} whether or not we will update our lastSeenTime value
  */
 function updateLastSeenTime(proposedTime, fromStorage) {
+	const isOpen = isPanelOpen( store.getState() );
     var fromNote = false;
     var mostRecentNoteTime = 0;
 
@@ -423,14 +408,14 @@ function updateLastSeenTime(proposedTime, fromStorage) {
 
     debug('updateLastSeenTime 1', {
         proposedTime: proposedTime,
-        showing: this.showing,
-        visible: this.visible,
+        showing: isOpen,
+        visible: isVisible(),
         lastSeenTime: this.lastSeenTime,
         mostRecentNoteTime: mostRecentNoteTime,
     });
 
     // Advance proposedTime to the latest visible note time.
-    if (this.showing && this.visible && mostRecentNoteTime > proposedTime) {
+    if (isOpen && isVisible() && mostRecentNoteTime > proposedTime) {
         proposedTime = mostRecentNoteTime;
         fromNote = true;
     }
@@ -461,29 +446,11 @@ function updateLastSeenTime(proposedTime, fromStorage) {
     return true;
 }
 
-function handleIncomingMessage(message) {
-    debug('incoming message: %s', message.action);
-    switch (message.action) {
-        case 'togglePanel':
-            if (!inIframe()) {
-                return;
-            }
-            const panelClosing = this.showing && !message.showing;
-            const panelOpening = !this.showing && message.showing;
-            this.showing = message.showing;
-            if (panelClosing) {
-                store.dispatch(actions.ui.closePanel());
-            } else if (panelOpening) {
-                store.dispatch(actions.ui.openPanel());
-                updateLastSeenTime.call(this, 0);
-            }
-            break;
-        case 'refreshNotes':
-            if (!this.subscribed) {
-                getNotesList.call(this);
-            }
-            break;
+function refreshNotes() {
+    if (this.subscribed) {
+        return;
     }
+    getNotesList.call(this);
 }
 
 function handleStorageEvent(event) {
@@ -520,19 +487,6 @@ function loadMore() {
     this.getNotes();
 }
 
-function setVisibility(isVisible) {
-    if (this.visible === isVisible) {
-        return;
-    }
-
-    this.visible = isVisible;
-
-    if (isVisible) {
-        this.updateLastSeenTime(0);
-        this.main(this);
-    }
-}
-
 Client.prototype.main = main;
 Client.prototype.reschedule = reschedule;
 Client.prototype.ready = ready;
@@ -541,8 +495,7 @@ Client.prototype.getNote = getNote;
 Client.prototype.getNotes = getNotes;
 Client.prototype.getNotesList = getNotesList;
 Client.prototype.updateLastSeenTime = updateLastSeenTime;
-Client.prototype.handleIncomingMessage = handleIncomingMessage;
 Client.prototype.loadMore = loadMore;
-Client.prototype.setVisibility = setVisibility;
+Client.prototype.refreshNotes = refreshNotes;
 
 export default Client;
