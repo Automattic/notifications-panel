@@ -49,6 +49,8 @@ githooks:
 # the `make build` rule is just an aggregate of some specific file rules
 build: public/index.html public/rtl.html githooks
 
+build-no-githook: public/index.html public/rtl.html
+
 # the `clean` rule deletes all the files created from `make build`
 clean:
 	@rm -rf public/root.html \
