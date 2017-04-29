@@ -2,8 +2,9 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import Notifications, { refreshNotes } from '../src/Notifications';
-import AuthWrapper from './auth-wrapper';
-import { receiveMessage } from '../src/boot/messaging';
+// import AuthWrapper from './auth-wrapper';
+import AuthWrapper from './offline-wrapper';
+import { receiveMessage, sendMessage } from './messaging';
 
 require('../src/boot/stylesheets/style.scss');
 
@@ -20,6 +21,7 @@ const render = () => {
             isShowing,
             isVisible,
             locale,
+            receiveMessage: sendMessage,
             redirectPath: '/',
         }),
         document.getElementsByClassName('wpnc__main')[0]

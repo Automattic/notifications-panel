@@ -5,7 +5,6 @@ import { store } from './state';
 import actions from './state/actions';
 
 import RestClient from './rest-client';
-import { sendMessage } from './boot/messaging';
 import { setGlobalData } from './flux/app-actions';
 import repliesCache from './comment-replies-cache';
 
@@ -36,12 +35,14 @@ export class Notifications extends PureComponent {
     static defaultProps = {
         isVisible: false,
         locale: 'en',
+        receiveMessage: () => {},
     };
 
     componentWillMount() {
         const {
             isShowing,
             isVisible,
+            receiveMessage,
             wpcom,
         } = this.props;
 
@@ -49,7 +50,7 @@ export class Notifications extends PureComponent {
 
         client = new RestClient();
         client.global = globalData;
-        client.sendMessage = sendMessage;
+        client.sendMessage = receiveMessage;
 
         // Send iFrameReady message as soon as we're loaded
         // (innocuous if we're not actually in an iframe)
