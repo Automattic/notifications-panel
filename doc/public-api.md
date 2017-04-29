@@ -4,7 +4,7 @@ Although this notifications panel is fundamentally an independently-operating Re
 
 These are specified as React props but for sake of clarity they will be discussed here.
 
-## App Interface
+## Signals to App
 
 ### locale
 
@@ -68,4 +68,31 @@ Browsers expose a notion of visibility through the `Document.visibilityState` pr
 Similar to how `isVisible` indicates a notion of being able to be seen, `isShowing` indicates if the specific React component (this notifications-panel app) is open in the host app. For example, as it's used in Calypso the notifications panel is normally closed behind a bell icon. While we don't need to be polling for the contents of new and updated notes when in this state, we still want to be able to indicate on that bell icon that new notifications have arrives. Therefore we will want to continue to poll for the list of notes (note ids and content hashes) so we can announce those updates while optimizing data usage.
 
 
+### `refreshNotes`
+
+Used to force a manual refresh of the notes from the server.
+
+
 [visibility]: https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilityState
+
+## Signals from App
+
+### `iFrameReady`
+
+Indicates that the notifications panel has booted and is ready to receive messages.
+
+### `render`
+
+Indicates that the app has rendered and passes along how many new notifications are unseen. Used to set an indicator bell.
+
+### `renderAllSeen`
+
+Indicates that the app has rendered all notifications and that there are no unseen notifications. Used to reset an indicator bell.
+
+### `togglePanel`
+
+Indicates a request to close the notifications panel.
+
+### `widescreen`
+
+Indicates that the app is toggling from narrow to widescreen layouts. Passes along the boolean `widescreen` to indicate which layout is active.

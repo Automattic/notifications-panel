@@ -33,9 +33,13 @@ const init = () => {
     window &&
         window.addEventListener(
             'message',
-            receiveMessage(({ action }) => {
+            receiveMessage(({ action, hidden, showing }) => {
                 if ('togglePanel' === action) {
-                    isShowing = !isShowing;
+                    isShowing = showing;
+                    render();
+                }
+
+                if ('toggleVisibility' === action) {
                     render();
                 }
             })
