@@ -5,7 +5,7 @@ import { store } from './state';
 import actions from './state/actions';
 
 import RestClient from './rest-client';
-import { receiveMessage, sendMessage } from './boot/messaging';
+import { sendMessage } from './boot/messaging';
 import { setGlobalData } from './flux/app-actions';
 import repliesCache from './comment-replies-cache';
 
@@ -20,6 +20,11 @@ const globalData = {};
 setGlobalData(globalData);
 
 repliesCache.cleanup();
+
+/**
+ * Force a manual refresh of the notes data
+ */
+export const refreshNotes = () => client && client.refreshNotes.call(client);
 
 export class Notifications extends PureComponent {
     static propTypes = {
@@ -45,15 +50,6 @@ export class Notifications extends PureComponent {
         client = new RestClient();
         client.global = globalData;
         client.sendMessage = sendMessage;
-
-        window.addEventListener(
-            'message',
-            receiveMessage(({ action }) => {
-                if ('refreshNotes' === action) {
-                    client.refreshNotes.call(client);
-                }
-            })
-        );
 
         // Send iFrameReady message as soon as we're loaded
         // (innocuous if we're not actually in an iframe)
