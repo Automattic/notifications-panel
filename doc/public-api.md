@@ -23,12 +23,12 @@ Unless we are listening on a WebSocket connection via `pinghub` we want to throt
 <thead>
 <tr>
 <th colspan="2">flags</th>
-<th colspan="2">polling activity</th>
+<th colspan="2">note list polling</th>
 </tr>
 <th><code>isVisible</code></th>
 <th><code>isShowing</code></th>
-<th>list of notes</th>
-<th>content of notes</th>
+<th>meta</th>
+<th>meta + data</th>
 </tr>
 </thead>
 <tbody>

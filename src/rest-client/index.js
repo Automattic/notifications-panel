@@ -24,18 +24,6 @@ const settings = {
     max_limit: 100,
 };
 
-/**
- * Module exports.
- */
-
-function inIframe() {
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
-}
-
 export function Client() {
     events.EventEmitter.call(this);
 
@@ -43,12 +31,12 @@ export function Client() {
     this.noteList = [];
     this.gettingNotes = false;
     this.timeout = false;
-    this.showing = !inIframe(); // false until togglePanel{showing:true} from parent
+    this.isVisible = false;
+    this.isShowing = false;
     this.lastSeenTime = 0;
     this.hasNewNoteData = false;
     this.noteRequestLimit = settings['initial_limit'];
     this.retries = 0;
-    this.visible = false; // tied to Page Visibility API, i.e. tab switching and prerendering
     this.subscribeTry = 0;
     this.subscribeTries = 3;
     this.subscribing = false;
@@ -56,15 +44,8 @@ export function Client() {
     this.inbox = [];
 
     window.addEventListener('storage', handleStorageEvent.bind(this));
-    if (typeof document.hidden !== 'undefined') {
-        document.addEventListener('visibilitychange', () =>
-            setVisibility.call(this, !document.hidden));
-    }
 
-    /*
-	 * Start the loading process unless the document is hidden.
-	 */
-    setVisibility.call(this, !document.hidden);
+    this.main(this);
 }
 
 function main() {
@@ -97,7 +78,7 @@ function main() {
     this.reschedule();
 
     // nobody's looking. take a nap until they return.
-    if (!this.visible) {
+    if (!this.isVisible) {
         return debug('main: not visible. sleeping.');
     }
 
@@ -175,7 +156,7 @@ function pinghubCallback(err, event) {
 }
 
 function getNote(note_id) {
-    var parameters = {
+    const parameters = {
         fields: 'id,type,unread,body,subject,timestamp,meta,note_hash',
     };
 
@@ -217,7 +198,7 @@ function getNotes() {
 			 * full refresh.
 			 */
             this.retries = this.retries + 1;
-            var backoff_ms = Math.min(
+            const backoff_ms = Math.min(
                 settings['refresh_ms'] * (this.retries + 1),
                 settings['max_refresh_ms']
             );
@@ -242,7 +223,7 @@ function getNotes() {
         this.noteList = data.notes.map(note => pick(note, ['id', 'note_hash']));
 
         this.updateLastSeenTime(Number(data.last_seen_time));
-        if (parameters.number == settings['max_limit']) {
+        if (parameters.number === settings.max_limit) {
             /*
 			 * Since we store note data in a local cache,
 			 * we want to purge the data if the notes
@@ -270,7 +251,7 @@ function getNotesList() {
     }
     this.gettingNotes = true;
 
-    var parameters = {
+    const parameters = {
         fields: 'id,note_hash',
         number: this.noteRequestLimit,
     };
@@ -280,7 +261,7 @@ function getNotesList() {
         this.gettingNotes = false;
         if (error) {
             this.retries = this.retries + 1;
-            var backoff_ms = Math.min(
+            const backoff_ms = Math.min(
                 settings['refresh_ms'] * (this.retries + 1),
                 settings['max_refresh_ms']
             );
@@ -430,7 +411,7 @@ function updateLastSeenTime(proposedTime, fromStorage) {
     });
 
     // Advance proposedTime to the latest visible note time.
-    if (this.showing && this.visible && mostRecentNoteTime > proposedTime) {
+    if (this.isShowing && this.isVisible && mostRecentNoteTime > proposedTime) {
         proposedTime = mostRecentNoteTime;
         fromNote = true;
     }
@@ -461,29 +442,12 @@ function updateLastSeenTime(proposedTime, fromStorage) {
     return true;
 }
 
-function handleIncomingMessage(message) {
-    debug('incoming message: %s', message.action);
-    switch (message.action) {
-        case 'togglePanel':
-            if (!inIframe()) {
-                return;
-            }
-            const panelClosing = this.showing && !message.showing;
-            const panelOpening = !this.showing && message.showing;
-            this.showing = message.showing;
-            if (panelClosing) {
-                store.dispatch(actions.ui.closePanel());
-            } else if (panelOpening) {
-                store.dispatch(actions.ui.openPanel());
-                updateLastSeenTime.call(this, 0);
-            }
-            break;
-        case 'refreshNotes':
-            if (!this.subscribed) {
-                getNotesList.call(this);
-            }
-            break;
+function refreshNotes() {
+    if (this.subscribed) {
+        return;
     }
+
+    getNotesList.call(this);
 }
 
 function handleStorageEvent(event) {
@@ -520,16 +484,17 @@ function loadMore() {
     this.getNotes();
 }
 
-function setVisibility(isVisible) {
-    if (this.visible === isVisible) {
+function setVisibility({ isShowing, isVisible }) {
+    if (this.isShowing === isShowing && this.isVisible === isVisible) {
         return;
     }
 
-    this.visible = isVisible;
+    this.isShowing = isShowing;
+    this.isVisible = isVisible;
 
-    if (isVisible) {
+    if (isVisible && isShowing) {
         this.updateLastSeenTime(0);
-        this.main(this);
+        this.main();
     }
 }
 
@@ -541,8 +506,8 @@ Client.prototype.getNote = getNote;
 Client.prototype.getNotes = getNotes;
 Client.prototype.getNotesList = getNotesList;
 Client.prototype.updateLastSeenTime = updateLastSeenTime;
-Client.prototype.handleIncomingMessage = handleIncomingMessage;
 Client.prototype.loadMore = loadMore;
+Client.prototype.refreshNotes = refreshNotes;
 Client.prototype.setVisibility = setVisibility;
 
 export default Client;
