@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import Notifications from '../src/Notifications';
+import Notifications, { refreshNotes } from '../src/Notifications';
 import AuthWrapper from './auth-wrapper';
 import { receiveMessage } from '../src/boot/messaging';
 
@@ -11,10 +11,9 @@ const localePattern = /[&?]locale=([\w_-]+)/;
 const match = localePattern.exec(document.location.search);
 const locale = match ? match[1] : 'en';
 let isShowing = true;
+let isVisible = document.visibilityState === 'visible';
 
 const render = () => {
-    const isVisible = document && document.visibilityState === 'visible';
-
     ReactDOM.render(
         React.createElement(AuthWrapper(Notifications), {
             clientId: 52716,
@@ -28,22 +27,31 @@ const render = () => {
 };
 
 const init = () => {
-    document && document.addEventListener('visibilitychange', render);
+    document.addEventListener('visibilitychange', render);
 
-    window &&
-        window.addEventListener(
-            'message',
-            receiveMessage(({ action, hidden, showing }) => {
-                if ('togglePanel' === action) {
-                    isShowing = showing;
-                    render();
-                }
+    window.addEventListener(
+        'message',
+        receiveMessage(({ action, hidden, showing }) => {
+            if ('togglePanel' === action) {
+                isShowing = showing;
+                render();
+            }
 
-                if ('toggleVisibility' === action) {
-                    render();
-                }
-            })
-        );
+            if ('toggleVisibility' === action) {
+                isVisible = !hidden;
+                render();
+            }
+        })
+    );
+
+    window.addEventListener(
+        'message',
+        receiveMessage(({ action }) => {
+            if ('refreshNotes' === action) {
+                refreshNotes();
+            }
+        })
+    );
 
     render();
 };
