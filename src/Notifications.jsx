@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { Provider } from 'react-redux';
 
 import { store } from './state';
@@ -21,6 +21,17 @@ setGlobalData(globalData);
 repliesCache.cleanup();
 
 export class Notifications extends PureComponent {
+    static propTypes = {
+        isVisible: PropTypes.bool,
+        locale: PropTypes.string,
+        wpcom: PropTypes.object.isRequired,
+    };
+
+    static defaultProps = {
+        isVisible: false,
+        locale: 'en',
+    };
+
     componentWillMount() {
         initAPI(this.props.wpcom);
 
