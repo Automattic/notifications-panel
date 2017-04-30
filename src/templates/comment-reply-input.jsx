@@ -11,7 +11,6 @@ import getSiteSuggestions from '../state/selectors/get-site-suggestions';
 import { disableKeyboardShortcuts, enableKeyboardShortcuts } from '../flux/input-actions';
 
 import Suggestions from '../suggestions';
-import browser from '../browser';
 import repliesCache from '../comment-replies-cache';
 import { wpcom } from '../rest-client/wpcom';
 import { bumpStat } from '../rest-client/bump-stat';
@@ -19,6 +18,9 @@ import { formatString, validURL } from './functions';
 
 var debug = require('debug')('notifications:reply');
 var { recordTracksEvent } = require('../helpers/stats');
+
+const hasTouch = () =>
+    'ontouchstart' in window || (window.DocumentTouch && document instanceof DocumentTouch);
 
 const CommentReplyInput = React.createClass({
     mixins: [repliesCache.LocalStorageMixin, Suggestions],
@@ -146,7 +148,7 @@ const CommentReplyInput = React.createClass({
 
         // Force scroll the parent window to the top on iPhone
         // Note: This can be removed if we move away from using an iFrame for the notifications window
-        if (window.parent && browser.hasTouch()) {
+        if (window.parent && hasTouch()) {
             window.parent.scrollTo(0, 0);
         }
     },
