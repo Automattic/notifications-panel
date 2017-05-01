@@ -377,7 +377,11 @@ export const NoteList = React.createClass({
         }
 
         return (
-            <div className={this.props.selectedNoteId ? 'wpnc__list-view current' : 'wpnc__list-view'}>
+            <div
+                className={
+                    this.props.selectedNoteId ? 'wpnc__list-view current' : 'wpnc__list-view'
+                }
+            >
                 <FilterBar controller={this.props.filterController} />
                 <ol ref={this.storeNoteList} className="wpnc__notes">
                     <StatusBar

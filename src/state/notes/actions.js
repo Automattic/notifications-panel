@@ -10,10 +10,11 @@ export const removeNotes = noteIds => ({
     noteIds,
 });
 
-export const noteAction = action => noteId => ({
-    type: action,
-    noteId,
-});
+export const noteAction = action =>
+    noteId => ({
+        type: action,
+        noteId,
+    });
 
 export const spamNote = noteAction(types.SPAM_NOTE);
 export const trashNote = noteAction(types.TRASH_NOTE);
