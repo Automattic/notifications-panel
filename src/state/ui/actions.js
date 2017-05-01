@@ -1,7 +1,22 @@
-import { CLOSE_PANEL, OPEN_PANEL, SELECT_NOTE, UNDO_ACTION } from '../action-types';
+import {
+    CLOSE_PANEL,
+    NOTES_LOADED,
+    NOTES_LOADING,
+    OPEN_PANEL,
+    SELECT_NOTE,
+    UNDO_ACTION,
+} from '../action-types';
 
 export const closePanel = () => ({
     type: CLOSE_PANEL,
+});
+
+export const loadNotes = () => ({
+    type: NOTES_LOADING,
+});
+
+export const loadedNotes = () => ({
+    type: NOTES_LOADED,
 });
 
 export const openPanel = () => ({
@@ -22,6 +37,8 @@ export const unselectNote = () => selectNote(null);
 
 export default {
     closePanel,
+    loadNotes,
+    loadedNotes,
     openPanel,
     selectNote,
     undoAction,
