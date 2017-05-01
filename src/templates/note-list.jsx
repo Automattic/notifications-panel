@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
 
 import actions from '../state/actions';
+import getIsLoading from '../state/selectors/get-is-loading';
 import getIsNoteHidden from '../state/selectors/get-is-note-hidden';
 import getIsPanelOpen from '../state/selectors/get-is-panel-open';
 import getSelectedNoteId from '../state/selectors/get-selected-note-id';
@@ -41,7 +42,6 @@ export const NoteList = React.createClass({
         return {
             undoAction: null,
             undoNote: null,
-            loading: true,
             scrollY: 0,
             scrolling: false,
             statusMessage: '',
@@ -56,9 +56,6 @@ export const NoteList = React.createClass({
         this.props.global.updateUndoBar = this.updateUndoBar;
         this.props.global.resetUndoBar = this.resetUndoBar;
 
-        this.props.client.on('loading', this.setLoadingState);
-        this.props.client.on('loadingDone', this.unsetLoadingState);
-
         if ('function' === typeof this.props.storeVisibilityUpdater) {
             this.props.storeVisibilityUpdater(this.ensureSelectedNoteVisibility);
         }
@@ -69,8 +66,6 @@ export const NoteList = React.createClass({
     },
 
     componentWillUnmount: function() {
-        this.props.client.removeListener('loading', this.setLoadingState);
-        this.props.client.removeListener('loadingDone', this.unsetLoadingState);
         ReactDOM.findDOMNode(this).removeEventListener('scroll', this.onScroll);
     },
 
@@ -82,7 +77,7 @@ export const NoteList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps) {
-        if (this.noteList && !this.state.loading) {
+        if (this.noteList && !this.props.isLoading) {
             var element = ReactDOM.findDOMNode(this);
             var notes = this.noteList;
             if (
@@ -122,18 +117,6 @@ export const NoteList = React.createClass({
 
     onScrollEnd() {
         this.setState({ scrolling: false });
-    },
-
-    setLoadingState: function() {
-        if (!this.state.loading) {
-            this.setState({ loading: true });
-        }
-    },
-
-    unsetLoadingState: function() {
-        if (this.state.loading) {
-            this.setState({ loading: false });
-        }
     },
 
     setOffset: function(index, offset) {
@@ -364,7 +347,7 @@ export const NoteList = React.createClass({
 
         var filter = this.props.filterController.selected;
         var loadingIndicatorVisibility = { opacity: 0 };
-        if (this.state.loading) {
+        if (this.props.isLoading) {
             loadingIndicatorVisibility.opacity = 1;
             if (notes.length == 0) {
                 loadingIndicatorVisibility.height = this.props.height - TITLE_OFFSET + 'px';
@@ -404,7 +387,7 @@ export const NoteList = React.createClass({
                         statusReset={this.resetStatusBar}
                     />
                     {notes}
-                    {this.state.loading &&
+                    {this.props.isLoading &&
                         <div style={loadingIndicatorVisibility} className="wpnc__loading-indicator">
                             <div className="spinner animated">
                                 <span className="side left" />
@@ -418,6 +401,7 @@ export const NoteList = React.createClass({
 });
 
 const mapStateToProps = state => ({
+    isLoading: getIsLoading(state),
     isNoteHidden: noteId => getIsNoteHidden(state, noteId),
     isPanelOpen: getIsPanelOpen(state),
     selectedNoteId: getSelectedNoteId(state),

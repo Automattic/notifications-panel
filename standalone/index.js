@@ -2,8 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import Notifications, { refreshNotes } from '../src/Notifications';
-// import AuthWrapper from './auth-wrapper';
-import AuthWrapper from './offline-wrapper';
+import AuthWrapper from './auth-wrapper';
 import { receiveMessage, sendMessage } from './messaging';
 
 require('../src/boot/stylesheets/style.scss');

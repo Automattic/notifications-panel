@@ -182,7 +182,7 @@ function getNotes() {
 
     const notes = getAllNotes(store.getState());
     if (!notes.length || this.noteRequestLimit > notes.length) {
-        this.emit('loading');
+        store.dispatch(actions.ui.loadNotes());
     }
 
     listNotes(parameters, (error, data) => {
@@ -208,7 +208,7 @@ function getNotes() {
             return;
         }
 
-        this.emit('loadingDone');
+        store.dispatch(actions.ui.loadedNotes());
 
         const oldNotes = getAllNotes(store.getState()).map(property('id'));
         const newNotes = data.notes.map(property('id'));
