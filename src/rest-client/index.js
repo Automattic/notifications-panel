@@ -8,8 +8,6 @@ import actions from '../state/actions';
 
 import getAllNotes from '../state/selectors/get-all-notes';
 
-import events from 'events';
-import inherits from 'inherits';
 import repliesCache from '../comment-replies-cache';
 
 import { fetchNote, listNotes, sendLastSeenTime, subscribeToNoteStream } from './wpcom';
@@ -25,9 +23,6 @@ const settings = {
 };
 
 export function Client() {
-    events.EventEmitter.call(this);
-
-    this.is_ready = false;
     this.noteList = [];
     this.gettingNotes = false;
     this.timeout = false;
@@ -301,8 +296,6 @@ function getNotesList() {
     });
 }
 
-inherits(Client, events.EventEmitter);
-
 /** @type {Number} unix time in seconds */
 let lastNewestSeenTime;
 
@@ -317,9 +310,7 @@ function ready() {
 
     lastNewestSeenTime = max(timestamps);
 
-    this.is_ready = true;
-    debug('emit ready: %d new notes, lastSeenTime: %s', newNoteCount, this.lastSeenTime);
-    this.emit('ready');
+    debug('ready: %d new notes, lastSeenTime: %s', newNoteCount, this.lastSeenTime);
 
     this.sendMessage({
         action: 'render',
@@ -328,12 +319,6 @@ function ready() {
     });
 
     this.hasNewNoteData = false;
-}
-
-function start() {
-    if (this.is_ready) {
-        this.emit('ready');
-    }
 }
 
 /** @type {RegExp} matches keys which may no longer need to exist */
@@ -500,8 +485,6 @@ function setVisibility({ isShowing, isVisible }) {
 
 Client.prototype.main = main;
 Client.prototype.reschedule = reschedule;
-Client.prototype.ready = ready;
-Client.prototype.start = start;
 Client.prototype.getNote = getNote;
 Client.prototype.getNotes = getNotes;
 Client.prototype.getNotesList = getNotesList;
