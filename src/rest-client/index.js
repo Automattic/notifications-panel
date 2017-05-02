@@ -22,7 +22,9 @@ const settings = {
     max_limit: 100,
 };
 
-export function Client() {
+export function Client({ onRender }) {
+    this.onRender = onRender;
+
     this.noteList = [];
     this.gettingNotes = false;
     this.timeout = false;
@@ -160,7 +162,7 @@ function getNote(note_id) {
             return;
         }
         store.dispatch(actions.notes.addNotes(data.notes));
-        this.ready();
+        ready.call(this);
     });
 }
 
@@ -312,10 +314,9 @@ function ready() {
 
     debug('ready: %d new notes, lastSeenTime: %s', newNoteCount, this.lastSeenTime);
 
-    this.sendMessage({
-        action: 'render',
-        num_new: newNoteCount,
-        latest_type: get(notes.slice(-1)[0], 'type', null),
+    this.onRender({
+        unseen: newNoteCount,
+        latestType: get(notes.slice(-1)[0], 'type', null),
     });
 
     this.hasNewNoteData = false;
@@ -444,9 +445,7 @@ function handleStorageEvent(event) {
         try {
             const lastSeenTime = Number(event.newValue);
             if (updateLastSeenTime.call(this, lastSeenTime, true)) {
-                this.sendMessage({
-                    action: 'renderAllSeen',
-                });
+                this.onRender({ unseen: 0 });
             }
         } catch (e) {}
     }
