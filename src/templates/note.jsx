@@ -39,7 +39,7 @@ export const Note = React.createClass({
             if ('undefined' != typeof block.media) {
                 for (var j = 0; j < block.media.length; j++) {
                     if ('badge' == block.media[j].type) {
-                        classes.push('badge');
+                        classes.push('wpnc__badge');
                         i = this.props.note.body.length;
                         break;
                     }
@@ -69,7 +69,7 @@ export const Note = React.createClass({
         }
 
         if (this.props.detailView) {
-            classes.push('current');
+            classes.push('wpnc__current');
             summary = this.props.note.header && this.props.note.header.length > 0
                 ? <SummaryInSingle
                       key={'note-summary-single-' + this.props.note.id}
