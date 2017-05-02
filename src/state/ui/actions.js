@@ -4,6 +4,7 @@ import {
     NOTES_LOADING,
     OPEN_PANEL,
     SELECT_NOTE,
+    SET_LAYOUT,
     UNDO_ACTION,
 } from '../action-types';
 
@@ -28,6 +29,11 @@ export const selectNote = noteId => ({
     noteId,
 });
 
+export const setLayout = layout => ({
+    type: SET_LAYOUT,
+    layout,
+});
+
 export const undoAction = noteId => ({
     type: UNDO_ACTION,
     noteId,
@@ -41,6 +47,7 @@ export default {
     loadedNotes,
     openPanel,
     selectNote,
+    setLayout,
     undoAction,
     unselectNote,
 };
