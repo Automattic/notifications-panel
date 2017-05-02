@@ -77,22 +77,22 @@ Used to force a manual refresh of the notes from the server.
 
 ## Signals from App
 
-### `iFrameReady`
+### `iFrameReady` - `onReady() : {}`
 
 Indicates that the notifications panel has booted and is ready to receive messages.
 
-### `render`
+### `render` - `onRender() : { unseen: [int] }`
 
 Indicates that the app has rendered and passes along how many new notifications are unseen. Used to set an indicator bell.
 
-### `renderAllSeen`
+### `renderAllSeen` - `onRender() : { unseen: 0 }`
 
 Indicates that the app has rendered all notifications and that there are no unseen notifications. Used to reset an indicator bell.
 
-### `togglePanel`
+### `togglePanel` - `onToggleRequest() : { toggleState: 'open' | 'closed' }`
 
 Indicates a request to close the notifications panel.
 
-### `widescreen`
+### `widescreen` - `onLayoutChange() : { layout: 'narrow' | 'widescreen' }`
 
 Indicates that the app is toggling from narrow to widescreen layouts. Passes along the boolean `widescreen` to indicate which layout is active.

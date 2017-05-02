@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Provider } from 'react-redux';
+import { noop } from 'lodash';
 
 import { store } from './state';
 import actions from './state/actions';
@@ -29,34 +30,44 @@ export class Notifications extends PureComponent {
     static propTypes = {
         isVisible: PropTypes.bool,
         locale: PropTypes.string,
+        onReady: PropTypes.func,
+        onRender: PropTypes.func,
+        onToggleRequest: PropTypes.func,
+        onLayoutChange: PropTypes.func,
+        receiveMessage: PropTypes.func,
         wpcom: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         isVisible: false,
         locale: 'en',
-        receiveMessage: () => {},
+        onReady: noop,
+        onRender: noop,
+        onToggleRequest: noop,
+        onLayoutChange: noop,
+        receiveMessage: noop,
     };
 
     componentWillMount() {
         const {
             isShowing,
             isVisible,
+            onRender,
             receiveMessage,
             wpcom,
         } = this.props;
 
         initAPI(wpcom);
 
-        client = new RestClient();
+        client = new RestClient({ onRender });
         client.global = globalData;
         client.sendMessage = receiveMessage;
 
-        // Send iFrameReady message as soon as we're loaded
-        // (innocuous if we're not actually in an iframe)
-        client.sendMessage({ action: 'iFrameReady' });
-
         client.setVisibility({ isShowing, isVisible });
+    }
+
+    componentDidMount() {
+        this.props.onReady();
     }
 
     componentWillReceiveProps({ isShowing, isVisible, wpcom }) {
