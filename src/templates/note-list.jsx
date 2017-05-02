@@ -377,28 +377,30 @@ export const NoteList = React.createClass({
         }
 
         return (
-            <div
-                className={
-                    this.props.selectedNoteId ? 'wpnc__list-view wpnc__current' : 'wpnc__list-view'
-                }
-            >
-                <FilterBar controller={this.props.filterController} />
-                <ol ref={this.storeNoteList} className="wpnc__notes">
-                    <StatusBar
-                        statusClasses={this.state.statusClasses}
-                        statusMessage={this.state.statusMessage}
-                        statusTimeout={this.state.statusTimeout}
-                        statusReset={this.resetStatusBar}
-                    />
-                    {notes}
-                    {this.props.isLoading &&
-                        <div style={loadingIndicatorVisibility} className="wpnc__loading-indicator">
-                            <div className="spinner animated">
-                                <span className="side left" />
-                                <span className="side right" />
-                            </div>
-                        </div>}
-                </ol>
+            <div className="wpnc__note-list">
+              <FilterBar controller={this.props.filterController} />
+              <div
+                  className={
+                      this.props.selectedNoteId ? 'wpnc__list-view wpnc__current' : 'wpnc__list-view'
+                  }
+              >
+                  <ol ref={this.storeNoteList} className="wpnc__notes">
+                      <StatusBar
+                          statusClasses={this.state.statusClasses}
+                          statusMessage={this.state.statusMessage}
+                          statusTimeout={this.state.statusTimeout}
+                          statusReset={this.resetStatusBar}
+                      />
+                      {notes}
+                      {this.props.isLoading &&
+                          <div style={loadingIndicatorVisibility} className="wpnc__loading-indicator">
+                              <div className="spinner animated">
+                                  <span className="side left" />
+                                  <span className="side right" />
+                              </div>
+                          </div>}
+                  </ol>
+              </div>
             </div>
         );
     },
