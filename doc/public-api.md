@@ -81,11 +81,11 @@ Used to force a manual refresh of the notes from the server.
 
 Indicates that the notifications panel has booted and is ready to receive messages.
 
-### `render` - `onRender() : { unseen: [ { type } ] }`
+### `render` - `onRender() : { unseen: [int] }`
 
 Indicates that the app has rendered and passes along how many new notifications are unseen. Used to set an indicator bell.
 
-### `renderAllSeen` - `onRender() : { unseen: [ { type } ] }`
+### `renderAllSeen` - `onRender() : { unseen: 0 }`
 
 Indicates that the app has rendered all notifications and that there are no unseen notifications. Used to reset an indicator bell.
 
