@@ -21,9 +21,10 @@ export const Note = React.createClass({
 
     render: function() {
         var summary;
-        var classes = [this.props.isRead
-          ? 'read'
-          : 'unread', 'wpnc__note', `wpnc__${this.props.note.type}`
+        var classes = [
+            this.props.isRead ? 'read' : 'unread',
+            'wpnc__note',
+            `wpnc__${this.props.note.type}`,
         ];
         var body;
 

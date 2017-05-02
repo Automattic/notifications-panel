@@ -471,7 +471,11 @@ const Layout = React.createClass({
                         selectedNote={this.state.selectedNote}
                     />}
 
-                <div className={currentNote ? 'wpnc__single-view wpnc__current' : 'wpnc__single-view'}>
+                <div
+                    className={
+                        currentNote ? 'wpnc__single-view wpnc__current' : 'wpnc__single-view'
+                    }
+                >
                     {this.props.selectedNoteId &&
                         currentNote &&
                         <header>
