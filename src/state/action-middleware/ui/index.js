@@ -3,6 +3,8 @@ import actions from '../../actions';
 
 import getAllNotes from '../../selectors/get-all-notes';
 import getIsNoteHidden from '../../selectors/get-is-note-hidden';
+import getIsPanelOpen from '../../selectors/get-is-panel-open';
+import { onTogglePanel } from '../public-api';
 
 import { findNextNoteId } from '../../../templates';
 
@@ -27,8 +29,15 @@ export const advanceToNextNote = ({ dispatch, getState }, { noteId }) => {
     }
 };
 
+export const togglePanel = ({ getState }) => {
+    const toggleState = getIsPanelOpen(getState()) ? 'closed' : 'open';
+    onTogglePanel({ toggleState });
+};
+
 export default {
     [types.CLOSE_PANEL]: [scrollToTop],
     [types.SPAM_NOTE]: [advanceToNextNote],
+    [types.CLOSE_PANEL]: [togglePanel],
+    [types.OPEN_PANEL]: [togglePanel],
     [types.TRASH_NOTE]: [advanceToNextNote],
 };

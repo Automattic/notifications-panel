@@ -32,7 +32,7 @@ export class Notifications extends PureComponent {
         locale: PropTypes.string,
         onReady: PropTypes.func,
         onRender: PropTypes.func,
-        onToggleRequest: PropTypes.func,
+        onTogglePanel: PropTypes.func,
         onLayoutChange: PropTypes.func,
         receiveMessage: PropTypes.func,
         wpcom: PropTypes.object.isRequired,
@@ -43,7 +43,7 @@ export class Notifications extends PureComponent {
         locale: 'en',
         onReady: noop,
         onRender: noop,
-        onToggleRequest: noop,
+        onTogglePanel: noop,
         onLayoutChange: noop,
         receiveMessage: noop,
     };
