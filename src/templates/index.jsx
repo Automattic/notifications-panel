@@ -153,7 +153,7 @@ const Layout = React.createClass({
 
         // If the panel is closed when the component mounts then the calculated height will be zero because it's hidden.
         // When the panel opens, if the height is 0, we set it to the real rendered height.
-        if ((!this.height || this.height === 0) && nextProps.isShowing) {
+        if (!this.height && nextProps.isShowing) {
             this.height = noteList.clientHeight;
         }
 
