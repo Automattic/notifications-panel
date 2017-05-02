@@ -3,9 +3,7 @@ import React from 'react';
 
 import Notifications, { refreshNotes } from '../src/Notifications';
 import AuthWrapper from './auth-wrapper';
-import { receiveMessage, sendMessage as SM } from './messaging';
-
-const sendMessage = m => console.log(m) || SM(m);
+import { receiveMessage, sendMessage } from './messaging';
 
 require('../src/boot/stylesheets/style.scss');
 

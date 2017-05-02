@@ -66,6 +66,9 @@ export class Notifications extends PureComponent {
         client.global = globalData;
         client.sendMessage = receiveMessage;
 
+        /**
+         * @TODO: Pass this information directly into the Redux initial state
+		 */
         if (isShowing) {
             store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
         }
