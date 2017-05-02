@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require( "extract-text-webpack-plugin" );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const path = require( 'path' );
 const spawnSync = require( 'child_process' ).spawnSync;
@@ -18,6 +18,7 @@ module.exports = {
 		path: path.resolve( __dirname, 'public' ),
 		filename: 'build.min.js'
 	},
+
 	module: {
 		loaders: [
 			{
@@ -25,7 +26,18 @@ module.exports = {
 				exclude: /node_modules/,
 				loader: 'babel-loader',
 				query: {
-					cacheDirectory: true
+					babelrc: false,
+					cacheDirectory: true,
+					presets: [
+						[ "es2015", { modules: false } ],
+						"stage-2"
+					],
+					plugins: [
+						"lodash",
+						"syntax-jsx",
+						"transform-react-jsx",
+						"transform-react-display-name"
+					]
 				}
 			},
 			{
@@ -43,11 +55,11 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new webpack.DefinePlugin({
+		new webpack.DefinePlugin( {
 			'process.env': {
 				'NODE_ENV': JSON.stringify( process.env.NODE_ENV || 'development' )
 			}
-		}),
+		} ),
 		new HtmlWebpackPlugin( {
 			filename: 'root.html',
 			gitDescribe: spawnSync( 'git', [ 'describe', '--always', '--dirty' ] ).stdout.toString( 'utf8' ).replace( '\n', '' ),
