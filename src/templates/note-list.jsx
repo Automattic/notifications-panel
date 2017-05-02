@@ -359,7 +359,7 @@ export const NoteList = React.createClass({
                     linkMessage={filter.emptyLinkMessage}
                     link={filter.emptyLink}
                     name={filter.name}
-                    showing={this.props.client.showing}
+                    showing={this.props.isPanelOpen}
                 />
             );
         } else if (

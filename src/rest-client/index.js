@@ -294,7 +294,7 @@ function getNotesList() {
         repliesCache.cleanup();
 
         /* Grab updates/changes from server if they exist */
-        return serverHasChanges ? this.getNotes() : this.ready();
+        return serverHasChanges ? this.getNotes() : ready.call(this);
     });
 }
 
