@@ -7,11 +7,12 @@ import { localize } from 'i18n-calypso';
 
 import actions from '../state/actions';
 
-const routeBack = (global, unselectNote) => event => {
-    event.preventDefault();
-    global.input.lastInputWasKeyboard = false;
-    unselectNote();
-};
+const routeBack = (global, unselectNote) =>
+    event => {
+        event.preventDefault();
+        global.input.lastInputWasKeyboard = false;
+        unselectNote();
+    };
 
 export const BackButton = ({ global, isEnabled, translate, unselectNote }) => {
     const backText = translate('Back', {

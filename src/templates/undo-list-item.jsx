@@ -182,7 +182,11 @@ export const UndoListItem = React.createClass({
         var isVisible = this.state.isVisible ? { display: 'block' } : { display: 'none' };
 
         return (
-            <div ref={this.storeInstance} className="wpnc__summary wpnc__undo-item" style={isVisible}>
+            <div
+                ref={this.storeInstance}
+                className="wpnc__summary wpnc__undo-item"
+                style={isVisible}
+            >
                 <p>
                     <a href="#" className="wpnc__undo-link" onClick={this.cancelAction}>
                         {undo_text}

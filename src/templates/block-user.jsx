@@ -98,8 +98,8 @@ export const UserBlock = React.createClass({
 
         if (home_title) {
             var homeClassName = timeIndicator != ''
-              ? 'wpnc__user__meta wpnc__user__bulleted'
-              : 'wpnc__user__meta';
+                ? 'wpnc__user__meta wpnc__user__bulleted'
+                : 'wpnc__user__meta';
             homeTemplate = (
                 <p className={homeClassName}>
                     <span className="wpnc__user__ago">{timeIndicator}</span>
