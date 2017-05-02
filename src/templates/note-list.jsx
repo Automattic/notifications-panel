@@ -379,7 +379,7 @@ export const NoteList = React.createClass({
         return (
             <div
                 className={
-                    this.props.selectedNoteId ? 'wpnc__list-view current' : 'wpnc__list-view'
+                    this.props.selectedNoteId ? 'wpnc__list-view wpnc__current' : 'wpnc__list-view'
                 }
             >
                 <FilterBar controller={this.props.filterController} />
