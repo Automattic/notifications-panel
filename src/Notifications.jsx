@@ -99,9 +99,10 @@ export class Notifications extends PureComponent {
             <Provider store={store}>
                 <Layout
                     {...{
+                        client,
                         data: globalData,
                         global: globalData,
-                        client,
+                        isShowing: this.props.isShowing,
                         locale: this.props.locale,
                     }}
                 />

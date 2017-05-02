@@ -152,6 +152,12 @@ const Layout = React.createClass({
             this.noteListTop = noteList.scrollTop;
         }
 
+        // If the panel is closed when the component mounts then the calculated height will be zero because it's hidden.
+        // When the panel opens, if the height is 0, we set it to the real rendered height.
+        if (!this.height && nextProps.isShowing) {
+            this.height = noteList.clientHeight;
+        }
+
         // jump to list view
         if (null === nextNote && prevNote) {
             noteList.scrollTop = this.noteListTop;
