@@ -152,8 +152,8 @@ const Layout = React.createClass({
         }
 
         // set the list height if it's not set yet
-        if (!this.height || 0 === this.height) {
-                this.height = noteList.clientHeight;
+        if ( ( !this.height || this.height === 0 ) && nextProps.isShowing ) {
+            this.height = noteList.clientHeight;
         }
 
         // jump to list view

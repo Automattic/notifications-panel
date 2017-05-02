@@ -82,6 +82,7 @@ export class Notifications extends PureComponent {
                         global: globalData,
                         client,
                         locale: this.props.locale,
+                        isShowing: this.props.isShowing,
                     }}
                 />
             </Provider>
