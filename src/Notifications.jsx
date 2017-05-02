@@ -58,6 +58,7 @@ export class Notifications extends PureComponent {
             appUpdater,
             isShowing,
             isVisible,
+            onLayoutChange,
             onRender,
             onTogglePanel,
             receiveMessage,
@@ -67,7 +68,7 @@ export class Notifications extends PureComponent {
         appUpdater(() => this.forceUpdate());
 
         initAPI(wpcom);
-        initPublicAPI({ onTogglePanel });
+        initPublicAPI({ onLayoutChange, onTogglePanel });
 
         client = new RestClient({ onRender });
         client.global = globalData;
