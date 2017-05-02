@@ -29,6 +29,7 @@ export const refreshNotes = () => client && client.refreshNotes.call(client);
 
 export class Notifications extends PureComponent {
     static propTypes = {
+        isShowing: PropTypes.bool,
         isVisible: PropTypes.bool,
         locale: PropTypes.string,
         onReady: PropTypes.func,
