@@ -18,6 +18,7 @@ import Note from './note';
 import actions from '../state/actions';
 import getAllNotes from '../state/selectors/get-all-notes';
 import getIsNoteHidden from '../state/selectors/get-is-note-hidden';
+import getIsPanelOpen from '../state/selectors/get-is-panel-open';
 import getSelectedNoteId from '../state/selectors/get-selected-note-id';
 
 const KEY_ENTER = 13;
@@ -329,7 +330,7 @@ const Layout = React.createClass({
         };
 
         // don't handle if we aren't visible
-        if (!this.props.client.showing) {
+        if (this.props.isPanelOpen) {
             return;
         }
 
@@ -522,6 +523,7 @@ const Layout = React.createClass({
 
 const mapStateToProps = state => ({
     isNoteHidden: noteId => getIsNoteHidden(state, noteId),
+    isPanelOpen: getIsPanelOpen(state),
     notes: getAllNotes(state),
     selectedNoteId: getSelectedNoteId(state),
 });

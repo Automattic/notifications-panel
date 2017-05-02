@@ -13,6 +13,16 @@ const locale = match ? match[1] : 'en';
 let isShowing = true;
 let isVisible = document.visibilityState === 'visible';
 
+const onReady = () => sendMessage({ action: 'iFrameReady' });
+const onRender = ({ latestType, unseen }) =>
+    unseen > 0
+        ? sendMessage({
+              action: 'render',
+              num_new: unseen,
+              latest_type: latestType,
+          })
+        : sendMessage({ action: 'renderAllSeen' });
+
 const render = () => {
     ReactDOM.render(
         React.createElement(AuthWrapper(Notifications), {
@@ -20,6 +30,8 @@ const render = () => {
             isShowing,
             isVisible,
             locale,
+            onReady,
+            onRender,
             receiveMessage: sendMessage,
             redirectPath: '/',
         }),
