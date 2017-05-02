@@ -336,7 +336,7 @@ const Layout = React.createClass({
 
         /* ESC is a super-action, always treat it */
         if (KEY_ESC === event.keyCode) {
-            this.props.client.sendMessage({ action: 'togglePanel' });
+            this.props.closePanel();
             stopEvent();
             return;
         }
@@ -361,7 +361,7 @@ const Layout = React.createClass({
         switch (event.keyCode) {
             case KEY_ESC:
             case KEY_N:
-                this.props.client.sendMessage({ action: 'togglePanel' });
+                this.props.closePanel();
                 stopEvent();
                 break;
             case KEY_RIGHT:
@@ -529,6 +529,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+    closePanel: actions.ui.closePanel,
     selectNote: actions.ui.selectNote,
     unselectNote: actions.ui.unselectNote,
 };
