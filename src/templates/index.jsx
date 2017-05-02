@@ -151,6 +151,11 @@ const Layout = React.createClass({
             this.noteListTop = noteList.scrollTop;
         }
 
+        // set the list height if it's not set yet
+        if (!this.height || 0 === this.height) {
+                this.height = noteList.clientHeight;
+        }
+
         // jump to list view
         if (null === nextNote && prevNote) {
             noteList.scrollTop = this.noteListTop;
