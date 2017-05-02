@@ -330,7 +330,7 @@ const Layout = React.createClass({
         };
 
         // don't handle if we aren't visible
-        if (this.props.isPanelOpen) {
+        if (!this.props.isPanelOpen) {
             return;
         }
 

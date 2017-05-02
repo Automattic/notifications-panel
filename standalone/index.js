@@ -16,6 +16,7 @@ let isShowing = true;
 let isVisible = document.visibilityState === 'visible';
 
 const onReady = () => sendMessage({ action: 'iFrameReady' });
+
 const onRender = ({ latestType, unseen }) =>
     unseen > 0
         ? sendMessage({
@@ -24,6 +25,10 @@ const onRender = ({ latestType, unseen }) =>
               latest_type: latestType,
           })
         : sendMessage({ action: 'renderAllSeen' });
+
+const onTogglePanel = args => {
+    console.log(args);
+};
 
 const render = () => {
     ReactDOM.render(
@@ -34,6 +39,7 @@ const render = () => {
             locale,
             onReady,
             onRender,
+            onTogglePanel,
             receiveMessage: sendMessage,
             redirectPath: '/',
         }),

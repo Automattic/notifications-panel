@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { noop } from 'lodash';
 
 import { store } from './state';
+import { init as initPublicAPI } from './state/action-middleware/public-api';
 import actions from './state/actions';
 
 import RestClient from './rest-client';
@@ -53,15 +54,21 @@ export class Notifications extends PureComponent {
             isShowing,
             isVisible,
             onRender,
+            onTogglePanel,
             receiveMessage,
             wpcom,
         } = this.props;
 
         initAPI(wpcom);
+        initPublicAPI({ onTogglePanel });
 
         client = new RestClient({ onRender });
         client.global = globalData;
         client.sendMessage = receiveMessage;
+
+        if (isShowing) {
+            store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
+        }
 
         client.setVisibility({ isShowing, isVisible });
     }
