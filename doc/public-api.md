@@ -79,15 +79,15 @@ Used to force a manual refresh of the notes from the server.
 
 ### `iFrameReady` - `onReady() : {}`
 
-Indicates that the notifications panel has booted and is ready to receive messages.
+Indicates that the notifications panel has booted and is ready to receive messages. This function gets called with no arguments and is used only to indicate that the app has booted. It's probably not needed other than to normalize some interactions when the app loads from inside an iframe and the host window needs to know that it's ready.
 
-### `render` - `onRender() : { unseen: [int] }`
+### `render` - `onRender() : { latestType: [string], unseen: [int] }`
 
-Indicates that the app has rendered and passes along how many new notifications are unseen. Used to set an indicator bell.
+Indicates that the app has rendered and passes along how many new notifications are unseen. Used to set an indicator bell. If there are unseen notifications the string value of the latest notification type will be passed along also so that a custom bell icon can render.
 
 ### `renderAllSeen` - `onRender() : { unseen: 0 }`
 
-Indicates that the app has rendered all notifications and that there are no unseen notifications. Used to reset an indicator bell.
+Indicates that the app has rendered all notifications and that there are no unseen notifications. Used to reset an indicator bell. This is no different than the normal `onReander()` call except that the number of unseen messages will be zero.
 
 ### `togglePanel` - `onToggleRequest() : { toggleState: 'open' | 'closed' }`
 
