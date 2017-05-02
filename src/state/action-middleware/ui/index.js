@@ -29,15 +29,21 @@ export const advanceToNextNote = ({ dispatch, getState }, { noteId }) => {
     }
 };
 
-export const togglePanel = ({ getState }) => {
-    const toggleState = getIsPanelOpen(getState()) ? 'closed' : 'open';
+export const togglePanel = (store, { type }) => {
+    const toggleState = get(
+        {
+            [types.CLOSE_PANEL]: 'closed',
+            [types.OPEN_PANEL]: 'open',
+        },
+        type
+    );
+
     onTogglePanel({ toggleState });
 };
 
 export default {
-    [types.CLOSE_PANEL]: [scrollToTop],
+    [types.CLOSE_PANEL]: [scrollToTop, togglePanel],
     [types.SPAM_NOTE]: [advanceToNextNote],
-    [types.CLOSE_PANEL]: [togglePanel],
     [types.OPEN_PANEL]: [togglePanel],
     [types.TRASH_NOTE]: [advanceToNextNote],
 };
