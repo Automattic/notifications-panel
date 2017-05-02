@@ -4,9 +4,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import i18n from 'i18n-calypso';
-import {find, findIndex, matchesProperty} from 'lodash';
+import { find, findIndex, matchesProperty } from 'lodash';
 
 import BackButton from './button-back';
 import NavButton from './nav-button';
@@ -71,7 +71,7 @@ const fetchLocale = localeSlug => {
 
     xhr.open('GET', `https://widgets.wp.com/languages/notifications/${localeSlug}.json`, true);
 
-    xhr.onload = ({target}) => {
+    xhr.onload = ({ target }) => {
         if (200 !== target.status) {
             return;
         }
@@ -142,8 +142,8 @@ const Layout = React.createClass({
     },
 
     componentWillUpdate: function(nextProps) {
-        const {selectedNoteId: nextNote} = nextProps;
-        const {selectedNoteId: prevNote} = this.props;
+        const { selectedNoteId: nextNote } = nextProps;
+        const { selectedNoteId: prevNote } = this.props;
         const noteList = ReactDOM.findDOMNode(this.noteList);
 
         // jump to detail view
@@ -190,7 +190,7 @@ const Layout = React.createClass({
         }
 
         if (filteredNotes.length < 1) {
-            this.setState({selectedNote: null, lastSelectedIndex: 0});
+            this.setState({ selectedNote: null, lastSelectedIndex: 0 });
             return;
         }
 
@@ -306,7 +306,7 @@ const Layout = React.createClass({
     },
 
     toggleNavigation(navigationEnabled) {
-        return 'boolean' === typeof navigationEnabled && this.setState({navigationEnabled});
+        return 'boolean' === typeof navigationEnabled && this.setState({ navigationEnabled });
     },
 
     redraw() {
@@ -341,7 +341,7 @@ const Layout = React.createClass({
 
         /* ESC is a super-action, always treat it */
         if (KEY_ESC === event.keyCode) {
-            this.props.client.sendMessage({action: 'togglePanel'});
+            this.props.client.sendMessage({ action: 'togglePanel' });
             stopEvent();
             return;
         }
@@ -366,7 +366,7 @@ const Layout = React.createClass({
         switch (event.keyCode) {
             case KEY_ESC:
             case KEY_N:
-                this.props.client.sendMessage({action: 'togglePanel'});
+                this.props.client.sendMessage({ action: 'togglePanel' });
                 stopEvent();
                 break;
             case KEY_RIGHT:
@@ -441,7 +441,7 @@ const Layout = React.createClass({
             this.props.unselectNote();
         }
 
-        this.setState({notes});
+        this.setState({ notes });
     },
 
     storeNoteList(ref) {
@@ -460,7 +460,7 @@ const Layout = React.createClass({
         const filteredNotes = this.filterController.getFilteredNotes(this.props.notes);
 
         return (
-            <div style={{width: document.body.clientWidth}}>
+            <div style={{ width: document.body.clientWidth }}>
                 {this.props.error && <AppError error={this.props.error} />}
 
                 {!this.props.error &&
