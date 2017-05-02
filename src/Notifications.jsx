@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { noop } from 'lodash';
 
 import { store } from './state';
+import { init as initPublicAPI } from './state/action-middleware/public-api';
 import actions from './state/actions';
 
 import RestClient from './rest-client';
@@ -32,7 +33,7 @@ export class Notifications extends PureComponent {
         locale: PropTypes.string,
         onReady: PropTypes.func,
         onRender: PropTypes.func,
-        onToggleRequest: PropTypes.func,
+        onTogglePanel: PropTypes.func,
         onLayoutChange: PropTypes.func,
         receiveMessage: PropTypes.func,
         wpcom: PropTypes.object.isRequired,
@@ -43,7 +44,7 @@ export class Notifications extends PureComponent {
         locale: 'en',
         onReady: noop,
         onRender: noop,
-        onToggleRequest: noop,
+        onTogglePanel: noop,
         onLayoutChange: noop,
         receiveMessage: noop,
     };
@@ -53,15 +54,24 @@ export class Notifications extends PureComponent {
             isShowing,
             isVisible,
             onRender,
+            onTogglePanel,
             receiveMessage,
             wpcom,
         } = this.props;
 
         initAPI(wpcom);
+        initPublicAPI({ onTogglePanel });
 
         client = new RestClient({ onRender });
         client.global = globalData;
         client.sendMessage = receiveMessage;
+
+        /**
+         * @TODO: Pass this information directly into the Redux initial state
+         */
+        if (isShowing) {
+            store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
+        }
 
         client.setVisibility({ isShowing, isVisible });
     }
