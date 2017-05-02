@@ -1,14 +1,14 @@
-import React, { PropTypes, PureComponent } from 'react';
-import { Provider } from 'react-redux';
+import React, {PropTypes, PureComponent} from 'react';
+import {Provider} from 'react-redux';
 
-import { store } from './state';
+import {store} from './state';
 import actions from './state/actions';
 
 import RestClient from './rest-client';
-import { setGlobalData } from './flux/app-actions';
+import {setGlobalData} from './flux/app-actions';
 import repliesCache from './comment-replies-cache';
 
-import { init as initAPI } from './rest-client/wpcom';
+import {init as initAPI} from './rest-client/wpcom';
 
 import Layout from './templates';
 
@@ -54,12 +54,12 @@ export class Notifications extends PureComponent {
 
         // Send iFrameReady message as soon as we're loaded
         // (innocuous if we're not actually in an iframe)
-        client.sendMessage({ action: 'iFrameReady' });
+        client.sendMessage({action: 'iFrameReady'});
 
-        client.setVisibility({ isShowing, isVisible });
+        client.setVisibility({isShowing, isVisible});
     }
 
-    componentWillReceiveProps({ isShowing, isVisible, wpcom }) {
+    componentWillReceiveProps({isShowing, isVisible, wpcom}) {
         initAPI(wpcom);
 
         if (this.props.isShowing && !isShowing) {
@@ -70,7 +70,7 @@ export class Notifications extends PureComponent {
             store.dispatch(actions.ui.openPanel());
         }
 
-        client.setVisibility({ isShowing, isVisible });
+        client.setVisibility({isShowing, isVisible});
     }
 
     render() {
@@ -78,11 +78,11 @@ export class Notifications extends PureComponent {
             <Provider store={store}>
                 <Layout
                     {...{
+                        client,
                         data: globalData,
                         global: globalData,
-                        client,
-                        locale: this.props.locale,
                         isShowing: this.props.isShowing,
+                        locale: this.props.locale,
                     }}
                 />
             </Provider>
