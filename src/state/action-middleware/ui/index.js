@@ -41,15 +41,10 @@ export const togglePanel = (store, { type }) => {
     onTogglePanel({ toggleState });
 };
 
-export const updateLayout = (store, { selectedNote }) => {
-    onLayoutChange({ layout: selectedNote ? 'widescreen' : 'narrow' });
-};
-
 export default {
     [types.CLOSE_PANEL]: [togglePanel],
     [types.SPAM_NOTE]: [advanceToNextNote],
     [types.OPEN_PANEL]: [togglePanel],
-    [types.SELECT_NOTE]: [updateLayout],
     [types.SET_LAYOUT]: [announceLayoutChange],
     [types.TRASH_NOTE]: [advanceToNextNote],
 };
