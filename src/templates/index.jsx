@@ -461,7 +461,7 @@ const Layout = React.createClass({
         const filteredNotes = this.filterController.getFilteredNotes(this.props.notes);
 
         return (
-            <div>
+            <div style={{ width: document.body.clientWidth }}>
                 {this.props.error && <AppError error={this.props.error} />}
 
                 {!this.props.error &&
