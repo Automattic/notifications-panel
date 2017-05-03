@@ -45,11 +45,6 @@ body {
     }
 
     header {
-    	position: fixed;
-    	z-index: 10;
-    	top: 0px;
-    	left: 0px;
-    	right: 0px;
     	border-bottom: 1px solid lighten( $gray, 30 );
     	box-sizing: border-box;
     	background-color: $white;
@@ -248,10 +243,6 @@ body {
 
     .wpnc__list-view .wpnc__notes, .error {
     	background-color: $white;
-    }
-
-    .wpnc__single-view .wpnc__note {
-    	margin-top: $title-bar-height;
     }
 
     .wpnc__note {
@@ -506,15 +497,17 @@ body {
 
     .wpnc__single-view {
     	position: absolute;
+      display: flex;
+      flex-direction: column;
     	height: 100%;
     	left: 0px;
     	right: 0px;
-    	overflow-y: scroll;
-    	-webkit-overflow-scrolling: touch;
 
     	background-color: $gray-light;
     	ol {
     		background-color: $white;
+        overflow-y: scroll;
+      	-webkit-overflow-scrolling: touch;
     	}
 
     	.wpnc__action-link {
@@ -810,8 +803,6 @@ body {
     		border-left: 1px solid lighten( $gray, 30 );
 
     		header {
-    			position: relative;
-
     			nav {
     				display: none;
     			}
