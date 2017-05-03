@@ -303,12 +303,7 @@ export const NoteList = React.createClass({
         var notes = noteGroups.reduce(
             function(notes, group, i) {
                 if (0 < group.length) {
-                    header = (
-                        <ListHeader
-                            key={'time-group-' + i}
-                            title={_this.groupTitles[i]}
-                        />
-                    );
+                    header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} />;
                     notes.push(header);
                     notes.push.apply(notes, group);
                 }
@@ -349,35 +344,40 @@ export const NoteList = React.createClass({
             );
         }
 
-        const classes = classNames( 'wpnc__note-list', {
-          'disable-sticky': !! window.chrome && !! window.chrome.webstore, // position: sticky doesn't work in Chrome
-        } );
+        const classes = classNames('wpnc__note-list', {
+            'disable-sticky': !!window.chrome && !!window.chrome.webstore, // position: sticky doesn't work in Chrome
+        });
 
         return (
-            <div className={ classes }>
-              <FilterBar controller={this.props.filterController} />
-              <div
-                  className={
-                      this.props.selectedNoteId ? 'wpnc__list-view wpnc__current' : 'wpnc__list-view'
-                  }
-              >
-                  <ol ref={this.storeNoteList} className="wpnc__notes">
-                      <StatusBar
-                          statusClasses={this.state.statusClasses}
-                          statusMessage={this.state.statusMessage}
-                          statusTimeout={this.state.statusTimeout}
-                          statusReset={this.resetStatusBar}
-                      />
-                      {notes}
-                      {this.props.isLoading &&
-                          <div style={loadingIndicatorVisibility} className="wpnc__loading-indicator">
-                              <div className="spinner animated">
-                                  <span className="side left" />
-                                  <span className="side right" />
-                              </div>
-                          </div>}
-                  </ol>
-              </div>
+            <div className={classes}>
+                <FilterBar controller={this.props.filterController} />
+                <div
+                    className={
+                        this.props.selectedNoteId
+                            ? 'wpnc__list-view wpnc__current'
+                            : 'wpnc__list-view'
+                    }
+                >
+                    <ol ref={this.storeNoteList} className="wpnc__notes">
+                        <StatusBar
+                            statusClasses={this.state.statusClasses}
+                            statusMessage={this.state.statusMessage}
+                            statusTimeout={this.state.statusTimeout}
+                            statusReset={this.resetStatusBar}
+                        />
+                        {notes}
+                        {this.props.isLoading &&
+                            <div
+                                style={loadingIndicatorVisibility}
+                                className="wpnc__loading-indicator"
+                            >
+                                <div className="spinner animated">
+                                    <span className="side left" />
+                                    <span className="side right" />
+                                </div>
+                            </div>}
+                    </ol>
+                </div>
             </div>
         );
     },
