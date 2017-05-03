@@ -29,6 +29,7 @@ export const refreshNotes = () => client && client.refreshNotes.call(client);
 
 export class Notifications extends PureComponent {
     static propTypes = {
+        appUpdater: PropTypes.func,
         isShowing: PropTypes.bool,
         isVisible: PropTypes.bool,
         locale: PropTypes.string,
@@ -41,6 +42,7 @@ export class Notifications extends PureComponent {
     };
 
     static defaultProps = {
+        appUpdater: noop,
         isVisible: false,
         locale: 'en',
         onReady: noop,
@@ -52,6 +54,7 @@ export class Notifications extends PureComponent {
 
     componentWillMount() {
         const {
+            appUpdater,
             isShowing,
             isVisible,
             onRender,
@@ -59,6 +62,8 @@ export class Notifications extends PureComponent {
             receiveMessage,
             wpcom,
         } = this.props;
+
+        appUpdater(() => this.forceUpdate());
 
         initAPI(wpcom);
         initPublicAPI({ onTogglePanel });
