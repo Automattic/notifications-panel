@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
+import classNames from 'classnames';
 
 import actions from '../state/actions';
 import getIsLoading from '../state/selectors/get-is-loading';
@@ -49,8 +50,6 @@ export const NoteList = React.createClass({
     },
 
     componentWillMount: function() {
-        this.offsets = [-1, -1, -1, -1, -1];
-
         this.props.global.updateStatusBar = this.updateStatusBar;
         this.props.global.resetStatusBar = this.resetStatusBar;
         this.props.global.updateUndoBar = this.updateUndoBar;
@@ -62,11 +61,11 @@ export const NoteList = React.createClass({
     },
 
     componentDidMount() {
-        ReactDOM.findDOMNode(this).addEventListener('scroll', this.onScroll);
+        ReactDOM.findDOMNode(this.scrollableContainer).addEventListener('scroll', this.onScroll);
     },
 
     componentWillUnmount: function() {
-        ReactDOM.findDOMNode(this).removeEventListener('scroll', this.onScroll);
+        ReactDOM.findDOMNode(this.scrollableContainer).removeEventListener('scroll', this.onScroll);
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -78,7 +77,7 @@ export const NoteList = React.createClass({
 
     componentDidUpdate: function(prevProps) {
         if (this.noteList && !this.props.isLoading) {
-            var element = ReactDOM.findDOMNode(this);
+            var element = ReactDOM.findDOMNode(this.scrollableContainer);
             var notes = this.noteList;
             if (
                 element.clientHeight > 0 &&
@@ -102,7 +101,7 @@ export const NoteList = React.createClass({
 
         requestAnimationFrame(() => this.isScrolling = false);
 
-        const element = ReactDOM.findDOMNode(this);
+        const element = ReactDOM.findDOMNode(this.scrollableContainer);
         if (!this.state.scrolling || this.state.scrollY !== element.scrollTop) {
             // only set state and trigger render if something has changed
             this.setState({
@@ -117,11 +116,6 @@ export const NoteList = React.createClass({
 
     onScrollEnd() {
         this.setState({ scrolling: false });
-    },
-
-    setOffset: function(index, offset) {
-        if (index < 0 || index >= this.offsets.length) return;
-        this.offsets[index] = offset;
     },
 
     updateStatusBar: function(message, classList, delay) {
@@ -204,6 +198,10 @@ export const NoteList = React.createClass({
 
     storeNoteList(ref) {
         this.noteList = ref;
+    },
+
+    storeScrollableContainer(ref) {
+        this.scrollableContainer = ref;
     },
 
     storeUndoActImmediately(actImmediately) {
@@ -304,38 +302,12 @@ export const NoteList = React.createClass({
 
         var header;
         var nextOffset;
-        var offset_i;
-        var scroll;
-        var offsets = this.offsets;
 
         /* Build a single list of notes, undo bars, and time group headers */
         var notes = noteGroups.reduce(
             function(notes, group, i) {
                 if (0 < group.length) {
-                    if (_this.state && _this.state.scrollY) {
-                        scroll = _this.state.scrollY;
-                    } else {
-                        scroll = 0;
-                    }
-                    // find next header that has an offset (not all headers may
-                    // be displayed)
-                    offset_i = i + 1;
-                    while (offsets[offset_i] == -1 && offset_i < offsets.length) {
-                        offset_i += 1;
-                    }
-                    nextOffset = offsets[offset_i];
-
-                    header = (
-                        <ListHeader
-                            key={'time-group-' + i}
-                            title={_this.groupTitles[i]}
-                            scroll={scroll}
-                            index={i}
-                            offset={offsets[i]}
-                            nextOffset={nextOffset}
-                            setOffset={_this.setOffset}
-                        />
-                    );
+                    header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} />;
                     notes.push(header);
                     notes.push.apply(notes, group);
                 }
@@ -376,29 +348,41 @@ export const NoteList = React.createClass({
             );
         }
 
+        const classes = classNames('wpnc__note-list', {
+            'disable-sticky': !!window.chrome && !!window.chrome.webstore, // position: sticky doesn't work in Chrome
+        });
+
         return (
-            <div
-                className={
-                    this.props.selectedNoteId ? 'wpnc__list-view wpnc__current' : 'wpnc__list-view'
-                }
-            >
+            <div className={classes}>
                 <FilterBar controller={this.props.filterController} />
-                <ol ref={this.storeNoteList} className="wpnc__notes">
-                    <StatusBar
-                        statusClasses={this.state.statusClasses}
-                        statusMessage={this.state.statusMessage}
-                        statusTimeout={this.state.statusTimeout}
-                        statusReset={this.resetStatusBar}
-                    />
-                    {notes}
-                    {this.props.isLoading &&
-                        <div style={loadingIndicatorVisibility} className="wpnc__loading-indicator">
-                            <div className="spinner animated">
-                                <span className="side left" />
-                                <span className="side right" />
-                            </div>
-                        </div>}
-                </ol>
+                <div
+                    ref={this.storeScrollableContainer}
+                    className={
+                        this.props.selectedNoteId
+                            ? 'wpnc__list-view wpnc__current'
+                            : 'wpnc__list-view'
+                    }
+                >
+                    <ol ref={this.storeNoteList} className="wpnc__notes">
+                        <StatusBar
+                            statusClasses={this.state.statusClasses}
+                            statusMessage={this.state.statusMessage}
+                            statusTimeout={this.state.statusTimeout}
+                            statusReset={this.resetStatusBar}
+                        />
+                        {notes}
+                        {this.props.isLoading &&
+                            <div
+                                style={loadingIndicatorVisibility}
+                                className="wpnc__loading-indicator"
+                            >
+                                <div className="spinner animated">
+                                    <span className="side left" />
+                                    <span className="side right" />
+                                </div>
+                            </div>}
+                    </ol>
+                </div>
             </div>
         );
     },

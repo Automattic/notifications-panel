@@ -45,11 +45,6 @@ body {
     }
 
     header {
-    	position: fixed;
-    	z-index: 10;
-    	top: 0px;
-    	left: 0px;
-    	right: 0px;
     	border-bottom: 1px solid lighten( $gray, 30 );
     	box-sizing: border-box;
     	background-color: $white;
@@ -170,18 +165,15 @@ body {
     }
 
     .wpnc__filter {
+      width: 100%;
     	background-color: $white;
     	color: $gray;
     	border-bottom: 1px solid lighten( $gray, 30 );
     	text-align: center; // Center filter in IE 9
-    	position: fixed;
-    	top: 0;
     	height: $filter-height;
-    	z-index: 10;
     	box-sizing: border-box;
     	direction: ltr;
     	display: table; //fallback for browsers not supporting flexbox
-    	width: 100%;
 
     	@media only screen and (min-width: 409px) and (max-width: 430px) {
     		left: 10px;
@@ -250,12 +242,7 @@ body {
     }
 
     .wpnc__list-view .wpnc__notes, .error {
-    	margin-top: $title-offset;
     	background-color: $white;
-    }
-
-    .wpnc__single-view .wpnc__note {
-    	margin-top: $title-bar-height;
     }
 
     .wpnc__note {
@@ -335,14 +322,27 @@ body {
     	height: 90px;
     }
 
+    .wpnc__note-list {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      top: 0;
+    	right: 0;
+    	left: auto;
+      bottom: 0;
+      width: 400px;
+      overflow: hidden;
+
+      @media only screen and (max-width: 799px) {
+  			width: 100%;
+  		}
+    }
+
     .wpnc__list-view {
+    	height: 100%;
     	background-color: $gray-light;
     	overflow-y: scroll;
     	-webkit-overflow-scrolling: touch;
-    	position: absolute;
-    	height: 100%;
-    	right: 0px;
-    	left: 0px;
     	border-left: 1px solid lighten( $gray, 30 );
     	box-shadow: -3px 1px 10px -2px rgba($gray-dark, 0.075);
 
@@ -440,20 +440,20 @@ body {
     			margin-top: 3px;
     			padding-left: $padding-medium;
     		}
-
-    	}
-
-    	.wpnc__time-group-title.fixed {
-    		position: fixed;
-    		z-index: 1;
-    		top: $title-offset;
-    		width: 100%;
     	}
 
     	.wpnc__time-group-wrap {
     		height: $header-height;
+        top: 0;
+        z-index: 100;
     		text-align: left;
+        position: -webkit-sticky;
+        position: sticky;
     	}
+    }
+
+    .disable-sticky .wpnc__time-group-wrap {
+      position: static;
     }
 
     .wpnc__undo-item {
@@ -502,15 +502,17 @@ body {
 
     .wpnc__single-view {
     	position: absolute;
+      display: flex;
+      flex-direction: column;
     	height: 100%;
     	left: 0px;
     	right: 0px;
-    	overflow-y: scroll;
-    	-webkit-overflow-scrolling: touch;
 
     	background-color: $gray-light;
     	ol {
     		background-color: $white;
+        overflow-y: scroll;
+      	-webkit-overflow-scrolling: touch;
     	}
 
     	.wpnc__action-link {
@@ -796,19 +798,6 @@ body {
     		box-shadow: none;
     	}
 
-    	.wpnc__list-view {
-    		width: 400px;
-    		left: auto;
-    		right: 0;
-    		top: 0;
-
-    		.wpnc__filter {
-    			left: auto;
-    			right: 0px;
-    			width: 400px;
-    		}
-    	}
-
     	.wpnc__single-view {
     		right: 400px;
     		left: 10px;
@@ -819,8 +808,6 @@ body {
     		border-left: 1px solid lighten( $gray, 30 );
 
     		header {
-    			position: relative;
-
     			nav {
     				display: none;
     			}
