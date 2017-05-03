@@ -548,7 +548,7 @@ body {
     	.wpnc__header {
     		@extend %calypso-border;
 
-    		.usertitle {
+    		.wpnc__user__usertitle {
     			-webkit-line-clamp: 1;
     			@extend %ellipsy-box;
     			white-space: nowrap;
