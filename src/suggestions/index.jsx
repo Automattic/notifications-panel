@@ -267,7 +267,7 @@ export const SuggestionsMixin = {
             return;
         }
 
-        this.suggestsionsMixin_suggestionNodes = {
+        this.suggestionsMixin_suggestionNodes = {
             ...this.suggestionsMixin_suggestionNodes,
             [ref.props['data-suggestion-id']]: ref,
         };
