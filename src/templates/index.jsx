@@ -90,8 +90,8 @@ const Layout = React.createClass({
         return {
             lastSelectedIndex: 0,
             navigationEnabled: true,
+            previousDetailScrollTop: 0,
             previouslySelectedNoteId: null,
-            previouslySelectedNoteScrollTop: 0,
             selectedNote: null,
         };
     },
@@ -129,8 +129,8 @@ const Layout = React.createClass({
     componentWillReceiveProps: function(nextProps) {
         if (this.props.selectedNoteId) {
             this.setState({
+                previousDetailScrollTop: this.detailView ? this.detailView.scrollTop : 0,
                 previouslySelectedNoteId: this.props.selectedNoteId,
-                previouslySelectedNoteScrollTop: this.detailView ? this.detailView.scrollTop : 0,
             });
         }
 
@@ -192,16 +192,11 @@ const Layout = React.createClass({
         if (!this.detailView) {
             return;
         }
-        const {
-            previouslySelectedNoteId,
-            previouslySelectedNoteScrollTop,
-            selectedNote,
-        } = this.state;
-        if (selectedNote !== previouslySelectedNoteId) {
-            this.detailView.scrollTop = 0;
-        } else {
-            this.detailView.scrollTop = previouslySelectedNoteScrollTop;
-        }
+        const { previousDetailScrollTop, previouslySelectedNoteId, selectedNote } = this.state;
+
+        this.detailView.scrollTop = selectedNote === previouslySelectedNoteId
+            ? previousDetailScrollTop
+            : 0;
     },
 
     componentWillUnmount: function() {
