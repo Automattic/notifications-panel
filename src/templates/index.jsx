@@ -88,9 +88,10 @@ const fetchLocale = localeSlug => {
 const Layout = React.createClass({
     getInitialState: function() {
         return {
-            navigationEnabled: true,
-            selectedNote: null,
             lastSelectedIndex: 0,
+            navigationEnabled: true,
+            previouslySelectedNote: null,
+            selectedNote: null,
         };
     },
 
@@ -125,6 +126,12 @@ const Layout = React.createClass({
     },
 
     componentWillReceiveProps: function(nextProps) {
+        if (this.props.selectedNoteId) {
+            this.setState({
+                previouslySelectedNote: this.props.selectedNoteId,
+            });
+        }
+
         if (nextProps.state !== this.props.state) {
             this.setState(nextProps.state);
         }
@@ -317,7 +324,7 @@ const Layout = React.createClass({
 
         this.isRefreshing = true;
 
-        requestAnimationFrame(() => this.isRefreshing = false);
+        requestAnimationFrame(() => (this.isRefreshing = false));
 
         if (this.noteList) {
             this.height = ReactDOM.findDOMNode(this.noteList).clientHeight;
@@ -362,7 +369,7 @@ const Layout = React.createClass({
             return;
         }
 
-        const activateKeyboard = () => this.props.global.input.lastInputWasKeyboard = true;
+        const activateKeyboard = () => (this.props.global.input.lastInputWasKeyboard = true);
 
         switch (event.keyCode) {
             case KEY_ESC:
@@ -410,7 +417,8 @@ const Layout = React.createClass({
                 break;
             case KEY_U: // Unread filter
                 if (
-                    !this.props.selectedNoteId && !(this.noteList && this.noteList.state.undoNote)
+                    !this.props.selectedNoteId &&
+                    !(this.noteList && this.noteList.state.undoNote)
                 ) {
                     this.filterController.selectFilter('unread');
                 }
@@ -453,12 +461,22 @@ const Layout = React.createClass({
         this.noteListVisibilityUpdater = updater;
     },
 
+    storeDetailViewRef(ref) {
+        this.detailView = ref;
+    },
+
     render() {
+        const { previouslySelectedNote, selectedNote } = this.state;
+
         const currentNote = find(
             this.props.notes,
             matchesProperty('id', this.props.selectedNoteId)
         );
         const filteredNotes = this.filterController.getFilteredNotes(this.props.notes);
+
+        if (this.detailView && selectedNote !== previouslySelectedNote) {
+            this.detailView.scrollTop = 0;
+        }
 
         return (
             <div style={{ width: document.body.clientWidth }}>
@@ -478,6 +496,7 @@ const Layout = React.createClass({
                     />}
 
                 <div
+                    ref={this.storeDetailViewRef}
                     className={
                         currentNote ? 'wpnc__single-view wpnc__current' : 'wpnc__single-view'
                     }
