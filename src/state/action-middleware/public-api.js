@@ -10,8 +10,10 @@
 
 import { noop } from 'lodash';
 
+export let onLayoutChange = noop;
 export let onTogglePanel = noop;
 
 export const init = props => {
+    onLayoutChange = props.onLayoutChange ? props.onLayoutChange : noop;
     onTogglePanel = props.onTogglePanel ? props.onTogglePanel : noop;
 };

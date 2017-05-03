@@ -24,6 +24,9 @@ const onRender = ({ latestType, unseen }) =>
           })
         : sendMessage({ action: 'renderAllSeen' });
 
+const onLayoutChange = ({ layout }) =>
+    sendMessage({ action: 'widescreen', widescreen: layout === 'widescreen' });
+
 const onTogglePanel = () => sendMessage({ action: 'togglePanel' });
 
 let refresh = () => {};
@@ -37,6 +40,7 @@ const render = () => {
             isShowing,
             isVisible,
             locale,
+            onLayoutChange,
             onReady,
             onRender,
             onTogglePanel,

@@ -176,14 +176,7 @@ const Layout = React.createClass({
             return;
         }
 
-        const hasNote = !!find(nextProps.notes, matchesProperty('id', nextProps.selectedNoteId));
-
-        this.props.client.sendMessage({
-            action: 'widescreen',
-            widescreen: hasNote,
-        });
-
-        if (!hasNote) {
+        if (!find(nextProps.notes, matchesProperty('id', nextProps.selectedNoteId))) {
             this.props.unselectNote();
         }
     },
@@ -392,10 +385,6 @@ const Layout = React.createClass({
                 break;
             case KEY_RIGHT:
                 activateKeyboard();
-                this.props.client.sendMessage({
-                    action: 'widescreen',
-                    widescreen: false,
-                });
                 this.props.unselectNote();
                 break;
             case KEY_ENTER:

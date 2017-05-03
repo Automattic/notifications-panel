@@ -4,7 +4,7 @@ import { get } from 'lodash';
 
 import getAllNotes from '../../selectors/get-all-notes';
 import getIsNoteHidden from '../../selectors/get-is-note-hidden';
-import { onTogglePanel } from '../public-api';
+import { onLayoutChange, onTogglePanel } from '../public-api';
 
 import { findNextNoteId } from '../../../templates';
 
@@ -27,6 +27,8 @@ export const advanceToNextNote = ({ dispatch, getState }, { noteId }) => {
     }
 };
 
+export const announceLayoutChange = (store, { layout }) => onLayoutChange({ layout });
+
 export const togglePanel = (store, { type }) => {
     const toggleState = get(
         {
@@ -39,9 +41,15 @@ export const togglePanel = (store, { type }) => {
     onTogglePanel({ toggleState });
 };
 
+export const updateLayout = (store, { selectedNote }) => {
+    onLayoutChange({ layout: selectedNote ? 'widescreen' : 'narrow' });
+};
+
 export default {
     [types.CLOSE_PANEL]: [togglePanel],
     [types.SPAM_NOTE]: [advanceToNextNote],
     [types.OPEN_PANEL]: [togglePanel],
+    [types.SELECT_NOTE]: [updateLayout],
+    [types.SET_LAYOUT]: [announceLayoutChange],
     [types.TRASH_NOTE]: [advanceToNextNote],
 };
