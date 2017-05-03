@@ -54,7 +54,7 @@ export const findNextNoteId = (noteId, notes) => {
         return null;
     }
 
-    const index = find(notes, noteId);
+    const index = findIndex(notes, noteId);
     if (-1 === index) {
         return null;
     }
