@@ -2,13 +2,18 @@
   "name": "notifications-panel",
   "version": "1.0.0",
   "description": "The core notifications panel for WordPress.com notifications",
-  "main": "src/Notifications.jsx",
+  "main": "public/build.min.js",
   "scripts": {
+    "prepublish": "make build",
     "build": "webpack",
     "build:prod": "NODE_ENV=production webpack -p",
     "start": "make build && webpack-dev-server -d --host notifications.dev --port 8888 --inline --watch --hot --progress --content-base public",
     "translate": "i18n-calypso -i ./public/build.min.js -o ./notifications-i18n.php -a notifications_i18n"
   },
+  "files": [
+    "public/build.css",
+    "public/build.min.js"
+  ],
   "browserslist": [
     "last 2 versions",
     "> 1%",
