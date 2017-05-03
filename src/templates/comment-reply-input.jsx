@@ -145,12 +145,6 @@ const CommentReplyInput = React.createClass({
                 rowCount: 1,
             });
         }
-
-        // Force scroll the parent window to the top on iPhone
-        // Note: This can be removed if we move away from using an iFrame for the notifications window
-        if (window.parent && hasTouch()) {
-            window.parent.scrollTo(0, 0);
-        }
     },
 
     handleSubmit(event) {
