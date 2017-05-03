@@ -24,7 +24,7 @@ const onRender = ({ latestType, unseen }) =>
           })
         : sendMessage({ action: 'renderAllSeen' });
 
-const onTogglePanel = () => sendMessage({ actions: 'togglePanel' });
+const onTogglePanel = () => sendMessage({ action: 'togglePanel' });
 
 const render = () => {
     ReactDOM.render(
