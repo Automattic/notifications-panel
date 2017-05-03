@@ -197,17 +197,9 @@ const Layout = React.createClass({
             previouslySelectedNoteScrollTop,
             selectedNote,
         } = this.state;
-        console.log({
-            previouslySelectedNoteId,
-            previouslySelectedNoteScrollTop,
-            selectedNote,
-            detailView: this.detailView,
-        });
         if (selectedNote !== previouslySelectedNoteId) {
-            console.log('scrolled to top');
             this.detailView.scrollTop = 0;
         } else {
-            console.log('scrolled to pos');
             this.detailView.scrollTop = previouslySelectedNoteScrollTop;
         }
     },
