@@ -15,7 +15,4 @@ const reducer = combineReducers({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const withMiddleware = composeEnhancers(applyMiddleware(actionMiddleware))(createStore);
 
-export const store = withMiddleware(
-    reducer,
-    reducer(undefined, { type: '@@INIT' })
-);
+export const store = withMiddleware(reducer, reducer(undefined, { type: '@@INIT' }));

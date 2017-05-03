@@ -98,9 +98,9 @@ export const NoteList = React.createClass({
             return;
         }
 
-        this.isSrolling = true;
+        this.isScrolling = true;
 
-        requestAnimationFrame(() => this.isSrolling = false);
+        requestAnimationFrame(() => this.isScrolling = false);
 
         const element = ReactDOM.findDOMNode(this);
         if (!this.state.scrolling || this.state.scrollY !== element.scrollTop) {
