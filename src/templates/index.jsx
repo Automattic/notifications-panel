@@ -90,7 +90,7 @@ const Layout = React.createClass({
         return {
             lastSelectedIndex: 0,
             navigationEnabled: true,
-            previouslySelectedNote: null,
+            previouslySelectedNoteId: null,
             selectedNote: null,
         };
     },
@@ -128,7 +128,7 @@ const Layout = React.createClass({
     componentWillReceiveProps: function(nextProps) {
         if (this.props.selectedNoteId) {
             this.setState({
-                previouslySelectedNote: this.props.selectedNoteId,
+                previouslySelectedNoteId: this.props.selectedNoteId,
             });
         }
 
@@ -183,6 +183,13 @@ const Layout = React.createClass({
 
         if (!hasNote) {
             this.props.unselectNote();
+        }
+    },
+
+    componentDidUpdate: function() {
+        const { previouslySelectedNoteId, selectedNote } = this.state;
+        if (this.detailView && selectedNote !== previouslySelectedNoteId) {
+            this.detailView.scrollTop = 0;
         }
     },
 
@@ -466,17 +473,11 @@ const Layout = React.createClass({
     },
 
     render() {
-        const { previouslySelectedNote, selectedNote } = this.state;
-
         const currentNote = find(
             this.props.notes,
             matchesProperty('id', this.props.selectedNoteId)
         );
         const filteredNotes = this.filterController.getFilteredNotes(this.props.notes);
-
-        if (this.detailView && selectedNote !== previouslySelectedNote) {
-            this.detailView.scrollTop = 0;
-        }
 
         return (
             <div style={{ width: document.body.clientWidth }}>
