@@ -4,6 +4,7 @@ import { noop } from 'lodash';
 
 import { store } from './state';
 import { init as initPublicAPI } from './state/action-middleware/public-api';
+import { SET_IS_SHOWING } from './state/action-types';
 import actions from './state/actions';
 
 import RestClient from './rest-client';
@@ -73,11 +74,13 @@ export class Notifications extends PureComponent {
         client.sendMessage = receiveMessage;
 
         /**
+         * Initialize store with actions that need to occur on
+         * transitions from open to close or close to open
+         *
          * @TODO: Pass this information directly into the Redux initial state
          */
-        if (isShowing) {
-            store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
-        }
+        store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
+        store.dispatch({ type: SET_IS_SHOWING, isShowing });
 
         client.setVisibility({ isShowing, isVisible });
     }
@@ -97,6 +100,9 @@ export class Notifications extends PureComponent {
             store.dispatch(actions.ui.openPanel());
         }
 
+        if (this.props.isShowing !== isShowing) {
+            store.dispatch({ type: SET_IS_SHOWING, isShowing });
+        }
         client.setVisibility({ isShowing, isVisible });
     }
 

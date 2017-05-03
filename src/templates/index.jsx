@@ -331,7 +331,7 @@ const Layout = React.createClass({
 
         this.isRefreshing = true;
 
-        requestAnimationFrame(() => (this.isRefreshing = false));
+        requestAnimationFrame(() => this.isRefreshing = false);
 
         if (this.noteList) {
             this.height = ReactDOM.findDOMNode(this.noteList).clientHeight;
@@ -376,7 +376,7 @@ const Layout = React.createClass({
             return;
         }
 
-        const activateKeyboard = () => (this.props.global.input.lastInputWasKeyboard = true);
+        const activateKeyboard = () => this.props.global.input.lastInputWasKeyboard = true;
 
         switch (event.keyCode) {
             case KEY_ESC:
@@ -424,8 +424,7 @@ const Layout = React.createClass({
                 break;
             case KEY_U: // Unread filter
                 if (
-                    !this.props.selectedNoteId &&
-                    !(this.noteList && this.noteList.state.undoNote)
+                    !this.props.selectedNoteId && !(this.noteList && this.noteList.state.undoNote)
                 ) {
                     this.filterController.selectFilter('unread');
                 }
