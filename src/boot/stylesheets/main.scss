@@ -176,7 +176,6 @@ body {
     	border-bottom: 1px solid lighten( $gray, 30 );
     	text-align: center; // Center filter in IE 9
     	height: $filter-height;
-    	z-index: 10;
     	box-sizing: border-box;
     	direction: ltr;
     	display: table; //fallback for browsers not supporting flexbox
@@ -457,9 +456,6 @@ body {
         z-index: 100;
     		text-align: left;
         position: -webkit-sticky;
-        position: -moz-sticky;
-        position: -ms-sticky;
-        position: -o-sticky;
         position: sticky;
     	}
     }

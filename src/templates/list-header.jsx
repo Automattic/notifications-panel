@@ -29,32 +29,6 @@ const ListHeader = React.createClass({
     render: function() {
         //		var debugLine = this.props.title + "  offset:" + this.props.offset + " scroll:" + this.props.scroll + " nextOffset: " + this.props.nextOffset + " index:" + this.props.index;
         var title = this.props.title, classNames = ['wpnc__time-group-title'], style = {};
-
-        /*if (this.props.offset != -1 && this.props.nextOffset != -1) {
-            if (
-                this.props.scroll >= this.props.offset - TITLE_OFFSET &&
-                this.props.scroll < this.props.nextOffset - (HEADER_HEIGHT + TITLE_OFFSET)
-            ) {
-                classNames.push('fixed');
-            }
-            if (
-                this.props.scroll >= this.props.nextOffset - (HEADER_HEIGHT + TITLE_OFFSET) &&
-                this.props.scroll < this.props.nextOffset - TITLE_OFFSET
-            ) {
-                classNames.push('fixed');
-                style = {
-                    position: 'absolute',
-                    top: this.props.nextOffset - HEADER_HEIGHT + 'px',
-                };
-            }
-        } else if (this.props.offset != -1) {
-            if (
-                this.props.scroll >= this.props.offset - TITLE_OFFSET &&
-                this.props.offset >= TITLE_OFFSET
-            ) {
-                classNames.push('fixed');
-            }
-        }*/
         classNames = classNames.join(' ');
 
         return (
