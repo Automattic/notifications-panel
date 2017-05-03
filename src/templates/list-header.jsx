@@ -13,17 +13,7 @@ const ListHeader = React.createClass({
     getDefaultProps: function() {
         return {
             title: 'None',
-            index: -1,
-            offset: -1,
-            nextOffset: -1,
         };
-    },
-
-    componentDidUpdate: function() {
-        var node = ReactDOM.findDOMNode(this);
-        if (node.offsetTop != this.props.offset && node.offsetTop > 0) {
-            this.props.setOffset(this.props.index, node.offsetTop);
-        }
     },
 
     render: function() {

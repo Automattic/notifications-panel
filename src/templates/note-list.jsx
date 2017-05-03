@@ -50,8 +50,6 @@ export const NoteList = React.createClass({
     },
 
     componentWillMount: function() {
-        this.offsets = [-1, -1, -1, -1, -1];
-
         this.props.global.updateStatusBar = this.updateStatusBar;
         this.props.global.resetStatusBar = this.resetStatusBar;
         this.props.global.updateUndoBar = this.updateUndoBar;
@@ -118,11 +116,6 @@ export const NoteList = React.createClass({
 
     onScrollEnd() {
         this.setState({ scrolling: false });
-    },
-
-    setOffset: function(index, offset) {
-        if (index < 0 || index >= this.offsets.length) return;
-        this.offsets[index] = offset;
     },
 
     updateStatusBar: function(message, classList, delay) {
@@ -305,36 +298,15 @@ export const NoteList = React.createClass({
 
         var header;
         var nextOffset;
-        var offset_i;
-        var scroll;
-        var offsets = this.offsets;
 
         /* Build a single list of notes, undo bars, and time group headers */
         var notes = noteGroups.reduce(
             function(notes, group, i) {
                 if (0 < group.length) {
-                    if (_this.state && _this.state.scrollY) {
-                        scroll = _this.state.scrollY;
-                    } else {
-                        scroll = 0;
-                    }
-                    // find next header that has an offset (not all headers may
-                    // be displayed)
-                    offset_i = i + 1;
-                    while (offsets[offset_i] == -1 && offset_i < offsets.length) {
-                        offset_i += 1;
-                    }
-                    nextOffset = offsets[offset_i];
-
                     header = (
                         <ListHeader
                             key={'time-group-' + i}
                             title={_this.groupTitles[i]}
-                            scroll={scroll}
-                            index={i}
-                            offset={offsets[i]}
-                            nextOffset={nextOffset}
-                            setOffset={_this.setOffset}
                         />
                     );
                     notes.push(header);
