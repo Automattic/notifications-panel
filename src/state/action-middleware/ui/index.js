@@ -8,8 +8,6 @@ import { onTogglePanel } from '../public-api';
 
 import { findNextNoteId } from '../../../templates';
 
-export const scrollToTop = () => window.scrollTo(0, 0);
-
 export const advanceToNextNote = ({ dispatch, getState }, { noteId }) => {
     const state = getState();
 
@@ -42,7 +40,7 @@ export const togglePanel = (store, { type }) => {
 };
 
 export default {
-    [types.CLOSE_PANEL]: [scrollToTop, togglePanel],
+    [types.CLOSE_PANEL]: [togglePanel],
     [types.SPAM_NOTE]: [advanceToNextNote],
     [types.OPEN_PANEL]: [togglePanel],
     [types.TRASH_NOTE]: [advanceToNextNote],
