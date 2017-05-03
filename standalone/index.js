@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import Notifications, { refreshNotes } from '../src/Notifications';
+import Notifications, { refreshNotes } from '../src/index.jsx';
 import AuthWrapper from './auth-wrapper';
 import { receiveMessage, sendMessage } from './messaging';
 

@@ -12,7 +12,8 @@
   },
   "files": [
     "public/build.css",
-    "public/build.min.js"
+    "public/build.min.js",
+    "public/standalone.min.js"
   ],
   "browserslist": [
     "last 2 versions",

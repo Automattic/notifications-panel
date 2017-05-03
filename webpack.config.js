@@ -8,7 +8,10 @@ const webpack = require( 'webpack' );
 module.exports = {
 	cache: true,
 	devtool: '#source-map',
-	entry: path.resolve( __dirname, 'standalone' ),
+	entry: {
+		build: path.resolve( __dirname, 'src' ),
+		standalone: path.resolve( __dirname, 'standalone' )
+	},
 
 	node: {
 		fs: 'empty'
@@ -16,7 +19,7 @@ module.exports = {
 
 	output: {
 		path: path.resolve( __dirname, 'public' ),
-		filename: 'build.min.js'
+		filename: '[name].min.js'
 	},
 
 	module: {
