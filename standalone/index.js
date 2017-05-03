@@ -26,9 +26,13 @@ const onRender = ({ latestType, unseen }) =>
 
 const onTogglePanel = () => sendMessage({ action: 'togglePanel' });
 
+let refresh = () => {};
+const appUpdater = f => refresh = f;
+
 const render = () => {
     ReactDOM.render(
         React.createElement(AuthWrapper(Notifications), {
+            appUpdater,
             clientId: 52716,
             isShowing,
             isVisible,
@@ -44,19 +48,21 @@ const render = () => {
 };
 
 const init = () => {
-    document.addEventListener('visibilitychange', render);
+    render();
+
+    document.addEventListener('visibilitychange', refresh);
 
     window.addEventListener(
         'message',
         receiveMessage(({ action, hidden, showing }) => {
             if ('togglePanel' === action) {
                 isShowing = showing;
-                render();
+                refresh();
             }
 
             if ('toggleVisibility' === action) {
                 isVisible = !hidden;
-                render();
+                refresh();
             }
         })
     );
@@ -69,8 +75,6 @@ const init = () => {
             }
         })
     );
-
-    render();
 };
 
 init();
