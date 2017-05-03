@@ -4,6 +4,8 @@ import { localize } from 'i18n-calypso';
 import { wpcom } from '../rest-client/wpcom';
 import { bumpStat } from '../rest-client/bump-stat';
 
+import Gridicon from './gridicons';
+
 export const FollowLink = React.createClass({
     propTypes: {
         site: React.PropTypes.number,
@@ -73,7 +75,8 @@ export const FollowLink = React.createClass({
 
         return (
             <a className="follow-link" onClick={this.toggleFollowStatus} href="#">
-                <span className={'wpnc__noticon ' + noticon_class} />{link_text}
+                <Gridicon icon='reader-follow' size={18} />
+                {link_text}
             </a>
         );
     },
