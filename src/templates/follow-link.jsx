@@ -4,6 +4,8 @@ import { localize } from 'i18n-calypso';
 import { wpcom } from '../rest-client/wpcom';
 import { bumpStat } from '../rest-client/bump-stat';
 
+import Gridicon from './gridicons';
+
 export const FollowLink = React.createClass({
     propTypes: {
         site: React.PropTypes.number,
@@ -57,15 +59,15 @@ export const FollowLink = React.createClass({
         });
     },
     render: function() {
-        var noticon_class, link_text;
+        var gridicon_icon, link_text;
 
         if (this.state.isFollowing) {
-            noticon_class = 'noticon-following';
+            gridicon_icon = 'reader-following';
             link_text = this.props.translate('Following', {
                 context: 'you are following',
             });
         } else {
-            noticon_class = 'noticon-follow';
+            gridicon_icon = 'reader-follow';
             link_text = this.props.translate('Follow', {
                 context: 'verb: imperative',
             });
@@ -73,7 +75,8 @@ export const FollowLink = React.createClass({
 
         return (
             <a className="follow-link" onClick={this.toggleFollowStatus} href="#">
-                <span className={'wpnc__noticon ' + noticon_class} />{link_text}
+                <Gridicon icon={gridicon_icon} size={18} />
+                {link_text}
             </a>
         );
     },
