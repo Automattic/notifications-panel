@@ -61,11 +61,11 @@ export const NoteList = React.createClass({
     },
 
     componentDidMount() {
-        ReactDOM.findDOMNode(this).addEventListener('scroll', this.onScroll);
+        ReactDOM.findDOMNode(this.scrollableContainer).addEventListener('scroll', this.onScroll);
     },
 
     componentWillUnmount: function() {
-        ReactDOM.findDOMNode(this).removeEventListener('scroll', this.onScroll);
+        ReactDOM.findDOMNode(this.scrollableContainer).removeEventListener('scroll', this.onScroll);
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -77,7 +77,7 @@ export const NoteList = React.createClass({
 
     componentDidUpdate: function(prevProps) {
         if (this.noteList && !this.props.isLoading) {
-            var element = ReactDOM.findDOMNode(this);
+            var element = ReactDOM.findDOMNode(this.scrollableContainer);
             var notes = this.noteList;
             if (
                 element.clientHeight > 0 &&
@@ -97,11 +97,11 @@ export const NoteList = React.createClass({
             return;
         }
 
-        this.isSrolling = true;
+        this.isScrolling = true;
 
-        requestAnimationFrame(() => this.isSrolling = false);
+        requestAnimationFrame(() => this.isScrolling = false);
 
-        const element = ReactDOM.findDOMNode(this);
+        const element = ReactDOM.findDOMNode(this.scrollableContainer);
         if (!this.state.scrolling || this.state.scrollY !== element.scrollTop) {
             // only set state and trigger render if something has changed
             this.setState({
@@ -198,6 +198,10 @@ export const NoteList = React.createClass({
 
     storeNoteList(ref) {
         this.noteList = ref;
+    },
+
+    storeScrollableContainer(ref) {
+        this.scrollableContainer = ref;
     },
 
     storeUndoActImmediately(actImmediately) {
@@ -352,6 +356,7 @@ export const NoteList = React.createClass({
             <div className={classes}>
                 <FilterBar controller={this.props.filterController} />
                 <div
+                    ref={this.storeScrollableContainer}
                     className={
                         this.props.selectedNoteId
                             ? 'wpnc__list-view wpnc__current'
