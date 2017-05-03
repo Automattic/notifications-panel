@@ -26,7 +26,7 @@ export const EmptyMessage = React.createClass({
         var message;
         if (this.props.link && this.props.linkMessage) {
             message = (
-                <div id="wpnc__empty-notes">
+                <div className="wpnc__empty-notes">
                     <h2>{this.props.emptyMessage}</h2>
                     <p>
                         <a href={this.props.link} target="_blank" onClick={this.handleClick}>
@@ -44,7 +44,7 @@ export const EmptyMessage = React.createClass({
             );
         } else {
             message = (
-                <div id="wpnc__empty-notes">
+                <div className="wpnc__empty-notes">
                     <h2>{this.props.emptyMessage}</h2>
                 </div>
             );
