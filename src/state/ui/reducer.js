@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux';
 
-import { CLOSE_PANEL, NOTES_LOADED, NOTES_LOADING, OPEN_PANEL, SELECT_NOTE } from '../action-types';
+import {
+    CLOSE_PANEL,
+    NOTES_LOADED,
+    NOTES_LOADING,
+    SELECT_NOTE,
+    SET_IS_SHOWING,
+} from '../action-types';
 
 export const isLoading = (state = true, { type }) => {
     if (NOTES_LOADING === type) {
@@ -14,17 +20,8 @@ export const isLoading = (state = true, { type }) => {
     return state;
 };
 
-export const isPanelOpen = (state = false, { type }) => {
-    if (CLOSE_PANEL === type) {
-        return false;
-    }
-
-    if (OPEN_PANEL === type) {
-        return true;
-    }
-
-    return state;
-};
+export const isPanelOpen = (state = false, { type, isShowing }) =>
+    SET_IS_SHOWING === type ? isShowing : state;
 
 export const selectedNoteId = (state = null, { type, noteId }) => {
     if (SELECT_NOTE === type) {
