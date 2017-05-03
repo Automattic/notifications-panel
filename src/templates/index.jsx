@@ -91,6 +91,7 @@ const Layout = React.createClass({
             lastSelectedIndex: 0,
             navigationEnabled: true,
             previouslySelectedNoteId: null,
+            previouslySelectedNoteScrollTop: 0,
             selectedNote: null,
         };
     },
@@ -129,6 +130,7 @@ const Layout = React.createClass({
         if (this.props.selectedNoteId) {
             this.setState({
                 previouslySelectedNoteId: this.props.selectedNoteId,
+                previouslySelectedNoteScrollTop: this.detailView ? this.detailView.scrollTop : 0,
             });
         }
 
@@ -187,9 +189,26 @@ const Layout = React.createClass({
     },
 
     componentDidUpdate: function() {
-        const { previouslySelectedNoteId, selectedNote } = this.state;
-        if (this.detailView && selectedNote !== previouslySelectedNoteId) {
+        if (!this.detailView) {
+            return;
+        }
+        const {
+            previouslySelectedNoteId,
+            previouslySelectedNoteScrollTop,
+            selectedNote,
+        } = this.state;
+        console.log({
+            previouslySelectedNoteId,
+            previouslySelectedNoteScrollTop,
+            selectedNote,
+            detailView: this.detailView,
+        });
+        if (selectedNote !== previouslySelectedNoteId) {
+            console.log('scrolled to top');
             this.detailView.scrollTop = 0;
+        } else {
+            console.log('scrolled to pos');
+            this.detailView.scrollTop = previouslySelectedNoteScrollTop;
         }
     },
 
@@ -497,7 +516,6 @@ const Layout = React.createClass({
                     />}
 
                 <div
-                    ref={this.storeDetailViewRef}
                     className={
                         currentNote ? 'wpnc__single-view wpnc__current' : 'wpnc__single-view'
                     }
@@ -534,7 +552,7 @@ const Layout = React.createClass({
                         </header>}
 
                     {currentNote &&
-                        <ol>
+                        <ol ref={this.storeDetailViewRef}>
                             <Note
                                 key={'note-' + currentNote.id}
                                 client={this.props.client}
