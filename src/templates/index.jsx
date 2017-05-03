@@ -90,6 +90,7 @@ const Layout = React.createClass({
         return {
             lastSelectedIndex: 0,
             navigationEnabled: true,
+            previousDetailScrollTop: 0,
             previouslySelectedNoteId: null,
             selectedNote: null,
         };
@@ -128,6 +129,7 @@ const Layout = React.createClass({
     componentWillReceiveProps: function(nextProps) {
         if (this.props.selectedNoteId) {
             this.setState({
+                previousDetailScrollTop: this.detailView ? this.detailView.scrollTop : 0,
                 previouslySelectedNoteId: this.props.selectedNoteId,
             });
         }
@@ -187,10 +189,14 @@ const Layout = React.createClass({
     },
 
     componentDidUpdate: function() {
-        const { previouslySelectedNoteId, selectedNote } = this.state;
-        if (this.detailView && selectedNote !== previouslySelectedNoteId) {
-            this.detailView.scrollTop = 0;
+        if (!this.detailView) {
+            return;
         }
+        const { previousDetailScrollTop, previouslySelectedNoteId, selectedNote } = this.state;
+
+        this.detailView.scrollTop = selectedNote === previouslySelectedNoteId
+            ? previousDetailScrollTop
+            : 0;
     },
 
     componentWillUnmount: function() {
@@ -496,7 +502,6 @@ const Layout = React.createClass({
                     />}
 
                 <div
-                    ref={this.storeDetailViewRef}
                     className={
                         currentNote ? 'wpnc__single-view wpnc__current' : 'wpnc__single-view'
                     }
@@ -533,7 +538,7 @@ const Layout = React.createClass({
                         </header>}
 
                     {currentNote &&
-                        <ol>
+                        <ol ref={this.storeDetailViewRef}>
                             <Note
                                 key={'note-' + currentNote.id}
                                 client={this.props.client}
