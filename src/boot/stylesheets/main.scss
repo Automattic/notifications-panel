@@ -452,6 +452,10 @@ body {
     	}
     }
 
+    .disable-sticky .wpnc__time-group-wrap {
+      position: static;
+    }
+
     .wpnc__undo-item {
     	background: $alert-red;
     	color: $white;

@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
+import classNames from 'classnames';
 
 import actions from '../state/actions';
 import getIsLoading from '../state/selectors/get-is-loading';
@@ -376,8 +377,12 @@ export const NoteList = React.createClass({
             );
         }
 
+        const classes = classNames( 'wpnc__note-list', {
+          'disable-sticky': !! window.chrome && !! window.chrome.webstore, // position: sticky doesn't work in Chrome
+        } );
+
         return (
-            <div className="wpnc__note-list">
+            <div className={ classes }>
               <FilterBar controller={this.props.filterController} />
               <div
                   className={
