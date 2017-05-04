@@ -29,10 +29,7 @@ export const setApproveStatus = function(noteId, siteId, commentId, isApproved, 
         note_type: type,
     });
 
-    comment.update(
-        { status: isApproved ? 'wpnc__comment-approved' : 'wpnc__comment-unapproved' },
-        updateNote(noteId)
-    );
+    comment.update({ status: isApproved ? 'approved' : 'unapproved' }, updateNote(noteId));
 };
 
 export const setLikeStatus = function(noteId, siteId, postId, commentId, isLiked) {
