@@ -77,11 +77,10 @@ export const NoteList = React.createClass({
 
     componentDidUpdate: function(prevProps) {
         if (this.noteList && !this.props.isLoading) {
-            var element = ReactDOM.findDOMNode(this.scrollableContainer);
-            var notes = this.noteList;
+            const element = ReactDOM.findDOMNode(this.scrollableContainer);
             if (
                 element.clientHeight > 0 &&
-                element.scrollTop + element.clientHeight >= notes.clientHeight - 100
+                element.scrollTop + element.clientHeight >= this.noteList.clientHeight - 300
             ) {
                 this.props.client.loadMore();
             }
