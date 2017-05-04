@@ -7,6 +7,9 @@
 		background-color: $gray-light;
 
 		textarea {
+            @extend %wpnc-form-field;
+            @extend %wpnc-textarea;
+            box-sizing: border-box;
 			padding-right: 52px;
 			min-height: 37px;
 			width: 100%;
