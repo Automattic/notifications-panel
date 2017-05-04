@@ -80,13 +80,12 @@ function render_range(new_sub_text, new_sub_range, range_info, range_data, optio
         case 'noticon':
             // Noticons have special text, and are thus not recursed into
             new_container = document.createElement('span');
-            new_container.innerHTML =
-              ReactDOMServer.renderToStaticMarkup(
-                React.createElement(
-                  Gridicon,
-                  { icon: noticon2gridicon(range_info.value), size: 18 }
-                )
-              );
+            new_container.innerHTML = ReactDOMServer.renderToStaticMarkup(
+                React.createElement(Gridicon, {
+                    icon: noticon2gridicon(range_info.value),
+                    size: 18,
+                })
+            );
             break;
         case 'button':
             new_classes.push('is-primary');
