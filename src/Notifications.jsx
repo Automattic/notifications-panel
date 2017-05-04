@@ -28,8 +28,16 @@ repliesCache.cleanup();
  */
 export const refreshNotes = () => client && client.refreshNotes.call(client);
 
+/**
+ * Refresh to default note list view
+ */
+export const reset = () => {
+    store.dispatch(actions.ui.unselectNote());
+};
+
 export class Notifications extends PureComponent {
     static propTypes = {
+        appResetter: PropTypes.func,
         appUpdater: PropTypes.func,
         isShowing: PropTypes.bool,
         isVisible: PropTypes.bool,
@@ -43,6 +51,7 @@ export class Notifications extends PureComponent {
     };
 
     static defaultProps = {
+        appResetter: noop,
         appUpdater: noop,
         isVisible: false,
         locale: 'en',
@@ -55,6 +64,7 @@ export class Notifications extends PureComponent {
 
     componentWillMount() {
         const {
+            appResetter,
             appUpdater,
             isShowing,
             isVisible,
@@ -65,6 +75,7 @@ export class Notifications extends PureComponent {
             wpcom,
         } = this.props;
 
+        appResetter(reset);
         appUpdater(() => this.forceUpdate());
 
         initAPI(wpcom);
