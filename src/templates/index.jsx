@@ -379,7 +379,6 @@ const Layout = React.createClass({
 
         switch (event.keyCode) {
             case KEY_ESC:
-            case KEY_N:
                 this.props.closePanel();
                 stopEvent();
                 break;
