@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { flowRight as compose } from 'lodash';
 
+import Gridicon from 'templates/gridicons';
+import noticon2gridicon from 'utils/noticon2gridicon';
+
 import actions from '../state/actions';
 
 import ImagePreloader from './image-loader';
@@ -51,7 +54,10 @@ export const SummaryInList = React.createClass({
                             <img src="https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=128" />
                         }
                     />
-                    <span className="wpnc__noticon">{this.props.note.noticon}</span>
+                  <span className="wpnc__noticon">
+                    <Gridicon icon={noticon2gridicon(this.props.note.noticon)} size={16} />
+                  </span>
+
                 </div>
                 <div className="wpnc__text-summary">
                     <div className="wpnc__subject" dangerouslySetInnerHTML={{ __html: subject }} />

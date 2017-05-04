@@ -1,3 +1,10 @@
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import { get } from 'lodash';
+
+import Gridicon from 'templates/gridicons';
+import noticon2gridicon from 'utils/noticon2gridicon';
+
 /**
  * Create the actual DOM nodes for a given piece of text/ranges and
  * recurse downward into the range tree if necessary.
@@ -73,7 +80,13 @@ function render_range(new_sub_text, new_sub_range, range_info, range_data, optio
         case 'noticon':
             // Noticons have special text, and are thus not recursed into
             new_container = document.createElement('span');
-            new_container.appendChild(document.createTextNode(range_info.value));
+            new_container.innerHTML =
+              ReactDOMServer.renderToStaticMarkup(
+                React.createElement(
+                  Gridicon,
+                  { icon: noticon2gridicon(range_info.value), size: 18 }
+                )
+              );
             break;
         case 'button':
             new_classes.push('is-primary');

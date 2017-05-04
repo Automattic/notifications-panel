@@ -139,13 +139,10 @@ export default React.createClass({
                     </svg>
                 );
 
-            case 'gridicons-stats':
+            case 'gridicons-stats-alt':
                 return (
                     <svg {...sharedProps} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <title>Stats</title>
-                        <g>
-                            <path d="M19 3H5c-1.105 0-2 .895-2 2v14c0 1.105.895 2 2 2h14c1.105 0 2-.895 2-2V5c0-1.105-.895-2-2-2zm0 16H5V5h14v14zM9 17H7v-5h2v5zm4 0h-2V7h2v10zm4 0h-2v-7h2v7z" />
-                        </g>
+                        <title>Stats Alt</title><g><path d="M21 21H3v-2h18v2zM8 10H4v7h4v-7zm6-7h-4v14h4V3zm6 3h-4v11h4V6z"/></g>
                     </svg>
                 );
 
@@ -198,6 +195,13 @@ export default React.createClass({
                         </g>
                     </svg>
                 );
+
+                    case 'gridicons-reply':
+                        return (
+                            <svg {...sharedProps} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <title>Reply</title><g><path d="M14 8H6.828l2.586-2.586L8 4 3 9l5 5 1.414-1.414L6.828 10H14c2.206 0 4 1.794 4 4s-1.794 4-4 4h-2v2h2c3.314 0 6-2.686 6-6s-2.686-6-6-6z"/></g>
+                            </svg>
+                        );
 
             case 'gridicons-arrow-up':
                 return (
