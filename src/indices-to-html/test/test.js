@@ -96,7 +96,9 @@ describe('Indices To HTML', function() {
     });
 
     describe('links', function() {
-        it('should return a text node followed by a link followed by a text node if given a URL in the middle', function(done) {
+        it('should return a text node followed by a link followed by a text node if given a URL in the middle', function(
+            done
+        ) {
             var one_link_in_middle = convert(data.one_link_in_middle);
             assertTextContents(['This is a ', 'link', '.'], one_link_in_middle);
             assertNodeTypes(['text', 'a', 'text'], one_link_in_middle);
@@ -114,7 +116,9 @@ describe('Indices To HTML', function() {
             done();
         });
 
-        it('should return a span with class=user followed by a text node if given a linkless user at the beginning', function(done) {
+        it('should return a span with class=user followed by a text node if given a linkless user at the beginning', function(
+            done
+        ) {
             var one_linkless_user_at_beginning = convert(data.one_linkless_user_at_beginning);
             assertTextContents(
                 ['Mike Adams (mdawaffe)', ' is a user.'],
@@ -164,7 +168,9 @@ describe('Indices To HTML', function() {
     });
 
     describe('no links', function() {
-        it('should return a text node followed by a span followed by a text node if given a URL in the middle', function(done) {
+        it('should return a text node followed by a span followed by a text node if given a URL in the middle', function(
+            done
+        ) {
             var one_link_in_middle = convert(data.one_link_in_middle, {
                 links: false,
             });
@@ -281,7 +287,9 @@ describe('Indices To HTML', function() {
             assertNodeTypes(['img', 'text'], result.childNodes[1]);
             done();
         });
-        it('images should render inside of links when both have a zero length range', function(done) {
+        it('images should render inside of links when both have a zero length range', function(
+            done
+        ) {
             var result = convert(data.a_image_only);
             assertNodeTypes(['text', 'a', 'text'], result);
             assertNodeTypes(['img'], result.childNodes[1]);
@@ -367,7 +375,9 @@ describe('Indices To HTML', function() {
             done();
         });
 
-        it('should consume no text as an alt attribut for initial image and all text for subsequent link', function(done) {
+        it('should consume no text as an alt attribut for initial image and all text for subsequent link', function(
+            done
+        ) {
             var initial_media_followed_by_user = convert(data.initial_media_followed_by_user);
             assertTextContents(['', 'somebody'], initial_media_followed_by_user);
             assertNodeTypes(['img', 'a'], initial_media_followed_by_user);
@@ -408,7 +418,9 @@ describe('Indices To HTML', function() {
             done();
         });
 
-        it('should set default height/width for badges without height/width properties', function(done) {
+        it('should set default height/width for badges without height/width properties', function(
+            done
+        ) {
             var badge_with_no_height_width = convert(data.badge_with_no_height_width);
 
             assertTextContents([''], badge_with_no_height_width);

@@ -4,12 +4,8 @@ import { html as toHtml } from '../indices-to-html';
 
 export function internalP(html) {
     return html.split('\n\n').map(function(chunk) {
-        var somewhatRandomKey = 'block-text-' +
-            chunk.length +
-            '-' +
-            Date.now() +
-            '-' +
-            Math.random() * 10000;
+        var somewhatRandomKey =
+            'block-text-' + chunk.length + '-' + Date.now() + '-' + Math.random() * 10000;
 
         return (
             <div
@@ -27,12 +23,8 @@ export function p(html, className) {
         className = 'wpnc__paragraph';
     }
     return html.split('\n\n').map(function(chunk) {
-        var somewhatRandomKey = 'block-text-' +
-            chunk.length +
-            '-' +
-            Date.now() +
-            '-' +
-            Math.random() * 10000;
+        var somewhatRandomKey =
+            'block-text-' + chunk.length + '-' + Date.now() + '-' + Math.random() * 10000;
         return (
             <div
                 className={className}

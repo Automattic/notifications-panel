@@ -51,11 +51,14 @@ export const NoteBody = React.createClass({
         var note = this.props.note, hasReplyBlock;
 
         if (note.meta && note.meta.ids.reply_comment) {
-            hasReplyBlock = note.body.filter(function(block) {
-                return block.ranges &&
-                    block.ranges.length > 1 &&
-                    block.ranges[1].id == note.meta.ids.reply_comment;
-            }).length > 0;
+            hasReplyBlock =
+                note.body.filter(function(block) {
+                    return (
+                        block.ranges &&
+                        block.ranges.length > 1 &&
+                        block.ranges[1].id == note.meta.ids.reply_comment
+                    );
+                }).length > 0;
 
             if (!hasReplyBlock) {
                 wpcom()

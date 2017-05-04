@@ -48,9 +48,7 @@ export const SummaryInList = React.createClass({
                     <ImagePreloader
                         src={this.props.note.icon}
                         placeholder={
-                            <img
-                                src="https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=128"
-                            />
+                            <img src="https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=128" />
                         }
                     />
                     <span className="wpnc__noticon">{this.props.note.noticon}</span>
