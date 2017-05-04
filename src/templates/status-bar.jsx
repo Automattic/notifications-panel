@@ -37,12 +37,9 @@ export const StatusBar = React.createClass({
         var component = this;
 
         /* We only want this to appear for a bit, then disappear */
-        var timeout = window.setTimeout(
-            function() {
-                component.disappear();
-            },
-            nextProps.statusTimeout ? nextProps.statusTimeout : this.props.statusTimeout
-        );
+        var timeout = window.setTimeout(function() {
+            component.disappear();
+        }, nextProps.statusTimeout ? nextProps.statusTimeout : this.props.statusTimeout);
 
         this.setState({
             isVisible: true,
@@ -51,7 +48,7 @@ export const StatusBar = React.createClass({
     },
 
     render: function() {
-        var visibility = this.state.isVisible ? { display: 'block' } : { display: 'none' };
+        var visibility = this.state.isVisible ? { display: 'flex' } : { display: 'none' };
 
         var classes = ['wpnc__status-bar'];
         if ('undefined' != typeof this.props.statusClasses && this.props.statusClasses.length > 0) {
@@ -60,6 +57,7 @@ export const StatusBar = React.createClass({
 
         return (
             <div className={classes.join(' ')} style={visibility}>
+                <span />
                 <span
                     dangerouslySetInnerHTML={{
                         __html: this.props.statusMessage,

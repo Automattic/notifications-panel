@@ -54,7 +54,7 @@ export const findNextNoteId = (noteId, notes) => {
         return null;
     }
 
-    const index = find(notes, noteId);
+    const index = findIndex(notes, noteId);
     if (-1 === index) {
         return null;
     }
@@ -90,6 +90,7 @@ const Layout = React.createClass({
         return {
             lastSelectedIndex: 0,
             navigationEnabled: true,
+            previousDetailScrollTop: 0,
             previouslySelectedNoteId: null,
             selectedNote: null,
         };
@@ -128,6 +129,7 @@ const Layout = React.createClass({
     componentWillReceiveProps: function(nextProps) {
         if (this.props.selectedNoteId) {
             this.setState({
+                previousDetailScrollTop: this.detailView ? this.detailView.scrollTop : 0,
                 previouslySelectedNoteId: this.props.selectedNoteId,
             });
         }
@@ -174,23 +176,20 @@ const Layout = React.createClass({
             return;
         }
 
-        const hasNote = !!find(nextProps.notes, matchesProperty('id', nextProps.selectedNoteId));
-
-        this.props.client.sendMessage({
-            action: 'widescreen',
-            widescreen: hasNote,
-        });
-
-        if (!hasNote) {
+        if (!find(nextProps.notes, matchesProperty('id', nextProps.selectedNoteId))) {
             this.props.unselectNote();
         }
     },
 
     componentDidUpdate: function() {
-        const { previouslySelectedNoteId, selectedNote } = this.state;
-        if (this.detailView && selectedNote !== previouslySelectedNoteId) {
-            this.detailView.scrollTop = 0;
+        if (!this.detailView) {
+            return;
         }
+        const { previousDetailScrollTop, previouslySelectedNoteId, selectedNote } = this.state;
+
+        this.detailView.scrollTop = selectedNote === previouslySelectedNoteId
+            ? previousDetailScrollTop
+            : 0;
     },
 
     componentWillUnmount: function() {
@@ -380,16 +379,11 @@ const Layout = React.createClass({
 
         switch (event.keyCode) {
             case KEY_ESC:
-            case KEY_N:
                 this.props.closePanel();
                 stopEvent();
                 break;
             case KEY_RIGHT:
                 activateKeyboard();
-                this.props.client.sendMessage({
-                    action: 'widescreen',
-                    widescreen: false,
-                });
                 this.props.unselectNote();
                 break;
             case KEY_ENTER:
@@ -480,7 +474,7 @@ const Layout = React.createClass({
         const filteredNotes = this.filterController.getFilteredNotes(this.props.notes);
 
         return (
-            <div style={{ width: document.body.clientWidth }}>
+            <div>
                 {this.props.error && <AppError error={this.props.error} />}
 
                 {!this.props.error &&
@@ -497,7 +491,6 @@ const Layout = React.createClass({
                     />}
 
                 <div
-                    ref={this.storeDetailViewRef}
                     className={
                         currentNote ? 'wpnc__single-view wpnc__current' : 'wpnc__single-view'
                     }
@@ -515,17 +508,19 @@ const Layout = React.createClass({
                                     <NavButton
                                         className="wpnc__prev"
                                         isEnabled={
-                                            filteredNotes[0] &&
-                                                filteredNotes[0].id != this.props.selectedNoteId
+                                            (filteredNotes[0] &&
+                                                filteredNotes[0].id != this.props.selectedNoteId) ||
+                                                false
                                         }
                                         navigate={this.navigateToPrevNote}
                                     />
                                     <NavButton
                                         className="wpnc__next"
                                         isEnabled={
-                                            filteredNotes[0] &&
+                                            (filteredNotes[0] &&
                                                 filteredNotes[filteredNotes.length - 1].id !=
-                                                    this.props.selectedNoteId
+                                                    this.props.selectedNoteId) ||
+                                                false
                                         }
                                         navigate={this.navigateToNextNote}
                                     />
@@ -534,7 +529,7 @@ const Layout = React.createClass({
                         </header>}
 
                     {currentNote &&
-                        <ol>
+                        <ol ref={this.storeDetailViewRef}>
                             <Note
                                 key={'note-' + currentNote.id}
                                 client={this.props.client}

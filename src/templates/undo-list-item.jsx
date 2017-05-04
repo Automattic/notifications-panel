@@ -48,7 +48,9 @@ export const UndoListItem = React.createClass({
         }
 
         if (
-            null !== this.state.undoTimer && !this.props.selectedNoteId && KEY_U === event.keyCode
+            null !== this.state.undoTimer &&
+            !this.props.selectedNoteId &&
+            KEY_U === event.keyCode
         ) {
             this.cancelAction(event);
         }

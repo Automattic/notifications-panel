@@ -1,12 +1,15 @@
 .wpnc__note-actions {
 	.wpnc__reply-box {
-		font-family: $serif;
+		font-family: $sans;
 		display: block;
 		position: relative;
 		padding: $padding-medium;
 		background-color: $gray-light;
 
 		textarea {
+            @extend %wpnc-form-field;
+            @extend %wpnc-textarea;
+            box-sizing: border-box;
 			padding-right: 52px;
 			min-height: 37px;
 			width: 100%;

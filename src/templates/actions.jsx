@@ -42,7 +42,7 @@ const ActionsPane = React.createClass({
             : this.props.translate('Reply to comment...');
     },
 
-    getType: note => null === getReferenceId(note, 'comment') ? 'post' : 'comment',
+    getType: note => (null === getReferenceId(note, 'comment') ? 'post' : 'comment'),
 
     render() {
         const { global, note } = this.props,

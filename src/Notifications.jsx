@@ -4,6 +4,7 @@ import { noop } from 'lodash';
 
 import { store } from './state';
 import { init as initPublicAPI } from './state/action-middleware/public-api';
+import { SET_IS_SHOWING } from './state/action-types';
 import actions from './state/actions';
 
 import RestClient from './rest-client';
@@ -27,8 +28,16 @@ repliesCache.cleanup();
  */
 export const refreshNotes = () => client && client.refreshNotes.call(client);
 
+/**
+ * Refresh to default note list view
+ */
+export const reset = () => {
+    store.dispatch(actions.ui.unselectNote());
+};
+
 export class Notifications extends PureComponent {
     static propTypes = {
+        appResetter: PropTypes.func,
         appUpdater: PropTypes.func,
         isShowing: PropTypes.bool,
         isVisible: PropTypes.bool,
@@ -42,6 +51,7 @@ export class Notifications extends PureComponent {
     };
 
     static defaultProps = {
+        appResetter: noop,
         appUpdater: noop,
         isVisible: false,
         locale: 'en',
@@ -54,30 +64,35 @@ export class Notifications extends PureComponent {
 
     componentWillMount() {
         const {
+            appResetter,
             appUpdater,
             isShowing,
             isVisible,
+            onLayoutChange,
             onRender,
             onTogglePanel,
             receiveMessage,
             wpcom,
         } = this.props;
 
+        appResetter(reset);
         appUpdater(() => this.forceUpdate());
 
         initAPI(wpcom);
-        initPublicAPI({ onTogglePanel });
+        initPublicAPI({ onLayoutChange, onTogglePanel });
 
         client = new RestClient({ onRender });
         client.global = globalData;
         client.sendMessage = receiveMessage;
 
         /**
+         * Initialize store with actions that need to occur on
+         * transitions from open to close or close to open
+         *
          * @TODO: Pass this information directly into the Redux initial state
          */
-        if (isShowing) {
-            store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
-        }
+        store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
+        store.dispatch({ type: SET_IS_SHOWING, isShowing });
 
         client.setVisibility({ isShowing, isVisible });
     }
@@ -97,6 +112,9 @@ export class Notifications extends PureComponent {
             store.dispatch(actions.ui.openPanel());
         }
 
+        if (this.props.isShowing !== isShowing) {
+            store.dispatch({ type: SET_IS_SHOWING, isShowing });
+        }
         client.setVisibility({ isShowing, isVisible });
     }
 

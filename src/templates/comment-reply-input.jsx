@@ -210,12 +210,9 @@ const CommentReplyInput = React.createClass({
                         retryCount: component.state.retryCount + 1,
                     });
 
-                    window.setTimeout(
-                        function() {
-                            component.handleSubmit();
-                        },
-                        2000 * component.state.retryCount
-                    );
+                    window.setTimeout(function() {
+                        component.handleSubmit();
+                    }, 2000 * component.state.retryCount);
                 } else {
                     component.setState({
                         isSubmitting: false,

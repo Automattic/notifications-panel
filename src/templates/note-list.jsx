@@ -77,11 +77,10 @@ export const NoteList = React.createClass({
 
     componentDidUpdate: function(prevProps) {
         if (this.noteList && !this.props.isLoading) {
-            var element = ReactDOM.findDOMNode(this.scrollableContainer);
-            var notes = this.noteList;
+            const element = ReactDOM.findDOMNode(this.scrollableContainer);
             if (
                 element.clientHeight > 0 &&
-                element.scrollTop + element.clientHeight >= notes.clientHeight - 100
+                element.scrollTop + element.clientHeight >= this.noteList.clientHeight - 300
             ) {
                 this.props.client.loadMore();
             }
@@ -99,7 +98,7 @@ export const NoteList = React.createClass({
 
         this.isScrolling = true;
 
-        requestAnimationFrame(() => this.isScrolling = false);
+        requestAnimationFrame(() => (this.isScrolling = false));
 
         const element = ReactDOM.findDOMNode(this.scrollableContainer);
         if (!this.state.scrolling || this.state.scrollY !== element.scrollTop) {
@@ -249,10 +248,11 @@ export const NoteList = React.createClass({
         var noteIsBetween = function(note, from, to) {
             var noteTime = new Date(note.timestamp);
 
-            from = from ||
+            from =
+                from ||
                 new Date(noteTime.getFullYear(), noteTime.getMonth(), noteTime.getDate() - 1);
-            to = to ||
-                new Date(noteTime.getFullYear(), noteTime.getMonth(), noteTime.getDate() + 1);
+            to =
+                to || new Date(noteTime.getFullYear(), noteTime.getMonth(), noteTime.getDate() + 1);
 
             if (from < noteTime && noteTime <= to) return true;
             else return false;
@@ -304,27 +304,26 @@ export const NoteList = React.createClass({
         var nextOffset;
 
         /* Build a single list of notes, undo bars, and time group headers */
-        var notes = noteGroups.reduce(
-            function(notes, group, i) {
-                if (0 < group.length) {
-                    header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} />;
-                    notes.push(header);
-                    notes.push.apply(notes, group);
-                }
+        var notes = noteGroups.reduce(function(notes, group, i) {
+            if (0 < group.length) {
+                header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} />;
+                notes.push(header);
+                notes.push.apply(notes, group);
+            }
 
-                return notes;
-            },
-            []
-        );
+            return notes;
+        }, []);
+
+        const emptyNoteList = 0 === notes.length;
 
         var filter = this.props.filterController.selected;
         var loadingIndicatorVisibility = { opacity: 0 };
         if (this.props.isLoading) {
             loadingIndicatorVisibility.opacity = 1;
-            if (notes.length == 0) {
+            if (emptyNoteList) {
                 loadingIndicatorVisibility.height = this.props.height - TITLE_OFFSET + 'px';
             }
-        } else if (!this.props.initialLoad && notes.length == 0 && filter.emptyMessage) {
+        } else if (!this.props.initialLoad && emptyNoteList && filter.emptyMessage) {
             notes = (
                 <EmptyMessage
                     emptyMessage={filter.emptyMessage}
@@ -335,7 +334,9 @@ export const NoteList = React.createClass({
                 />
             );
         } else if (
-            !this.props.selectedNoteId && notes.length > 0 && notes.length * 90 > this.props.height
+            !this.props.selectedNoteId &&
+            notes.length > 0 &&
+            notes.length * 90 > this.props.height
         ) {
             // only show if notes exceed window height, estimating note height because
             // we are executing this pre-render
@@ -349,20 +350,19 @@ export const NoteList = React.createClass({
         }
 
         const classes = classNames('wpnc__note-list', {
-            'disable-sticky': !!window.chrome && !!window.chrome.webstore, // position: sticky doesn't work in Chrome
+            'disable-sticky': !!window.chrome, // position: sticky doesn't work in Chrome
+            'is-note-open': !!this.props.selectedNoteId,
+        });
+
+        const listViewClasses = classNames('wpnc__list-view', {
+            wpnc__current: !!this.props.selectedNoteId,
+            'is-empty-list': emptyNoteList,
         });
 
         return (
             <div className={classes}>
                 <FilterBar controller={this.props.filterController} />
-                <div
-                    ref={this.storeScrollableContainer}
-                    className={
-                        this.props.selectedNoteId
-                            ? 'wpnc__list-view wpnc__current'
-                            : 'wpnc__list-view'
-                    }
-                >
+                <div ref={this.storeScrollableContainer} className={listViewClasses}>
                     <ol ref={this.storeNoteList} className="wpnc__notes">
                         <StatusBar
                             statusClasses={this.state.statusClasses}

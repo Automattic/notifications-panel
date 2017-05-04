@@ -16,27 +16,35 @@ let isVisible = document.visibilityState === 'visible';
 const onReady = () => sendMessage({ action: 'iFrameReady' });
 
 const onRender = ({ latestType, unseen }) =>
-    unseen > 0
+    (unseen > 0
         ? sendMessage({
               action: 'render',
               num_new: unseen,
               latest_type: latestType,
           })
-        : sendMessage({ action: 'renderAllSeen' });
+        : sendMessage({ action: 'renderAllSeen' }));
+
+const onLayoutChange = ({ layout }) =>
+    sendMessage({ action: 'widescreen', widescreen: layout === 'widescreen' });
 
 const onTogglePanel = () => sendMessage({ action: 'togglePanel' });
 
 let refresh = () => {};
-const appUpdater = f => refresh = f;
+const appUpdater = f => (refresh = f);
+
+let reset = () => {};
+const appResetter = f => (reset = f);
 
 const render = () => {
     ReactDOM.render(
         React.createElement(AuthWrapper(Notifications), {
+            appResetter,
             appUpdater,
             clientId: 52716,
             isShowing,
             isVisible,
             locale,
+            onLayoutChange,
             onReady,
             onRender,
             onTogglePanel,
@@ -56,6 +64,10 @@ const init = () => {
         'message',
         receiveMessage(({ action, hidden, showing }) => {
             if ('togglePanel' === action) {
+                if (!isShowing && showing) {
+                    reset();
+                }
+
                 isShowing = showing;
                 refresh();
             }

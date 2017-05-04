@@ -89,15 +89,16 @@ export const SuggestionsMixin = {
         const textAreaClientRect = textArea.getBoundingClientRect();
 
         if (this.suggestionsAbove) {
-            suggestionList.style.top = '-' +
+            suggestionList.style.top =
+                '-' +
                 (suggestionList.offsetHeight +
                     textAreaClientRect.height +
                     parseInt(this.suggestionListMarginTop)) +
                 'px';
             suggestionList.style.marginTop = '0';
         } else {
-            this.suggestionsAbove = suggestionList.offsetHeight >
-                window.innerHeight - textAreaClientRect.top &&
+            this.suggestionsAbove =
+                suggestionList.offsetHeight > window.innerHeight - textAreaClientRect.top &&
                 suggestionList.offsetHeight < textAreaClientRect.top;
         }
     },
@@ -249,17 +250,13 @@ export const SuggestionsMixin = {
 
         const offsetTop = getOffsetTop(suggestionElement);
 
-        if (offsetTop - window.pageYOffset <= 0) {
-            window.scrollTo(0, offsetTop);
+        if (offsetTop - window.pageYOffset > 0) {
+            suggestionElement.scrollIntoView();
         }
 
         if (window.pageYOffset + window.innerHeight <= offsetTop) {
-            window.scrollTo(0, offsetTop + suggestionElement.offsetHeight);
+            suggestionElement.scrollIntoView();
         }
-    },
-
-    suggestionsMixin_storeSuggestionList(ref) {
-        this.suggestionsMixin_suggestionList = ref;
     },
 
     suggestionsMixin_storeSuggestionNode(ref) {
@@ -267,7 +264,7 @@ export const SuggestionsMixin = {
             return;
         }
 
-        this.suggestsionsMixin_suggestionNodes = {
+        this.suggestionsMixin_suggestionNodes = {
             ...this.suggestionsMixin_suggestionNodes,
             [ref.props['data-suggestion-id']]: ref,
         };
@@ -293,10 +290,9 @@ export const SuggestionsMixin = {
 
         return (
             <div
-                ref={this.suggestionsMixin_storeSuggestionList}
                 className="wpnc__suggestions"
-                onMouseEnter={() => this.suggestionsCancelBlur = true}
-                onMouseLeave={() => this.suggestionsCancelBlur = false}
+                onMouseEnter={() => (this.suggestionsCancelBlur = true)}
+                onMouseLeave={() => (this.suggestionsCancelBlur = false)}
             >
                 <ul>
                     {suggestions.map(suggestion => (

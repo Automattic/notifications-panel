@@ -12,11 +12,13 @@ import { getActions } from '../helpers/notes';
 
 export const Note = React.createClass({
     shouldComponentUpdate: function(nextProps) {
-        return this.props.note.note_hash !== nextProps.note.note_hash ||
+        return (
+            this.props.note.note_hash !== nextProps.note.note_hash ||
             this.props.listView !== nextProps.listView ||
             this.props.currentNote !== nextProps.currentNote ||
             this.props.selectedNote !== nextProps.selectedNote ||
-            nextProps.note.note_hash === 1;
+            nextProps.note.note_hash === 1
+        );
     },
 
     render: function() {

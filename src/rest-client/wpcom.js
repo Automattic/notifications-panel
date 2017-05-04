@@ -2,7 +2,7 @@ let wpcomInstance;
 
 export const wpcom = () => wpcomInstance;
 
-export const init = provider => wpcomInstance = provider;
+export const init = provider => (wpcomInstance = provider);
 
 export const fetchNote = (noteId, query, callback) =>
     wpcom().req.get(

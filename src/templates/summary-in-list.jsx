@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { flowRight as compose } from 'lodash';
 
 import actions from '../state/actions';
 
@@ -19,19 +20,13 @@ export const SummaryInList = React.createClass({
             window.open(this.props.note.url, '_blank');
         } else {
             if (this.props.currentNote == this.props.note.id) {
-                this.props.global.client.sendMessage({
-                    action: 'widescreen',
-                    widescreen: false,
-                });
+                this.props.setLayout('narrow');
                 this.props.unselectNote();
             } else {
                 recordTracksEvent('calypso_notification_note_open', {
                     note_type: this.props.note.type,
                 });
-                this.props.global.client.sendMessage({
-                    action: 'widescreen',
-                    widescreen: true,
-                });
+                this.props.setLayout('widescreen');
                 this.props.selectNote(this.props.note.id);
             }
         }
@@ -53,9 +48,7 @@ export const SummaryInList = React.createClass({
                     <ImagePreloader
                         src={this.props.note.icon}
                         placeholder={
-                            <img
-                                src="https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=128"
-                            />
+                            <img src="https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=128" />
                         }
                     />
                     <span className="wpnc__noticon">{this.props.note.noticon}</span>
@@ -69,9 +62,10 @@ export const SummaryInList = React.createClass({
     },
 });
 
-const mapDispatchToProps = {
-    selectNote: actions.ui.selectNote,
-    unselectNote: actions.ui.unselectNote,
-};
+const mapDispatchToProps = dispatch => ({
+    selectNote: compose(dispatch, actions.ui.selectNote),
+    setLayout: compose(dispatch, actions.ui.setLayout),
+    unselectNote: compose(dispatch, actions.ui.unselectNote),
+});
 
 export default connect(null, mapDispatchToProps, null, { pure: false })(SummaryInList);
