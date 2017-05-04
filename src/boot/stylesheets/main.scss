@@ -332,6 +332,9 @@ body {
       bottom: 0;
       width: 400px;
       overflow: hidden;
+			&:not(.is-note-open) {
+				box-shadow: -3px 1px 10px -2px rgba($gray-dark, 0.075);
+			}
 
       @media only screen and (max-width: 799px) {
   			width: 100%;
