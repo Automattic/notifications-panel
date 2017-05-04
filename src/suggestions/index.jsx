@@ -259,10 +259,6 @@ export const SuggestionsMixin = {
         }
     },
 
-    suggestionsMixin_storeSuggestionList(ref) {
-        this.suggestionsMixin_suggestionList = ref;
-    },
-
     suggestionsMixin_storeSuggestionNode(ref) {
         if (!ref) {
             return;
@@ -294,7 +290,6 @@ export const SuggestionsMixin = {
 
         return (
             <div
-                ref={this.suggestionsMixin_storeSuggestionList}
                 className="wpnc__suggestions"
                 onMouseEnter={() => (this.suggestionsCancelBlur = true)}
                 onMouseLeave={() => (this.suggestionsCancelBlur = false)}
