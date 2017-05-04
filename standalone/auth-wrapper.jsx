@@ -48,60 +48,52 @@ const getTokenFromUrl = () => {
     };
 };
 
-export const AuthWrapper = Wrapped =>
-    class extends Component {
-        state = {};
+export const AuthWrapper = Wrapped => class extends Component {
+    state = {};
 
-        componentWillMount() {
-            if ('production' !== process.env.NODE_ENV) {
-                return this.setState(
-                    { oAuthToken: getStoredToken() },
-                    this.maybeRedirectToOAuthLogin
-                );
-            }
-
-            const proxiedWpcom = wpcom();
-            proxiedWpcom.request = proxyRequest;
-            proxiedWpcom.request({ metaAPI: { accessAllUsersBlogs: true } }, error => {
-                if (error) {
-                    throw error;
-                }
-                this.setState({ wpcom: proxiedWpcom });
-            });
+    componentWillMount() {
+        if ('production' !== process.env.NODE_ENV) {
+            return this.setState({ oAuthToken: getStoredToken() }, this.maybeRedirectToOAuthLogin);
         }
 
-        maybeRedirectToOAuthLogin = () => {
-            if (this.state.oAuthToken) {
-                return this.setState({ wpcom: wpcom(this.state.oAuthToken) });
+        const proxiedWpcom = wpcom();
+        proxiedWpcom.request = proxyRequest;
+        proxiedWpcom.request({ metaAPI: { accessAllUsersBlogs: true } }, error => {
+            if (error) {
+                throw error;
             }
+            this.setState({ wpcom: proxiedWpcom });
+        });
+    }
 
-            const baseUrl = 'https://public-api.wordpress.com/oauth2/authorize';
-            const redirectUri = `${window.location.origin}${this.props.redirectPath}`;
-            const uri = `${baseUrl}?client_id=${this.props.clientId}&redirect_uri=${redirectUri}&response_type=token&scope=global`;
-
-            const auth = getTokenFromUrl();
-            if (auth) {
-                const { token, expiration } = auth;
-                storeToken(token, expiration);
-                return window.location.replace(redirectUri);
-            }
-
-            window.location.replace(uri);
-        };
-
-        render() {
-            const {
-                clientId,
-                redirectPath,
-                ...childProps
-            } = this.props;
-
-            if (this.state.wpcom) {
-                return <Wrapped {...childProps} {...{ wpcom: this.state.wpcom }} />;
-            }
-
-            return null;
+    maybeRedirectToOAuthLogin = () => {
+        if (this.state.oAuthToken) {
+            return this.setState({ wpcom: wpcom(this.state.oAuthToken) });
         }
+
+        const baseUrl = 'https://public-api.wordpress.com/oauth2/authorize';
+        const redirectUri = `${window.location.origin}${this.props.redirectPath}`;
+        const uri = `${baseUrl}?client_id=${this.props.clientId}&redirect_uri=${redirectUri}&response_type=token&scope=global`;
+
+        const auth = getTokenFromUrl();
+        if (auth) {
+            const { token, expiration } = auth;
+            storeToken(token, expiration);
+            return window.location.replace(redirectUri);
+        }
+
+        window.location.replace(uri);
     };
+
+    render() {
+        const { clientId, redirectPath, ...childProps } = this.props;
+
+        if (this.state.wpcom) {
+            return <Wrapped {...childProps} {...{ wpcom: this.state.wpcom }} />;
+        }
+
+        return null;
+    }
+};
 
 export default AuthWrapper;

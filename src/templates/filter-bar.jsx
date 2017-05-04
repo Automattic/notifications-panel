@@ -34,25 +34,22 @@ export const FilterBar = React.createClass({
             return a.index - b.index;
         });
 
-        filterItems = filterItems.map(
-            function(filter) {
-                const classes = classnames('wpnc__filter__segmented-control-item', {
-                    selected: filter.name === this.props.controller.selected.name,
-                });
+        filterItems = filterItems.map(function(filter) {
+            const classes = classnames('wpnc__filter__segmented-control-item', {
+                selected: filter.name === this.props.controller.selected.name,
+            });
 
-                return (
-                    <li
-                        key={filter.name}
-                        data-filter-name={filter.name}
-                        className={classes}
-                        onClick={this.selectFilter}
-                    >
-                        {filter.label}
-                    </li>
-                );
-            },
-            this
-        );
+            return (
+                <li
+                    key={filter.name}
+                    data-filter-name={filter.name}
+                    className={classes}
+                    onClick={this.selectFilter}
+                >
+                    {filter.label}
+                </li>
+            );
+        }, this);
 
         return (
             <div className="wpnc__filter">

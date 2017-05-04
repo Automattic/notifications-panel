@@ -89,15 +89,16 @@ export const SuggestionsMixin = {
         const textAreaClientRect = textArea.getBoundingClientRect();
 
         if (this.suggestionsAbove) {
-            suggestionList.style.top = '-' +
+            suggestionList.style.top =
+                '-' +
                 (suggestionList.offsetHeight +
                     textAreaClientRect.height +
                     parseInt(this.suggestionListMarginTop)) +
                 'px';
             suggestionList.style.marginTop = '0';
         } else {
-            this.suggestionsAbove = suggestionList.offsetHeight >
-                window.innerHeight - textAreaClientRect.top &&
+            this.suggestionsAbove =
+                suggestionList.offsetHeight > window.innerHeight - textAreaClientRect.top &&
                 suggestionList.offsetHeight < textAreaClientRect.top;
         }
     },
@@ -295,8 +296,8 @@ export const SuggestionsMixin = {
             <div
                 ref={this.suggestionsMixin_storeSuggestionList}
                 className="wpnc__suggestions"
-                onMouseEnter={() => this.suggestionsCancelBlur = true}
-                onMouseLeave={() => this.suggestionsCancelBlur = false}
+                onMouseEnter={() => (this.suggestionsCancelBlur = true)}
+                onMouseLeave={() => (this.suggestionsCancelBlur = false)}
             >
                 <ul>
                     {suggestions.map(suggestion => (

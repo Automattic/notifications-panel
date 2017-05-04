@@ -29,43 +29,42 @@ const debug = debugFactory('notifications:messaging');
  * @param {Function} receiver called with valid incoming messages
  * @returns {MessageEventReceiver}
  */
-export const receiveMessage = receiver =>
-    event => {
-        if (!window || !event || event.source !== window.parent) {
-            return debug(
-                'Unexpected or empty message received\n' + 'Messages must come from parent window.'
-            );
-        }
+export const receiveMessage = receiver => event => {
+    if (!window || !event || event.source !== window.parent) {
+        return debug(
+            'Unexpected or empty message received\n' + 'Messages must come from parent window.'
+        );
+    }
 
-        if (!event.data) {
-            return debug(
-                `No data received in message from ${event.origin}\n` +
-                    'Maybe it was was accidentally forgotten'
-            );
-        }
+    if (!event.data) {
+        return debug(
+            `No data received in message from ${event.origin}\n` +
+                'Maybe it was was accidentally forgotten'
+        );
+    }
 
-        // any string data must be interpreted as JSON
-        const data = 'string' === typeof event.data ? parseJson(event.data) : event.data;
+    // any string data must be interpreted as JSON
+    const data = 'string' === typeof event.data ? parseJson(event.data) : event.data;
 
-        if (null === data && 'string' === typeof event.data) {
-            return debug(
-                `Could not parse incoming string message data from ${event.origin} as JSON\n` +
-                    'Incoming data must have key/value structure whether sent directly or serialized as JSON\n' +
-                    `Example data: "{ type: 'notesIframeMessage', action: 'clearNotesIndicator' }"\n` +
-                    `Actual received data: ${event.data}`
-            );
-        }
+    if (null === data && 'string' === typeof event.data) {
+        return debug(
+            `Could not parse incoming string message data from ${event.origin} as JSON\n` +
+                'Incoming data must have key/value structure whether sent directly or serialized as JSON\n' +
+                `Example data: "{ type: 'notesIframeMessage', action: 'clearNotesIndicator' }"\n` +
+                `Actual received data: ${event.data}`
+        );
+    }
 
-        if (!data || data.type !== 'notesIframeMessage') {
-            return debug(
-                `Invalid incoming message from ${event.origin}\n` +
-                    'All messages to this notifications client should indicate this is the right destination\n' +
-                    `Example data: "{ type: 'notesIframeMessage', action: 'clearNotesIndicator' }"`
-            );
-        }
+    if (!data || data.type !== 'notesIframeMessage') {
+        return debug(
+            `Invalid incoming message from ${event.origin}\n` +
+                'All messages to this notifications client should indicate this is the right destination\n' +
+                `Example data: "{ type: 'notesIframeMessage', action: 'clearNotesIndicator' }"`
+        );
+    }
 
-        receiver(data);
-    };
+    receiver(data);
+};
 
 /**
  * Sends outgoing messages to parent frame

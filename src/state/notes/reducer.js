@@ -52,7 +52,7 @@ export const noteLikes = (state = {}, { type, noteId, isLiked }) => {
 };
 
 export const noteReads = (state = {}, { type, noteId }) =>
-    types.SELECT_NOTE && noteId ? { ...state, [noteId]: true } : state;
+    (types.SELECT_NOTE && noteId ? { ...state, [noteId]: true } : state);
 
 export default combineReducers({
     allNotes,

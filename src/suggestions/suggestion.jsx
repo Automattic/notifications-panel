@@ -44,17 +44,17 @@ export const Suggestion = React.createClass({
                 <span className="wpnc__username">
                     {username.map(
                         ({ type, text }, index) =>
-                            'strong' === type
+                            ('strong' === type
                                 ? <strong key={index}>{text}</strong>
-                                : <span key={index}>{text}</span>
+                                : <span key={index}>{text}</span>)
                     )}
                 </span>
                 <small>
                     {fullName.map(
                         ({ type, text }, index) =>
-                            'strong' === type
+                            ('strong' === type
                                 ? <strong key={index}>{text}</strong>
-                                : <span key={index}>{text}</span>
+                                : <span key={index}>{text}</span>)
                     )}
                 </small>
             </li>

@@ -8,10 +8,8 @@ export const bumpStat = (group, name) => {
     if (typeof group === 'object') {
         for (let key in group) {
             if (typeof group[key] === 'string') {
-                uriComponent += '&x_' +
-                    encodeURIComponent(key) +
-                    '=' +
-                    encodeURIComponent(group[key]);
+                uriComponent +=
+                    '&x_' + encodeURIComponent(key) + '=' + encodeURIComponent(group[key]);
             }
         }
     } else if (typeof group === 'string' && typeof name === 'string') {
@@ -19,7 +17,8 @@ export const bumpStat = (group, name) => {
     }
 
     if (uriComponent.length) {
-        new Image().src = document.location.protocol +
+        new Image().src =
+            document.location.protocol +
             '//pixel.wp.com/g.gif?v=wpcom-no-pv' +
             uriComponent +
             '&baba=' +

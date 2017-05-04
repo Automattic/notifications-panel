@@ -275,7 +275,8 @@ function getNotesList() {
 
         this.hasNewNoteData = difference(newerNoteList, localNoteList).length;
 
-        const serverHasChanges = this.hasNewNoteData ||
+        const serverHasChanges =
+            this.hasNewNoteData ||
             difference(
                 data.notes.map(property('note_hash')),
                 this.noteList.map(property('note_hash'))

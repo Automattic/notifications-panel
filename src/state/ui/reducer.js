@@ -21,7 +21,7 @@ export const isLoading = (state = true, { type }) => {
 };
 
 export const isPanelOpen = (state = false, { type, isShowing }) =>
-    SET_IS_SHOWING === type ? isShowing : state;
+    (SET_IS_SHOWING === type ? isShowing : state);
 
 export const selectedNoteId = (state = null, { type, noteId }) => {
     if (SELECT_NOTE === type) {

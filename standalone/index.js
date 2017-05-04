@@ -16,13 +16,13 @@ let isVisible = document.visibilityState === 'visible';
 const onReady = () => sendMessage({ action: 'iFrameReady' });
 
 const onRender = ({ latestType, unseen }) =>
-    unseen > 0
+    (unseen > 0
         ? sendMessage({
               action: 'render',
               num_new: unseen,
               latest_type: latestType,
           })
-        : sendMessage({ action: 'renderAllSeen' });
+        : sendMessage({ action: 'renderAllSeen' }));
 
 const onLayoutChange = ({ layout }) =>
     sendMessage({ action: 'widescreen', widescreen: layout === 'widescreen' });
@@ -30,7 +30,7 @@ const onLayoutChange = ({ layout }) =>
 const onTogglePanel = () => sendMessage({ action: 'togglePanel' });
 
 let refresh = () => {};
-const appUpdater = f => refresh = f;
+const appUpdater = f => (refresh = f);
 
 const render = () => {
     ReactDOM.render(
