@@ -32,9 +32,13 @@ const onTogglePanel = () => sendMessage({ action: 'togglePanel' });
 let refresh = () => {};
 const appUpdater = f => (refresh = f);
 
+let reset = () => {};
+const appResetter = f => (reset = f);
+
 const render = () => {
     ReactDOM.render(
         React.createElement(AuthWrapper(Notifications), {
+            appResetter,
             appUpdater,
             clientId: 52716,
             isShowing,
@@ -60,6 +64,10 @@ const init = () => {
         'message',
         receiveMessage(({ action, hidden, showing }) => {
             if ('togglePanel' === action) {
+                if (!isShowing && showing) {
+                    reset();
+                }
+
                 isShowing = showing;
                 refresh();
             }
