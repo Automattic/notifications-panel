@@ -514,6 +514,11 @@ body {
     	height: 100%;
     	left: 0px;
     	right: 0px;
+        box-shadow: -3px 1px 10px -2px rgba($gray-dark, 0.075);
+
+        @media only screen and (min-width: 480px) {
+            border-left: 1px solid lighten( $gray, 30 );
+        }
 
     	background-color: $gray-light;
     	ol {
@@ -813,8 +818,6 @@ body {
     		bottom: 0px;
     		z-index: -1;
 
-    		border-left: 1px solid lighten( $gray, 30 );
-
     		header {
     			nav {
     				display: none;
@@ -825,7 +828,6 @@ body {
     			margin-top: 0px;
     		}
 
-    		box-shadow: -3px 1px 10px -2px rgba($gray-dark, 0.075);
     		-webkit-transform: translate3d(0, 0, 0); // fix for getting scrollbar in right z-index
     	}
 
