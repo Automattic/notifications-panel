@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { get } from 'lodash';
 
-import Gridicon from 'templates/gridicons';
-import noticon2gridicon from 'utils/noticon2gridicon';
+import Gridicon from '../templates/gridicons';
+import noticon2gridicon from '../utils/noticon2gridicon';
 
 /**
  * Create the actual DOM nodes for a given piece of text/ranges and

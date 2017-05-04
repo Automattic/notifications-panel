@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { flowRight as compose } from 'lodash';
 
-import Gridicon from 'templates/gridicons';
-import noticon2gridicon from 'utils/noticon2gridicon';
+import Gridicon from './gridicons';
+import noticon2gridicon from '../utils/noticon2gridicon';
 
 import actions from '../state/actions';
 
