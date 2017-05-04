@@ -12,6 +12,6 @@ const noticon2gridicon = c => get( {
     '\uf804': 'trophy',
     '\uf467': 'reply',
     '\uf414': 'warning'
-}, c, 'star' );
+}, c, 'info' );
 
 export default noticon2gridicon;
