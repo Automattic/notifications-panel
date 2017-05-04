@@ -508,17 +508,19 @@ const Layout = React.createClass({
                                     <NavButton
                                         className="wpnc__prev"
                                         isEnabled={
-                                            filteredNotes[0] &&
-                                                filteredNotes[0].id != this.props.selectedNoteId
+                                            (filteredNotes[0] &&
+                                                filteredNotes[0].id != this.props.selectedNoteId) ||
+                                                false
                                         }
                                         navigate={this.navigateToPrevNote}
                                     />
                                     <NavButton
                                         className="wpnc__next"
                                         isEnabled={
-                                            filteredNotes[0] &&
+                                            (filteredNotes[0] &&
                                                 filteredNotes[filteredNotes.length - 1].id !=
-                                                    this.props.selectedNoteId
+                                                    this.props.selectedNoteId) ||
+                                                false
                                         }
                                         navigate={this.navigateToNextNote}
                                     />
