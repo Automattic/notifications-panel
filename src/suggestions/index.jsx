@@ -249,12 +249,12 @@ export const SuggestionsMixin = {
 
         const offsetTop = getOffsetTop(suggestionElement);
 
-        if (offsetTop - window.pageYOffset <= 0) {
-            window.scrollTo(0, offsetTop);
+        if (offsetTop - window.pageYOffset > 0) {
+            suggestionElement.scrollIntoView();
         }
 
         if (window.pageYOffset + window.innerHeight <= offsetTop) {
-            window.scrollTo(0, offsetTop + suggestionElement.offsetHeight);
+            suggestionElement.scrollIntoView();
         }
     },
 
