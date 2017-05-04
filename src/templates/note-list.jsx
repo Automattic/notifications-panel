@@ -99,7 +99,7 @@ export const NoteList = React.createClass({
 
         this.isScrolling = true;
 
-        requestAnimationFrame(() => (this.isScrolling = false));
+        requestAnimationFrame(() => this.isScrolling = false);
 
         const element = ReactDOM.findDOMNode(this.scrollableContainer);
         if (!this.state.scrolling || this.state.scrollY !== element.scrollTop) {
@@ -249,11 +249,10 @@ export const NoteList = React.createClass({
         var noteIsBetween = function(note, from, to) {
             var noteTime = new Date(note.timestamp);
 
-            from =
-                from ||
+            from = from ||
                 new Date(noteTime.getFullYear(), noteTime.getMonth(), noteTime.getDate() - 1);
-            to =
-                to || new Date(noteTime.getFullYear(), noteTime.getMonth(), noteTime.getDate() + 1);
+            to = to ||
+                new Date(noteTime.getFullYear(), noteTime.getMonth(), noteTime.getDate() + 1);
 
             if (from < noteTime && noteTime <= to) return true;
             else return false;
@@ -305,15 +304,18 @@ export const NoteList = React.createClass({
         var nextOffset;
 
         /* Build a single list of notes, undo bars, and time group headers */
-        var notes = noteGroups.reduce(function(notes, group, i) {
-            if (0 < group.length) {
-                header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} />;
-                notes.push(header);
-                notes.push.apply(notes, group);
-            }
+        var notes = noteGroups.reduce(
+            function(notes, group, i) {
+                if (0 < group.length) {
+                    header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} />;
+                    notes.push(header);
+                    notes.push.apply(notes, group);
+                }
 
-            return notes;
-        }, []);
+                return notes;
+            },
+            []
+        );
 
         var filter = this.props.filterController.selected;
         var loadingIndicatorVisibility = { opacity: 0 };
@@ -333,9 +335,7 @@ export const NoteList = React.createClass({
                 />
             );
         } else if (
-            !this.props.selectedNoteId &&
-            notes.length > 0 &&
-            notes.length * 90 > this.props.height
+            !this.props.selectedNoteId && notes.length > 0 && notes.length * 90 > this.props.height
         ) {
             // only show if notes exceed window height, estimating note height because
             // we are executing this pre-render
