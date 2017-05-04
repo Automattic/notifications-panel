@@ -51,7 +51,7 @@ export const StatusBar = React.createClass({
     },
 
     render: function() {
-        var visibility = this.state.isVisible ? { display: 'block' } : { display: 'none' };
+        var visibility = this.state.isVisible ? { display: 'flex' } : { display: 'none' };
 
         var classes = ['wpnc__status-bar'];
         if ('undefined' != typeof this.props.statusClasses && this.props.statusClasses.length > 0) {
@@ -60,6 +60,7 @@ export const StatusBar = React.createClass({
 
         return (
             <div className={classes.join(' ')} style={visibility}>
+                <span />
                 <span
                     dangerouslySetInnerHTML={{
                         __html: this.props.statusMessage,
