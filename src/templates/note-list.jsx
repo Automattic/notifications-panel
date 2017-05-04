@@ -350,7 +350,7 @@ export const NoteList = React.createClass({
         }
 
         const classes = classNames('wpnc__note-list', {
-            'disable-sticky': !!window.chrome && !!window.chrome.webstore, // position: sticky doesn't work in Chrome
+            'disable-sticky': !!window.chrome, // position: sticky doesn't work in Chrome
             'is-note-open': !!this.props.selectedNoteId,
         });
 
