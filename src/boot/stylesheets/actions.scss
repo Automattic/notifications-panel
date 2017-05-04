@@ -27,7 +27,7 @@
 
 		a {
 			font-family: $sans;
-			color: lighten( $gray, 10% );
+			color: $gray;
 			display: none;
 			position: absolute;
 			top: 26px;
@@ -85,7 +85,7 @@
 	}
 
 	a.active-action:hover {
-		color: $gray;
+		color: $gray-text-min;
 	}
 }
 
@@ -102,7 +102,11 @@
 	}
 
 	a.inactive-action {
-		color: $gray;
+		color: $gray-text-min;
+
+		.gridicon {
+			fill: $gray;
+		}
 	}
 
 }
