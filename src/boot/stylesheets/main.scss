@@ -29,7 +29,7 @@ body {
     // Links
     a,
     a:visited {
-    	color: $blue-medium;
+    	color: $blue-wordpress;
     	text-decoration: none;
     }
 
@@ -136,10 +136,10 @@ body {
     }
 
     .wpnc__header a.wpnc__post {
-    	color: $gray;
+    	color: $gray-text-min;
 
     	&:hover {
-    		color: darken( $gray, 20% );
+    		color: $blue-wordpress;
     	}
     }
 
@@ -167,7 +167,7 @@ body {
     .wpnc__filter {
       width: 100%;
     	background-color: $white;
-    	color: $gray;
+    	color: $gray-text-min;
     	border-bottom: 1px solid lighten( $gray, 30 );
     	text-align: center; // Center filter in IE 9
     	height: $filter-height;
@@ -289,7 +289,7 @@ body {
 
     .wpnc__done-message {
     	background: $gray-light;
-    	color: darken( $gray, 10%);
+    	color: $gray-text-min;
     	text-align: center;
     	line-height: 50px;
     	font-style: italic;
@@ -424,14 +424,14 @@ body {
     			max-height: 3em;
     			-webkit-line-clamp: 2;
     			@extend %ellipsy-box;
-    			color: $gray;
+    			color: $gray-text-min;
     		}
     	}
 
     	.wpnc__time-group-title {
 				display: flex;
 				@extend %headertext;
-    		color: $gray;
+    		color: darken( $gray, 10 );
     		padding: 6px 0px;
     		background: rgba(255, 255, 255, 0.95);
     		border-bottom: 1px solid lighten( $gray, 30 );
@@ -580,7 +580,7 @@ body {
     	}
 
     	.wpnc__reply {
-    		color: $gray;
+    		color: $gray-text-min;
     		padding: $padding-medium 0;
     		border-bottom: 1px solid lighten( $gray, 30 );
 
@@ -591,7 +591,7 @@ body {
 
     		a {
     			font-weight: 600;
-    			color: $gray;
+    			color: $gray-text-min;
     			text-decoration: underline;
     		}
     	}
