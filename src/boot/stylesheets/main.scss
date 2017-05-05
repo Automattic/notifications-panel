@@ -3,7 +3,7 @@ body {
 }
 
 .wpnc__main {
-		background-color: transparent;
+		background-color: $white;
 
 		font: {
 			family: $sans;
@@ -18,7 +18,7 @@ body {
 			background-color: $gray-light;
 		}
 		@media only screen and (min-width: 409px) and (max-width: 430px) {
-			background-color: transparent;
+			background-color: $white;
 		}
 
     // Text elements
