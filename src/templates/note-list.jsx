@@ -376,7 +376,7 @@ export const NoteList = React.createClass({
                                 style={loadingIndicatorVisibility}
                                 className="wpnc__loading-indicator"
                             >
-                                <div className="spinner animated">
+                                <div className="wpnc__spinner animated">
                                     <span className="side left" />
                                     <span className="side right" />
                                 </div>
