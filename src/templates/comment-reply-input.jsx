@@ -284,7 +284,7 @@ const CommentReplyInput = React.createClass({
 
         if (this.state.isSubmitting) {
             submitLink = (
-                <div className="spinner animated">
+                <div className="wpnc__spinner animated">
                     <span className="side left" />
                     <span className="side right" />
                 </div>

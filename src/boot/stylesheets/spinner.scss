@@ -1,5 +1,5 @@
 //CSS Spinner http://codepen.io/MichaelArestad/pen/4f837dd51dc09256115afc9218edda2c
-@keyframes ui-spinner-rotate-right {
+@keyframes ui-wpnc__spinner-rotate-right {
   0% {
     transform: rotate(0deg);
   }
@@ -17,7 +17,7 @@
   }
 }
 
-@keyframes ui-spinner-rotate-left {
+@keyframes ui-wpnc__spinner-rotate-left {
   0% {
     transform: rotate(0deg);
   }
@@ -37,7 +37,7 @@
 
 $size: 20px;
 $transition-speed: .4s;
-.spinner {
+.wpnc__spinner {
 
   position: relative;
     top: 50%;
@@ -126,14 +126,14 @@ $transition-speed: .4s;
     animation-duration: 3s;
   }
   .left:before {
-    animation-name: ui-spinner-rotate-left;
+    animation-name: ui-wpnc__spinner-rotate-left;
   }
   .right:before {
-    animation-name: ui-spinner-rotate-right;
+    animation-name: ui-wpnc__spinner-rotate-right;
   }
 }
 
-.wpnc__loading-indicator .spinner {
+.wpnc__loading-indicator .wpnc__spinner {
   &:before,
   &:after {
     background: $gray-light;
