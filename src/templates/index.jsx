@@ -343,6 +343,10 @@ const Layout = React.createClass({
     },
 
     handleKeyDown: function(event) {
+        if (!this.props.isShowing) {
+            return;
+        }
+
         const stopEvent = function() {
             event.stopPropagation();
             event.preventDefault();
