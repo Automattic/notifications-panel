@@ -299,9 +299,15 @@ function getNotesList() {
     });
 }
 
-/** @type {Number} unix time in seconds */
-let lastNewestSeenTime;
+let hasSeenNotes = false;
 
+/**
+ * Reports new notification data if available
+ *
+ * New notification data is available _if_ we
+ * have a note with a timestamp newer than we
+ * did the last time we called this function.
+ */
 function ready() {
     const notes = getAllNotes(store.getState());
 
@@ -309,18 +315,17 @@ function ready() {
         .map(property('timestamp'))
         .map(timestamp => Date.parse(timestamp) / 1000);
 
-    const newNoteCount = timestamps.filter(time => time > (lastNewestSeenTime || Infinity)).length;
+    const newNoteCount = timestamps.filter(time => time > this.lastSeenTime).length;
 
-    lastNewestSeenTime = max(timestamps);
-
-    debug('ready: %d new notes, lastSeenTime: %s', newNoteCount, this.lastSeenTime);
-
-    this.onRender({
-        unseen: newNoteCount,
-        latestType: get(notes.slice(-1)[0], 'type', null),
-    });
+    if (newNoteCount && hasSeenNotes) {
+        this.onRender({
+            unseen: newNoteCount,
+            latestType: get(notes.slice(-1)[0], 'type', null),
+        });
+    }
 
     this.hasNewNoteData = false;
+    hasSeenNotes = true;
 }
 
 /** @type {RegExp} matches keys which may no longer need to exist */
