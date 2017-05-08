@@ -38,6 +38,7 @@ export function Client({ onRender }) {
     this.subscribeTries = 3;
     this.subscribing = false;
     this.subscribed = false;
+    this.firstRender = true;
     this.inbox = [];
 
     window.addEventListener('storage', handleStorageEvent.bind(this));
@@ -299,8 +300,6 @@ function getNotesList() {
     });
 }
 
-let hasSeenNotes = false;
-
 /**
  * Reports new notification data if available
  *
@@ -315,17 +314,19 @@ function ready() {
         .map(property('timestamp'))
         .map(timestamp => Date.parse(timestamp) / 1000);
 
-    const newNoteCount = timestamps.filter(time => time > this.lastSeenTime).length;
+    let newNoteCount = timestamps.filter(time => time > this.lastSeenTime).length;
 
-    if (newNoteCount && hasSeenNotes) {
-        this.onRender({
-            unseen: newNoteCount,
-            latestType: get(notes.slice(-1)[0], 'type', null),
-        });
+    if( ! this.firstRender && this.lastSeenTime === 0 ) {
+        newNoteCount = 0;
     }
 
+    this.onRender({
+        unseen: newNoteCount,
+        latestType: get(notes.slice(-1)[0], 'type', null),
+    });
+
     this.hasNewNoteData = false;
-    hasSeenNotes = true;
+    this.firstRender = false;
 }
 
 /** @type {RegExp} matches keys which may no longer need to exist */
@@ -483,7 +484,7 @@ function setVisibility({ isShowing, isVisible }) {
     this.isVisible = isVisible;
 
     if (isVisible && isShowing) {
-        this.updateLastSeenTime(0);
+        this.updateLastSeenTime( 0 );
         this.main();
     }
 }
