@@ -316,7 +316,7 @@ function ready() {
 
     let newNoteCount = timestamps.filter(time => time > this.lastSeenTime).length;
 
-    if( ! this.firstRender && this.lastSeenTime === 0 ) {
+    if (!this.firstRender && this.lastSeenTime === 0) {
         newNoteCount = 0;
     }
 
@@ -484,7 +484,7 @@ function setVisibility({ isShowing, isVisible }) {
     this.isVisible = isVisible;
 
     if (isVisible && isShowing) {
-        this.updateLastSeenTime( 0 );
+        this.updateLastSeenTime(0);
         this.main();
     }
 }
