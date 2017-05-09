@@ -154,6 +154,11 @@ function pinghubCallback(err, event) {
 }
 
 function getNote(note_id) {
+    // initialize the list if it's empty
+    if (this.noteList.length === 0) {
+        this.getNotes();
+    }
+
     const parameters = {
         fields: 'id,type,unread,body,subject,timestamp,meta,note_hash',
     };
