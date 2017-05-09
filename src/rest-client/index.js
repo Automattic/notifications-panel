@@ -299,8 +299,6 @@ function getNotesList() {
     });
 }
 
-let hasSeenNotes = false;
-
 /**
  * Reports new notification data if available
  *
@@ -317,7 +315,7 @@ function ready() {
 
     const newNoteCount = timestamps.filter(time => time > this.lastSeenTime).length;
 
-    if (newNoteCount && hasSeenNotes) {
+    if (newNoteCount) {
         this.onRender({
             unseen: newNoteCount,
             latestType: get(notes.slice(-1)[0], 'type', null),
@@ -325,7 +323,6 @@ function ready() {
     }
 
     this.hasNewNoteData = false;
-    hasSeenNotes = true;
 }
 
 /** @type {RegExp} matches keys which may no longer need to exist */
