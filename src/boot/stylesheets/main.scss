@@ -181,12 +181,12 @@ body {
     		right: 0px;
     	}
 
-		@media only screen and (min-width: 800px) {
+		@media only screen and (min-width: 661px) {
 			border-left: 1px solid $white;
 		}
     }
 
-	@media only screen and (min-width: 800px) {
+	@media only screen and (min-width: 661px) {
 	    .wpnc__note-list:not(.is-note-open) .wpnc__filter {
 	    	border-left: 1px solid lighten( $gray, 30 );
 	    }
