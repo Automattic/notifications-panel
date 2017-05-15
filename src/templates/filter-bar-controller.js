@@ -33,6 +33,15 @@ FilterBarController.prototype.getFilteredNotes = function(notes) {
     }
 
     const filterFunction = (this.selected && this.selected.filter) || (a => a);
+
+    // Prevent notes in the unread filter from disappearing when marked as read.
+    if (this.selected && this.selected.name === 'unread') {
+        this.transientUnreadNotes = this.transientUnreadNotes || notes.filter(filterFunction);
+        return this.transientUnreadNotes;
+    } else {
+        this.transientUnreadNotes = null;
+    }
+
     return notes.filter(filterFunction);
 };
 
