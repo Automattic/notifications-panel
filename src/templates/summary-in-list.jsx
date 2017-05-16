@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { flowRight as compose } from 'lodash';
 
+import getFilterName from '../state/selectors/get-filter-name';
 import Gridicon from './gridicons';
 import noticon2gridicon from '../utils/noticon2gridicon';
 
@@ -30,7 +31,7 @@ export const SummaryInList = React.createClass({
                     note_type: this.props.note.type,
                 });
                 this.props.setLayout('widescreen');
-                this.props.selectNote(this.props.note.id);
+                this.props.selectNote(this.props.note.id, this.props.filterName);
             }
         }
     },
@@ -68,10 +69,14 @@ export const SummaryInList = React.createClass({
     },
 });
 
+const mapStateToProps = state => ({
+    filterName: getFilterName(state),
+});
+
 const mapDispatchToProps = dispatch => ({
     selectNote: compose(dispatch, actions.ui.selectNote),
     setLayout: compose(dispatch, actions.ui.setLayout),
     unselectNote: compose(dispatch, actions.ui.unselectNote),
 });
 
-export default connect(null, mapDispatchToProps, null, { pure: false })(SummaryInList);
+export default connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(SummaryInList);

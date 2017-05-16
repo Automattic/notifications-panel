@@ -6,6 +6,7 @@ import {
     SELECT_NOTE,
     SET_LAYOUT,
     UNDO_ACTION,
+    SET_FILTER,
 } from '../action-types';
 
 export const closePanel = () => ({
@@ -24,9 +25,10 @@ export const openPanel = () => ({
     type: OPEN_PANEL,
 });
 
-export const selectNote = noteId => ({
+export const selectNote = (noteId, filterName) => ({
     type: SELECT_NOTE,
     noteId,
+    filterName
 });
 
 export const setLayout = layout => ({
@@ -41,6 +43,11 @@ export const undoAction = noteId => ({
 
 export const unselectNote = () => selectNote(null);
 
+export const setFilter = filterName => ({
+    type: SET_FILTER,
+    filterName,
+});
+
 export default {
     closePanel,
     loadNotes,
@@ -50,4 +57,5 @@ export default {
     setLayout,
     undoAction,
     unselectNote,
+    setFilter,
 };

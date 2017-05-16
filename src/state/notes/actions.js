@@ -30,6 +30,10 @@ export const likeNote = (noteId, isLiked) => ({
     isLiked,
 });
 
+export const resetNoteReads = () => ({
+    type: types.RESET_READS
+});
+
 /**
  * Resets the local cache overrride on note approval status
  *
@@ -70,6 +74,7 @@ export default {
     addNotes,
     approveNote,
     likeNote,
+    resetNoteReads,
     removeNotes,
     resetLocalApproval,
     resetLocalLike,

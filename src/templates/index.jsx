@@ -17,6 +17,7 @@ import Note from './note';
 
 import actions from '../state/actions';
 import getAllNotes from '../state/selectors/get-all-notes';
+import getFilterName from '../state/selectors/get-filter-name';
 import getIsNoteHidden from '../state/selectors/get-is-note-hidden';
 import getIsPanelOpen from '../state/selectors/get-is-panel-open';
 import getSelectedNoteId from '../state/selectors/get-selected-note-id';
@@ -299,7 +300,7 @@ const Layout = React.createClass({
 
         /* If we are in detail view, move to next note */
         if (this.props.selectedNoteId) {
-            return this.props.selectNote(filteredNotes[newIndex].id);
+            return this.props.selectNote(filteredNotes[newIndex].id, this.props.filterName);
         }
 
         this.setState(
@@ -398,7 +399,7 @@ const Layout = React.createClass({
 					 * accidentally wipe out the reply text while writing it
 					 */
                     activateKeyboard();
-                    this.props.selectNote(this.state.selectedNote);
+                    this.props.selectNote(this.state.selectedNote, this.props.filterName);
                 } else if (this.props.selectedNoteId) {
                     this.props.unselectNote();
                 }
@@ -555,6 +556,7 @@ const mapStateToProps = state => ({
     isPanelOpen: getIsPanelOpen(state),
     notes: getAllNotes(state),
     selectedNoteId: getSelectedNoteId(state),
+    filterName: getFilterName(state),
 });
 
 const mapDispatchToProps = {

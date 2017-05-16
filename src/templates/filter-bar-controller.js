@@ -1,5 +1,8 @@
-import Filters from './filters';
+import { connect } from 'react-redux';
 
+import Filters from './filters';
+import { store } from '../state';
+import actions from '../state/actions';
 import { bumpStat } from '../rest-client/bump-stat';
 
 var debug = require('debug')('notifications:filterbarcontroller');
@@ -10,6 +13,7 @@ function FilterBarController(refreshFunction) {
     }
 
     this.selected = Filters.all();
+    store.dispatch(actions.ui.setFilter(Filters.all().name));
     this.refreshFunction = refreshFunction;
 }
 
@@ -19,6 +23,8 @@ FilterBarController.prototype.selectFilter = function(filterName) {
     }
 
     this.selected = Filters[filterName]();
+    store.dispatch(actions.ui.setFilter(filterName));
+    store.dispatch(actions.notes.resetNoteReads());
 
     if (this.refreshFunction) {
         this.refreshFunction();
@@ -33,16 +39,20 @@ FilterBarController.prototype.getFilteredNotes = function(notes) {
     }
 
     const filterFunction = (this.selected && this.selected.filter) || (a => a);
+    let filteredNotes = notes.filter(filterFunction);
 
     // Prevent notes in the unread filter from disappearing when marked as read.
     if (this.selected && this.selected.name === 'unread') {
-        this.transientUnreadNotes = this.transientUnreadNotes || notes.filter(filterFunction);
-        return this.transientUnreadNotes;
-    } else {
-        this.transientUnreadNotes = null;
+        const noteReads = store.getState().notes.noteReads;
+
+        const unreadsFilter = note => (note.id in noteReads && noteReads[note.id] === 'unread');
+        filteredNotes = notes.filter(unreadsFilter)
+            .concat(filteredNotes)
+            .sort((note1, note2) => (new Date(note2.timestamp) - new Date(note1.timestamp))
+        );
     }
 
-    return notes.filter(filterFunction);
+    return filteredNotes;
 };
 
 export default FilterBarController;

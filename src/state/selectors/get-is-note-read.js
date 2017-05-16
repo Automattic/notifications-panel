@@ -4,7 +4,7 @@ export const getIsNoteRead = (notesState, note) => {
     const localReads = notesState.noteReads;
 
     if (localReads.hasOwnProperty(note.id)) {
-        return localReads[note.id];
+        return true;
     }
 
     // this absolutely needs to be redone but is not happening at

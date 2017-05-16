@@ -4,6 +4,7 @@ import { get } from 'lodash';
 
 import getAllNotes from '../../selectors/get-all-notes';
 import getIsNoteHidden from '../../selectors/get-is-note-hidden';
+import getFilterName from '../../selectors/get-filter-name';
 import { onLayoutChange, onTogglePanel } from '../public-api';
 
 import { findNextNoteId } from '../../../templates';
@@ -21,7 +22,7 @@ export const advanceToNextNote = ({ dispatch, getState }, { noteId }) => {
     // then go ahead and open it
     // otherwise go back to the list
     if (nextNoteId && window.innerWidth >= 800) {
-        dispatch(actions.ui.selectNote(nextNoteId));
+        dispatch(actions.ui.selectNote(nextNoteId, getFilterName(state)));
     } else {
         dispatch(actions.ui.unselectNote());
     }
