@@ -106,6 +106,8 @@ export class Notifications extends PureComponent {
 
         if (this.props.isShowing && !isShowing) {
             store.dispatch(actions.ui.closePanel());
+            // unselect the note so keyhandlers don't steal keystrokes
+            reset();
         }
 
         if (!this.props.isShowing && isShowing) {
