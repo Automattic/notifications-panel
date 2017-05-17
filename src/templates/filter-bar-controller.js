@@ -1,5 +1,6 @@
 import Filters from './filters';
-
+import { store } from '../state';
+import actions from '../state/actions';
 import { bumpStat } from '../rest-client/bump-stat';
 
 var debug = require('debug')('notifications:filterbarcontroller');
@@ -23,6 +24,8 @@ FilterBarController.prototype.selectFilter = function(filterName) {
     if (this.refreshFunction) {
         this.refreshFunction();
     }
+
+    store.dispatch(actions.ui.unselectNote());
 
     bumpStat('notes-filter-select', filterName);
 };
