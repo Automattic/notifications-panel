@@ -306,7 +306,7 @@ export const NoteList = React.createClass({
         /* Build a single list of notes, undo bars, and time group headers */
         var notes = noteGroups.reduce(function(notes, group, i) {
             if (0 < group.length) {
-                header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} />;
+                header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} isFirst={i === 0} />;
                 notes.push(header);
                 notes.push.apply(notes, group);
             }

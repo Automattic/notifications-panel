@@ -6,6 +6,7 @@ import {
     SELECT_NOTE,
     SET_LAYOUT,
     UNDO_ACTION,
+    VIEW_SETTINGS,
 } from '../action-types';
 
 export const closePanel = () => ({
@@ -41,6 +42,10 @@ export const undoAction = noteId => ({
 
 export const unselectNote = () => selectNote(null);
 
+export const viewSettings = () => {
+    window.open('https://wordpress.com/me/notifications');
+};
+
 export default {
     closePanel,
     loadNotes,
@@ -50,4 +55,5 @@ export default {
     setLayout,
     undoAction,
     unselectNote,
+    viewSettings
 };
