@@ -42,10 +42,9 @@ export const undoAction = noteId => ({
 
 export const unselectNote = () => selectNote(null);
 
-export const viewSettings = () => {
-    // TODO: VIEW_SETTINGS action type to be used here for Calypso integration
-    window.open('https://wordpress.com/me/notifications');
-};
+export const viewSettings = () => ({
+    type: VIEW_SETTINGS,
+});
 
 export default {
     closePanel,
@@ -56,5 +55,5 @@ export default {
     setLayout,
     undoAction,
     unselectNote,
-    viewSettings
+    viewSettings,
 };

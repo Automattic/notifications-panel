@@ -29,6 +29,8 @@ export const advanceToNextNote = ({ dispatch, getState }, { noteId }) => {
 
 export const announceLayoutChange = (store, { layout }) => onLayoutChange({ layout });
 
+const openSettings = () => window.open('https://wordpress.com/me/notifications');
+
 export const togglePanel = (store, { type }) => {
     const toggleState = get(
         {
@@ -47,4 +49,5 @@ export default {
     [types.OPEN_PANEL]: [togglePanel],
     [types.SET_LAYOUT]: [announceLayoutChange],
     [types.TRASH_NOTE]: [advanceToNextNote],
+    [types.VIEW_SETTINGS]: [openSettings],
 };
