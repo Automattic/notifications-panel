@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
 import classNames from 'classnames';
-import { groupBy, reduce, zip } from 'lodash';
+import { findIndex, groupBy, reduce, zip } from 'lodash';
 
 import actions from '../state/actions';
 import getIsLoading from '../state/selectors/get-is-loading';
@@ -283,7 +283,7 @@ export const NoteList = React.createClass({
         // Create new groups of messages by time periods
         const noteGroups = groupBy(this.props.notes, ({ timestamp }) => {
             const time = new Date(timestamp);
-            return timeGroups.findIndex(([after, before]) => before < time && time <= after);
+            return findIndex(timeGroups, ([after, before]) => before < time && time <= after);
         });
 
         let notes = reduce(
