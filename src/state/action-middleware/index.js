@@ -24,4 +24,5 @@ export const middleware = handlers => store => next => action => {
     return next(action);
 };
 
-export default middleware(mergedHandlers);
+export default (customMiddleware = {}) =>
+    middleware(mergeHandlers(customMiddleware, mergedHandlers));
