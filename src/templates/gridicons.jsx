@@ -242,7 +242,7 @@ export default React.createClass({
             case 'gridicons-cog':
                 return (
                     <svg {...sharedProps} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <title>Arrow Left</title>
+                        <title>Cog</title>
                         <g>
                             <path d="M20,12c0-0.568-0.061-1.122-0.174-1.656l1.834-1.612l-2-3.464l-2.322,0.786c-0.819-0.736-1.787-1.308-2.859-1.657L14,2h-4
 		L9.521,4.396c-1.072,0.349-2.04,0.921-2.859,1.657L4.34,5.268l-2,3.464l1.834,1.612C4.061,10.878,4,11.432,4,12
