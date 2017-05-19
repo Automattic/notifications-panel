@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
 import classNames from 'classnames';
+import { groupBy, reduce, zip } from 'lodash';
 
 import actions from '../state/actions';
 import getIsLoading from '../state/selectors/get-is-loading';
@@ -216,8 +217,7 @@ export const NoteList = React.createClass({
     },
 
     render: function() {
-        var _this = this;
-        this.groupTitles = [
+        const groupTitles = [
             this.props.translate('Today', {
                 comment: 'heading for a list of notifications from today',
             }),
@@ -235,40 +235,29 @@ export const NoteList = React.createClass({
             }),
         ];
 
-        var now = new Date();
-        now.setHours(0, 0, 0, 0);
-        var timeBoundaries = [
-            new Date(),
+        // create groups of (before, after) times for grouping notes
+        const now = new Date().setHours(0, 0, 0, 0);
+        const timeBoundaries = [
+            Infinity,
             now,
-            new Date(now - DAY_MILLISECONDS * 1),
+            new Date(now - DAY_MILLISECONDS),
             new Date(now - DAY_MILLISECONDS * 6),
             new Date(now - DAY_MILLISECONDS * 30),
+            -Infinity,
         ];
-
-        var noteIsBetween = function(note, from, to) {
-            var noteTime = new Date(note.timestamp);
-
-            from =
-                from ||
-                new Date(noteTime.getFullYear(), noteTime.getMonth(), noteTime.getDate() - 1);
-            to =
-                to || new Date(noteTime.getFullYear(), noteTime.getMonth(), noteTime.getDate() + 1);
-
-            if (from < noteTime && noteTime <= to) return true;
-            else return false;
-        };
+        const timeGroups = zip(timeBoundaries.slice(0, -1), timeBoundaries.slice(1));
 
         const createNoteComponent = note => {
-            if (this.state.undoNote && note.id == _this.state.undoNote.id) {
+            if (this.state.undoNote && note.id == this.state.undoNote.id) {
                 return (
                     <UndoListItem
                         ref={this.storeUndoBar}
                         storeImmediateActor={this.storeUndoActImmediately}
                         storeStartSequence={this.storeUndoStartSequence}
-                        key={'undo-' + _this.state.undoAction + '-' + note.id}
-                        action={_this.state.undoAction}
-                        note={_this.state.undoNote}
-                        global={_this.props.global}
+                        key={'undo-' + this.state.undoAction + '-' + note.id}
+                        action={this.state.undoAction}
+                        note={this.state.undoNote}
+                        global={this.props.global}
                     />
                 );
             }
@@ -282,37 +271,31 @@ export const NoteList = React.createClass({
                         key={'note-' + note.id}
                         data-note-id={note.id}
                         detailView={false}
-                        client={_this.props.client}
-                        global={_this.props.global}
-                        currentNote={_this.props.selectedNoteId}
-                        selectedNote={_this.props.selectedNote}
+                        client={this.props.client}
+                        global={this.props.global}
+                        currentNote={this.props.selectedNoteId}
+                        selectedNote={this.props.selectedNote}
                     />
                 );
             }
         };
 
         // Create new groups of messages by time periods
-        var noteGroups = timeBoundaries.map(function(time, i) {
-            return _this.props.notes
-                .filter(function(note) {
-                    return noteIsBetween(note, timeBoundaries[i + 1], timeBoundaries[i]);
-                })
-                .map(createNoteComponent);
+        const noteGroups = groupBy(this.props.notes, ({ timestamp }) => {
+            const time = new Date(timestamp);
+            return timeGroups.findIndex(([after, before]) => before < time && time <= after);
         });
 
-        var header;
-        var nextOffset;
+        let notes = reduce(
+            noteGroups,
+            ([list, isFirst], group, index) => {
+                const title = groupTitles[index];
+                const header = <ListHeader {...{ key: title, title, isFirst }} />;
 
-        /* Build a single list of notes, undo bars, and time group headers */
-        var notes = noteGroups.reduce(function(notes, group, i) {
-            if (0 < group.length) {
-                header = <ListHeader key={'time-group-' + i} title={_this.groupTitles[i]} isFirst={i === 0} />;
-                notes.push(header);
-                notes.push.apply(notes, group);
-            }
-
-            return notes;
-        }, []);
+                return [[...list, header, ...group.map(createNoteComponent)], false];
+            },
+            [[], true]
+        );
 
         const emptyNoteList = 0 === notes.length;
 
