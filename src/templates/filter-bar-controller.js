@@ -38,21 +38,22 @@ FilterBarController.prototype.getFilteredNotes = function(notes) {
         return [];
     }
 
-    const filterFunction = (this.selected && this.selected.filter) || (a => a);
-    let filteredNotes = notes.filter(filterFunction);
+    const noteReads = store.getState().notes.noteReads;
+    const filterFunction = (note) => {
+        // Prevent notes in the unread filter from disappearing when marked as read.
+        if (this.selected && this.selected.name === 'unread'
+            && note.id in noteReads && noteReads[note.id] === 'unread') {
+            return true;
+        }
 
-    // Prevent notes in the unread filter from disappearing when marked as read.
-    if (this.selected && this.selected.name === 'unread') {
-        const noteReads = store.getState().notes.noteReads;
+        if (this.selected && this.selected.filter) {
+            return this.selected.filter(note);
+        }
 
-        const unreadsFilter = note => (note.id in noteReads && noteReads[note.id] === 'unread');
-        filteredNotes = notes.filter(unreadsFilter)
-            .concat(filteredNotes)
-            .sort((note1, note2) => (new Date(note2.timestamp) - new Date(note1.timestamp))
-        );
-    }
+        return true;
+    };
 
-    return filteredNotes;
+    return notes.filter(filterFunction);
 };
 
 export default FilterBarController;
