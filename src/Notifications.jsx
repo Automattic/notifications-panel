@@ -2,7 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { noop } from 'lodash';
 
-import { store } from './state';
+import { init as initStore, store } from './state';
 import { init as initPublicAPI } from './state/action-middleware/public-api';
 import { SET_IS_SHOWING } from './state/action-types';
 import actions from './state/actions';
@@ -66,6 +66,7 @@ export class Notifications extends PureComponent {
         const {
             appResetter,
             appUpdater,
+            customMiddleware,
             isShowing,
             isVisible,
             onLayoutChange,
@@ -74,6 +75,8 @@ export class Notifications extends PureComponent {
             receiveMessage,
             wpcom,
         } = this.props;
+
+        initStore({ customMiddleware });
 
         appResetter(reset);
         appUpdater(() => this.forceUpdate());
@@ -106,6 +109,8 @@ export class Notifications extends PureComponent {
 
         if (this.props.isShowing && !isShowing) {
             store.dispatch(actions.ui.closePanel());
+            // unselect the note so keyhandlers don't steal keystrokes
+            reset();
         }
 
         if (!this.props.isShowing && isShowing) {

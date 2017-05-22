@@ -30,6 +30,8 @@ FilterBarController.prototype.selectFilter = function(filterName) {
         this.refreshFunction();
     }
 
+    store.dispatch(actions.ui.unselectNote());
+
     bumpStat('notes-filter-select', filterName);
 };
 

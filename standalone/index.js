@@ -35,12 +35,17 @@ const appUpdater = f => (refresh = f);
 let reset = () => {};
 const appResetter = f => (reset = f);
 
+const customMiddleware = {
+    VIEW_SETTINGS: [() => window.open('https://wordpress.com/me/notifications')],
+};
+
 const render = () => {
     ReactDOM.render(
         React.createElement(AuthWrapper(Notifications), {
             appResetter,
             appUpdater,
             clientId: 52716,
+            customMiddleware,
             isShowing,
             isVisible,
             locale,

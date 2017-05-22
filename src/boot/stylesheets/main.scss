@@ -445,15 +445,22 @@ body {
 					margin-left: $padding-medium;
 					margin-right: 4px;
 				}
+
+                .gridicons-cog {
+                    cursor: pointer;
+                    align-self: center;
+                    margin-left: auto;
+                    margin-right: $padding-small;
+                }
     	}
 
     	.wpnc__time-group-wrap {
     		height: $header-height;
-        top: 0;
-        z-index: 100;
+            top: 0;
+            z-index: 100;
     		text-align: left;
-        position: -webkit-sticky;
-        position: sticky;
+            position: -webkit-sticky;
+            position: sticky;
     	}
     }
 
