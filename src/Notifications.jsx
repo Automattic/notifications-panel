@@ -4,6 +4,7 @@ import { noop } from 'lodash';
 
 import { init as initStore, store } from './state';
 import { init as initPublicAPI } from './state/action-middleware/public-api';
+import { mergeHandlers } from './state/action-middleware/utils';
 import { SET_IS_SHOWING } from './state/action-types';
 import actions from './state/actions';
 
@@ -66,7 +67,8 @@ export class Notifications extends PureComponent {
         const {
             appResetter,
             appUpdater,
-            customMiddleware,
+            customEnhancer,
+            customMiddleware = {},
             isShowing,
             isVisible,
             onLayoutChange,
@@ -76,7 +78,12 @@ export class Notifications extends PureComponent {
             wpcom,
         } = this.props;
 
-        initStore({ customMiddleware });
+        initStore({
+            customEnhancer,
+            customMiddleware: mergeHandlers(customMiddleware, {
+                APP_REFRESH_NOTES: [() => client && client.refreshNotes.call(client)],
+            }),
+        });
 
         appResetter(reset);
         appUpdater(() => this.forceUpdate());
@@ -102,6 +109,7 @@ export class Notifications extends PureComponent {
 
     componentDidMount() {
         this.props.onReady();
+        store.dispatch({ type: 'APP_IS_READY' });
     }
 
     componentWillReceiveProps({ isShowing, isVisible, wpcom }) {
