@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { html } from '../indices-to-html';
 
@@ -15,6 +16,18 @@ var Snippet = React.createClass({
 });
 
 var UserHeader = React.createClass({
+    interceptLinks(event) {
+        const { target } = event;
+        const { dataset = {} } = target;
+        const { href, linkType, postId, siteId } = dataset;
+
+        if ('post' === linkType) {
+            return this.props.openPost(siteId, postId, href);
+        }
+
+        return this.props.openLink(href);
+    },
+
     render: function() {
         var grav = this.props.user.media[0];
         var grav_tag = <img src={grav.url} height={grav.height} width={grav.width} />;
@@ -48,6 +61,7 @@ var UserHeader = React.createClass({
                         dangerouslySetInnerHTML={{
                             __html: html(usercopy),
                         }}
+                        onClick={this.interceptLinks}
                     />
                     <Snippet snippet={this.props.snippet} url={this.props.url} />
 
@@ -114,6 +128,7 @@ const SummaryInSingle = React.createClass({
                         user={this.props.note.header[0]}
                         snippet={this.props.note.header[1]}
                         url={header_url}
+                        openPost={this.props.openPost}
                     />
                 );
             }
@@ -136,4 +151,9 @@ const SummaryInSingle = React.createClass({
     },
 });
 
-export default SummaryInSingle;
+const mapDispatchToProps = dispatch => ({
+    openLink: href => dispatch({ type: 'OPEN_LINK', href }),
+    openPost: (siteId, postId, href) => dispatch({ type: 'OPEN_POST', siteId, postId, href }),
+});
+
+export default connect(null, mapDispatchToProps)(SummaryInSingle);
