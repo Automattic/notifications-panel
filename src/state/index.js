@@ -16,7 +16,13 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const withMiddleware = customMiddleware =>
     composeEnhancers(applyMiddleware(actionMiddleware(customMiddleware)))(createStore);
 
-export const init = ({ customMiddleware = {} } = {}) =>
-    (store = withMiddleware(customMiddleware)(reducer, reducer(undefined, { type: '@@INIT' })));
+export const init = ({ customEnhancer, customMiddleware = {} } = {}) => {
+    const middle = withMiddleware(customMiddleware);
+    const create = customEnhancer ? customEnhancer(middle) : middle;
+
+    store = create(reducer, reducer(undefined, { type: '@@INIT' }));
+
+    return store;
+};
 
 export let store = init();

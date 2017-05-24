@@ -325,10 +325,12 @@ function ready() {
         newNoteCount = 0;
     }
 
+    const latestType = get(notes.slice(-1)[0], 'type', null);
     this.onRender({
         unseen: newNoteCount,
-        latestType: get(notes.slice(-1)[0], 'type', null),
+        latestType,
     });
+    store.dispatch({ type: 'APP_RENDER_NOTES', newNoteCount, latestType });
 
     this.hasNewNoteData = false;
     this.firstRender = false;
