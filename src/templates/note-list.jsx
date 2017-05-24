@@ -286,7 +286,7 @@ export const NoteList = React.createClass({
             return findIndex(timeGroups, ([after, before]) => before < time && time <= after);
         });
 
-        let notes = reduce(
+        let [notes] = reduce(
             noteGroups,
             ([list, isFirst], group, index) => {
                 const title = groupTitles[index];
