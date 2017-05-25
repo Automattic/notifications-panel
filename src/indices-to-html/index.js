@@ -105,10 +105,8 @@ function render_range(new_sub_text, new_sub_range, range_info, range_data, optio
                 }
 
                 if ('post' === range_info.type) {
-                    new_container.setAttribute('href', '#');
                     new_container.setAttribute('data-post-id', range_info.id);
                     new_container.setAttribute('data-site-id', range_info.site_id);
-                    new_container.setAttribute('data-href', range_info.url);
                     new_container.setAttribute('data-link-type', 'post');
                     new_container.setAttribute('target', '_self');
                 }

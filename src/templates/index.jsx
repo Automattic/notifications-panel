@@ -14,6 +14,7 @@ import NoteList from './note-list';
 import AppError from './error';
 import FilterBarController from './filter-bar-controller';
 import Note from './note';
+import { interceptLinks } from '../utils/link-interceptor';
 
 import actions from '../state/actions';
 import getAllNotes from '../state/selectors/get-all-notes';
@@ -478,7 +479,7 @@ const Layout = React.createClass({
         const filteredNotes = this.filterController.getFilteredNotes(this.props.notes);
 
         return (
-            <div>
+            <div onClick={interceptLinks}>
                 {this.props.error && <AppError error={this.props.error} />}
 
                 {!this.props.error &&
