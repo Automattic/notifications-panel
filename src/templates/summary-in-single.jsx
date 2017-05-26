@@ -2,17 +2,37 @@ import React from 'react';
 
 import { html } from '../indices-to-html';
 
-var Snippet = React.createClass({
-    render: function() {
-        return (
-            <a href={this.props.url} target="_blank">
-                <span className="wpnc__excerpt">
-                    {this.props.snippet.text}
-                </span>
-            </a>
-        );
-    },
-});
+const snippetProps = snippet => {
+    if (!snippet) {
+        return {};
+    }
+
+    const { ranges = [] } = snippet;
+    if (!ranges.length) {
+        return {};
+    }
+
+    const { id, site_id, type } = ranges[0];
+
+    switch (type) {
+        case 'post':
+            return {
+                'data-link-type': type,
+                'data-site-id': site_id,
+                'data-post-id': id,
+            };
+        default:
+            return {};
+    }
+};
+
+const Snippet = ({ url, snippet }) => (
+    <a href={url} {...snippetProps(snippet)} target="_blank">
+        <span className="wpnc__excerpt">
+            {snippet.text}
+        </span>
+    </a>
+);
 
 var UserHeader = React.createClass({
     render: function() {
