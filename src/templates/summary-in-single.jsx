@@ -2,14 +2,38 @@ import React from 'react';
 
 import { html } from '../indices-to-html';
 
-const snippetProps = snippet => {
-    if (!snippet) {
+const subjectProps = noteSubject => {
+    if (!noteSubject || !noteSubject[0]) {
         return {};
+    }
+
+    const { ranges } = noteSubject[0];
+    if (!ranges.length) {
+        return {};
+    }
+
+    const posts = ranges.filter(({ type }) => 'post' === type);
+    if (posts.length !== 1) {
+        return {};
+    }
+
+    const post = posts[0];
+
+    return {
+        'data-link-type': post.type,
+        'data-site-id': post.site_id,
+        'data-post-id': post.id,
+    };
+};
+
+const snippetProps = (snippet, noteSubject) => {
+    if (!snippet) {
+        return subjectProps(noteSubject);
     }
 
     const { ranges = [] } = snippet;
     if (!ranges.length) {
-        return {};
+        return subjectProps(noteSubject);
     }
 
     const { id, site_id, type } = ranges[0];
@@ -22,12 +46,12 @@ const snippetProps = snippet => {
                 'data-post-id': id,
             };
         default:
-            return {};
+            return subjectProps(noteSubject);
     }
 };
 
-const Snippet = ({ url, snippet }) => (
-    <a href={url} {...snippetProps(snippet)} target="_blank">
+const Snippet = ({ url, snippet, noteSubject }) => (
+    <a href={url} {...snippetProps(snippet, noteSubject)} target="_blank">
         <span className="wpnc__excerpt">
             {snippet.text}
         </span>
@@ -69,7 +93,11 @@ var UserHeader = React.createClass({
                             __html: html(usercopy),
                         }}
                     />
-                    <Snippet snippet={this.props.snippet} url={this.props.url} />
+                    <Snippet
+                        noteSubject={this.props.noteSubject}
+                        snippet={this.props.snippet}
+                        url={this.props.url}
+                    />
 
                 </div>
             );
@@ -82,7 +110,11 @@ var UserHeader = React.createClass({
                             {get_home_link('wpnc__user__home', this.props.user.text)}
                         </span>
                     </div>
-                    <Snippet snippet={this.props.snippet} url={this.props.url} />
+                    <Snippet
+                        noteSubject={this.props.noteSubject}
+                        snippet={this.props.snippet}
+                        url={this.props.url}
+                    />
                 </div>
             );
         }
@@ -104,7 +136,11 @@ var Header = React.createFactory(
             return (
                 <div className="wpnc__summary">
                     {subject}
-                    <Snippet snippet={this.props.snippet} url={this.props.url} />
+                    <Snippet
+                        noteSubject={this.props.noteSubject}
+                        snippet={this.props.snippet}
+                        url={this.props.url}
+                    />
                 </div>
             );
         },
@@ -131,24 +167,27 @@ const SummaryInSingle = React.createClass({
                 }
                 return (
                     <UserHeader
-                        user={this.props.note.header[0]}
+                        noteSubject={this.props.note.subject}
                         snippet={this.props.note.header[1]}
                         url={header_url}
+                        user={this.props.note.header[0]}
                     />
                 );
             }
             return (
                 <Header
-                    subject={this.props.note.header[0]}
+                    noteSubject={this.props.note.subject}
                     snippet={this.props.note.header[1]}
+                    subject={this.props.note.header[0]}
                     url={this.props.note.url}
                 />
             );
         } else {
             return (
                 <Header
-                    subject={this.props.note.header[0]}
+                    noteSubject={this.props.note.subject}
                     snippet={''}
+                    subject={this.props.note.header[0]}
                     url={this.props.note.url}
                 />
             );
