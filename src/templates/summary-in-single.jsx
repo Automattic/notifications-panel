@@ -2,41 +2,33 @@ import React from 'react';
 
 import { html } from '../indices-to-html';
 
-const subjectProps = noteSubject => {
-    if (!noteSubject || !noteSubject[0]) {
-        return {};
+const getPostRef = note => {
+    const { header = [] } = note;
+    const hRanges = header.map(({ ranges = [] }) => ranges).reduce((a, b) => [...a, ...b], []);
+    const hPosts = hRanges.filter(({ type }) => 'post' === type);
+
+    if (hPosts.length === 1) {
+        return hPosts[0];
     }
 
-    const { ranges } = noteSubject[0];
-    if (!ranges.length) {
-        return {};
+    const { subject = [] } = note;
+    const sRanges = subject.map(({ ranges = [] }) => ranges).reduce((a, b) => [...a, ...b], []);
+    const sPosts = sRanges.filter(({ type }) => 'post' === type);
+
+    if (sPosts.length === 1) {
+        return sPosts[0];
     }
 
-    const posts = ranges.filter(({ type }) => 'post' === type);
-    if (posts.length !== 1) {
-        return {};
-    }
-
-    const post = posts[0];
-
-    return {
-        'data-link-type': post.type,
-        'data-site-id': post.site_id,
-        'data-post-id': post.id,
-    };
+    return null;
 };
 
-const snippetProps = (snippet, noteSubject) => {
-    if (!snippet) {
-        return subjectProps(noteSubject);
+const linkProps = note => {
+    const post = getPostRef(note);
+    if (!post) {
+        return {};
     }
 
-    const { ranges = [] } = snippet;
-    if (!ranges.length) {
-        return subjectProps(noteSubject);
-    }
-
-    const { id, site_id, type } = ranges[0];
+    const { id, site_id, type } = post;
 
     switch (type) {
         case 'post':
@@ -46,12 +38,12 @@ const snippetProps = (snippet, noteSubject) => {
                 'data-post-id': id,
             };
         default:
-            return subjectProps(noteSubject);
+            return {};
     }
 };
 
-const Snippet = ({ url, snippet, noteSubject }) => (
-    <a href={url} {...snippetProps(snippet, noteSubject)} target="_blank">
+const Snippet = ({ note, snippet, url }) => (
+    <a href={url} {...linkProps(note)} target="_blank">
         <span className="wpnc__excerpt">
             {snippet.text}
         </span>
@@ -94,7 +86,7 @@ var UserHeader = React.createClass({
                         }}
                     />
                     <Snippet
-                        noteSubject={this.props.noteSubject}
+                        note={this.props.note}
                         snippet={this.props.snippet}
                         url={this.props.url}
                     />
@@ -111,7 +103,7 @@ var UserHeader = React.createClass({
                         </span>
                     </div>
                     <Snippet
-                        noteSubject={this.props.noteSubject}
+                        note={this.props.note}
                         snippet={this.props.snippet}
                         url={this.props.url}
                     />
@@ -137,7 +129,7 @@ var Header = React.createFactory(
                 <div className="wpnc__summary">
                     {subject}
                     <Snippet
-                        noteSubject={this.props.noteSubject}
+                        note={this.props.note}
                         snippet={this.props.snippet}
                         url={this.props.url}
                     />
@@ -167,7 +159,7 @@ const SummaryInSingle = React.createClass({
                 }
                 return (
                     <UserHeader
-                        noteSubject={this.props.note.subject}
+                        note={this.props.note}
                         snippet={this.props.note.header[1]}
                         url={header_url}
                         user={this.props.note.header[0]}
@@ -176,7 +168,7 @@ const SummaryInSingle = React.createClass({
             }
             return (
                 <Header
-                    noteSubject={this.props.note.subject}
+                    note={this.props.note}
                     snippet={this.props.note.header[1]}
                     subject={this.props.note.header[0]}
                     url={this.props.note.url}
@@ -185,7 +177,7 @@ const SummaryInSingle = React.createClass({
         } else {
             return (
                 <Header
-                    noteSubject={this.props.note.subject}
+                    note={this.props.note}
                     snippet={''}
                     subject={this.props.note.header[0]}
                     url={this.props.note.url}
