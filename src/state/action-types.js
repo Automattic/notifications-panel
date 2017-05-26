@@ -17,5 +17,4 @@ export const SUGGESTIONS_STORE = 'SUGGESTIONS_STORE';
 export const TRASH_NOTE = 'TRASH_NOTE';
 export const UNDO_ACTION = 'UNDO_ACTION';
 export const SET_FILTER = 'SET_FILTER';
-export const RESET_READS = 'RESET_READS';
 export const VIEW_SETTINGS = 'VIEW_SETTINGS';

@@ -53,12 +53,12 @@ export const noteLikes = (state = {}, { type, noteId, isLiked }) => {
 
 // Track notes that have been read and the filter they were read from
 export const noteReads = (state = {}, { type, noteId, filterName = 'all' }) => {
-    if (types.SELECT_NOTE === type) {
-        return noteId ? { ...state, [noteId]: filterName } : state;
+    if (types.SET_FILTER === type) {
+        return {};
     }
 
-    if (types.RESET_READS === type) {
-        return mapValues(state, () => '');
+    if (types.SELECT_NOTE === type) {
+        return noteId ? { ...state, [noteId]: filterName } : state;
     }
 
     return state;
