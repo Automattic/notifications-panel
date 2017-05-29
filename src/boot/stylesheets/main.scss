@@ -323,9 +323,11 @@ body {
     }
 
     .wpnc__loading-indicator {
-    	display: block;
-    	background-color: $gray-light;
-    	height: 90px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: $gray-light;
+		height: 100%;
     }
 
     .wpnc__note-list {
