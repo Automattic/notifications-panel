@@ -309,8 +309,9 @@ body {
     }
 
     .wpnc__empty-notes {
-    	text-align: center;
-    	padding: 0 32px;
+		text-align: center;
+		padding: 0 32px;
+		transform: translateY(-50%);
 
     	h2 {
     		font: 300 21px/24px $sans;
