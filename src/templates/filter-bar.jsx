@@ -67,4 +67,4 @@ const mapStateToProps = state => ({
     filterName: getFilterName(state),
 });
 
-export default connect(mapStateToProps, null, null, { pure: false })(FilterBar);
+export default connect(mapStateToProps, null)(FilterBar);
