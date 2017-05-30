@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { keyBy, mapValues, omit } from 'lodash';
+import { keyBy, omit } from 'lodash';
 
 import * as types from '../action-types';
 
