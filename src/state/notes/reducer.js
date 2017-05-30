@@ -51,8 +51,18 @@ export const noteLikes = (state = {}, { type, noteId, isLiked }) => {
     return state;
 };
 
-export const noteReads = (state = {}, { type, noteId }) =>
-    (types.SELECT_NOTE && noteId ? { ...state, [noteId]: true } : state);
+// Track notes that have been read and the filter they were read from
+export const noteReads = (state = {}, { type, noteId, filterName = 'all' }) => {
+    if (types.SET_FILTER === type) {
+        return {};
+    }
+
+    if (types.SELECT_NOTE === type) {
+        return noteId ? { ...state, [noteId]: filterName } : state;
+    }
+
+    return state;
+};
 
 export default combineReducers({
     allNotes,
