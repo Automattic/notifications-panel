@@ -7,6 +7,7 @@ import {
     SET_LAYOUT,
     UNDO_ACTION,
     VIEW_SETTINGS,
+    SET_FILTER,
 } from '../action-types';
 
 export const closePanel = () => ({
@@ -46,6 +47,11 @@ export const viewSettings = () => ({
     type: VIEW_SETTINGS,
 });
 
+export const setFilter = filterName => ({
+    type: SET_FILTER,
+    filterName,
+});
+
 export default {
     closePanel,
     loadNotes,
@@ -56,4 +62,5 @@ export default {
     undoAction,
     unselectNote,
     viewSettings,
+    setFilter,
 };

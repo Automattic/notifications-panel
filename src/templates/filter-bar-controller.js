@@ -10,7 +10,6 @@ function FilterBarController(refreshFunction) {
         return new FilterBarController(refreshFunction);
     }
 
-    this.selected = Filters.all();
     this.refreshFunction = refreshFunction;
 }
 
@@ -19,7 +18,7 @@ FilterBarController.prototype.selectFilter = function(filterName) {
         return;
     }
 
-    this.selected = Filters[filterName]();
+    store.dispatch(actions.ui.setFilter(filterName));
 
     if (this.refreshFunction) {
         this.refreshFunction();
@@ -31,12 +30,12 @@ FilterBarController.prototype.selectFilter = function(filterName) {
 };
 
 FilterBarController.prototype.getFilteredNotes = function(notes) {
-    if (!notes) {
+    const activeTab = Filters[store.getState().ui.filterName];
+    if (!notes || !activeTab) {
         return [];
     }
 
-    const filterFunction = (this.selected && this.selected.filter) || (a => a);
-    return notes.filter(filterFunction);
+    return notes.filter(activeTab().filter);
 };
 
 export default FilterBarController;

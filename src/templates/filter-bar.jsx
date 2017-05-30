@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Filters from './filters';
+import getFilterName from '../state/selectors/get-filter-name';
 
 var debug = require('debug')('notifications:filterbar');
 var classnames = require('classnames');
@@ -36,7 +38,7 @@ export const FilterBar = React.createClass({
 
         filterItems = filterItems.map(function(filter) {
             const classes = classnames('wpnc__filter__segmented-control-item', {
-                selected: filter.name === this.props.controller.selected.name,
+                selected: filter.name === this.props.filterName,
             });
 
             return (
@@ -61,4 +63,8 @@ export const FilterBar = React.createClass({
     },
 });
 
-export default FilterBar;
+const mapStateToProps = state => ({
+    filterName: getFilterName(state),
+});
+
+export default connect(mapStateToProps, null, null, { pure: false })(FilterBar);
