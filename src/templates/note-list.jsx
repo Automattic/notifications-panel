@@ -303,6 +303,9 @@ export const NoteList = React.createClass({
         var loadingIndicatorVisibility = { opacity: 0 };
         if (this.props.isLoading) {
             loadingIndicatorVisibility.opacity = 1;
+            if (emptyNoteList) {
+                loadingIndicatorVisibility.height = this.props.height - TITLE_OFFSET + 'px';
+            }
         } else if (!this.props.initialLoad && emptyNoteList && filter.emptyMessage) {
             notes = (
                 <EmptyMessage
