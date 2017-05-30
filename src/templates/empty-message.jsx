@@ -2,6 +2,9 @@ import React from 'react';
 
 import { bumpStat } from '../rest-client/bump-stat';
 
+// from $title-offset in boot/sizes.scss
+var TITLE_OFFSET = 38;
+
 export const EmptyMessage = React.createClass({
     componentWillMount: function() {
         if (this.props.showing) {
@@ -48,7 +51,10 @@ export const EmptyMessage = React.createClass({
         }
 
         return (
-			<div className="wpnc__empty-notes-container">
+            <div
+                className="wpnc__empty-notes-container"
+                style={{ height: window.innerHeight - TITLE_OFFSET + 'px' }}
+            >
                 {message}
             </div>
         );

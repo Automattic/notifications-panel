@@ -246,8 +246,7 @@ body {
     }
 
     .wpnc__list-view .wpnc__notes, .error {
-		background-color: $white;
-		height: 100%;
+    	background-color: $white;
     }
 
     .wpnc__note {
@@ -301,17 +300,15 @@ body {
     }
 
     .wpnc__empty-notes-container {
-		background-color: $gray-light;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
+    	background-color: $gray-light;
     }
 
     .wpnc__empty-notes {
-		text-align: center;
-		padding: 0 32px;
-		transform: translateY(-50%);
+    	text-align: center;
+    	position: relative;
+    		top: 50%;
+    	padding: 0 32px;
+    	transform: translateY(-50%);
 
     	h2 {
     		font: 300 21px/24px $sans;
@@ -324,11 +321,9 @@ body {
     }
 
     .wpnc__loading-indicator {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: $gray-light;
-		height: 100%;
+    	display: block;
+    	background-color: $gray-light;
+    	height: 90px;
     }
 
     .wpnc__note-list {
