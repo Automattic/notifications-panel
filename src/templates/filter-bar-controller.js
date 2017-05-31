@@ -1,4 +1,4 @@
-import { includes } from 'lodash';
+import { includes, some } from 'lodash';
 
 import Filters from './filters';
 import { store } from '../state';
@@ -40,8 +40,10 @@ FilterBarController.prototype.getFilteredNotes = function(notes) {
     }
 
     const filteredNoteReads = getFilteredNoteReads(state);
-    const filterFunction = (note) =>
-        (filterName === 'unread' && includes(filteredNoteReads, note.id)) || activeTab().filter(note);
+    const filterFunction = (note) => some([
+        'unread' === filterName && includes(filteredNoteReads, note.id),
+        activeTab().filter(note)
+    ]);
 
     return notes.filter(filterFunction);
 };
