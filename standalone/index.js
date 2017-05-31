@@ -28,7 +28,9 @@ const customMiddleware = {
                 : sendMessage({ action: 'renderAllSeen' })),
     ],
     CLOSE_PANEL: [() => sendMessage({ action: 'togglePanel' })],
+    OPEN_LINK: [(store, { href }) => window.open(href, '_blank')],
     OPEN_PANEL: [() => sendMessage({ action: 'togglePanel' })],
+    OPEN_POST: [(store, { siteId, postId, href }) => window.open(href, '_blank')],
     SET_LAYOUT: [
         (store, { layout }) =>
             sendMessage({ action: 'widescreen', widescreen: layout === 'widescreen' }),
