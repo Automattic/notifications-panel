@@ -1,7 +1,10 @@
+import { includes, some } from 'lodash';
+
 import Filters from './filters';
 import { store } from '../state';
 import actions from '../state/actions';
 import getFilterName from '../state/selectors/get-filter-name';
+import noteHasFilteredRead from '../state/selectors/note-has-filtered-read';
 import { bumpStat } from '../rest-client/bump-stat';
 
 var debug = require('debug')('notifications:filterbarcontroller');
@@ -29,12 +32,19 @@ FilterBarController.prototype.selectFilter = function(filterName) {
 };
 
 FilterBarController.prototype.getFilteredNotes = function(notes) {
-    const activeTab = Filters[getFilterName(store.getState())];
+    const state = store.getState();
+    const filterName = getFilterName(state);
+    const activeTab = Filters[filterName];
     if (!notes || !activeTab) {
         return [];
     }
 
-    return notes.filter(activeTab().filter);
+    const filterFunction = (note) => some([
+        'unread' === filterName && noteHasFilteredRead(state, note.id),
+        activeTab().filter(note)
+    ]);
+
+    return notes.filter(filterFunction);
 };
 
 export default FilterBarController;
