@@ -4,7 +4,7 @@ import Filters from './filters';
 import { store } from '../state';
 import actions from '../state/actions';
 import getFilterName from '../state/selectors/get-filter-name';
-import getFilteredNoteReads from '../state/selectors/get-filtered-note-reads';
+import noteHasFilteredRead from '../state/selectors/note-has-filtered-read';
 import { bumpStat } from '../rest-client/bump-stat';
 
 var debug = require('debug')('notifications:filterbarcontroller');
@@ -39,9 +39,8 @@ FilterBarController.prototype.getFilteredNotes = function(notes) {
         return [];
     }
 
-    const filteredNoteReads = getFilteredNoteReads(state);
     const filterFunction = (note) => some([
-        'unread' === filterName && includes(filteredNoteReads, note.id),
+        'unread' === filterName && noteHasFilteredRead(state, note.id),
         activeTab().filter(note)
     ]);
 
