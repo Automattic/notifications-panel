@@ -29,12 +29,17 @@ FilterBarController.prototype.selectFilter = function(filterName) {
 };
 
 FilterBarController.prototype.getFilteredNotes = function(notes) {
-    const activeTab = Filters[getFilterName(store.getState())];
+    const filterName = getFilterName(store.getState());
+    const activeTab = Filters[filterName];
     if (!notes || !activeTab) {
         return [];
     }
 
-    return notes.filter(activeTab().filter);
+    const filteredNoteReads = store.getState().notes.filteredNoteReads;
+    const filterFunction = (note) =>
+        (filterName === 'unread' && filteredNoteReads.includes(note.id)) || activeTab().filter(note);
+
+    return notes.filter(filterFunction);
 };
 
 export default FilterBarController;

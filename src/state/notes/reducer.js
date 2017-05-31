@@ -54,10 +54,23 @@ export const noteLikes = (state = {}, { type, noteId, isLiked }) => {
 export const noteReads = (state = {}, { type, noteId }) =>
     (types.SELECT_NOTE && noteId ? { ...state, [noteId]: true } : state);
 
+export const filteredNoteReads = (state = [], { type, noteId }) => {
+        if (types.SELECT_NOTE === type) {
+            return [ ...state, noteId ];
+        }
+
+        if (types.SET_FILTER === type) {
+            return [];
+        }
+
+        return state;
+};
+
 export default combineReducers({
     allNotes,
     hiddenNoteIds,
     noteApprovals,
     noteLikes,
     noteReads,
+    filteredNoteReads,
 });
