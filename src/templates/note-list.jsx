@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { findIndex, groupBy, reduce, zip } from 'lodash';
 
 import actions from '../state/actions';
+import getFilterName from '../state/selectors/get-filter-name';
 import getIsLoading from '../state/selectors/get-is-loading';
 import getIsNoteHidden from '../state/selectors/get-is-note-hidden';
 import getIsPanelOpen from '../state/selectors/get-is-panel-open';
@@ -13,6 +14,7 @@ import getSelectedNoteId from '../state/selectors/get-selected-note-id';
 
 import EmptyMessage from './empty-message';
 import FilterBar from './filter-bar';
+import Filters from './filters';
 import ListHeader from './list-header';
 import Note from './note';
 import StatusBar from './status-bar';
@@ -299,7 +301,7 @@ export const NoteList = React.createClass({
 
         const emptyNoteList = 0 === notes.length;
 
-        var filter = this.props.filterController.selected;
+        var filter = Filters[this.props.filterName];
         var loadingIndicatorVisibility = { opacity: 0 };
         if (this.props.isLoading) {
             loadingIndicatorVisibility.opacity = 1;
@@ -376,6 +378,7 @@ const mapStateToProps = state => ({
     isNoteHidden: noteId => getIsNoteHidden(state, noteId),
     isPanelOpen: getIsPanelOpen(state),
     selectedNoteId: getSelectedNoteId(state),
+    filterName: getFilterName(state),
 });
 
 const mapDispatchToProps = {
