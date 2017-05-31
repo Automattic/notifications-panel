@@ -2,6 +2,7 @@ import Filters from './filters';
 import { store } from '../state';
 import actions from '../state/actions';
 import getFilterName from '../state/selectors/get-filter-name';
+import getFilteredNoteReads from '../state/selectors/get-filtered-note-reads';
 import { bumpStat } from '../rest-client/bump-stat';
 
 var debug = require('debug')('notifications:filterbarcontroller');
@@ -29,13 +30,14 @@ FilterBarController.prototype.selectFilter = function(filterName) {
 };
 
 FilterBarController.prototype.getFilteredNotes = function(notes) {
-    const filterName = getFilterName(store.getState());
+    const state = store.getState();
+    const filterName = getFilterName(state);
     const activeTab = Filters[filterName];
     if (!notes || !activeTab) {
         return [];
     }
 
-    const filteredNoteReads = store.getState().notes.filteredNoteReads;
+    const filteredNoteReads = getFilteredNoteReads(state);
     const filterFunction = (note) =>
         (filterName === 'unread' && filteredNoteReads.includes(note.id)) || activeTab().filter(note);
 
