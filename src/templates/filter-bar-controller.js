@@ -1,6 +1,7 @@
 import Filters from './filters';
 import { store } from '../state';
 import actions from '../state/actions';
+import getFilterName from '../state/selectors/get-filter-name';
 import { bumpStat } from '../rest-client/bump-stat';
 
 var debug = require('debug')('notifications:filterbarcontroller');
@@ -30,7 +31,7 @@ FilterBarController.prototype.selectFilter = function(filterName) {
 };
 
 FilterBarController.prototype.getFilteredNotes = function(notes) {
-    const activeTab = Filters[store.getState().ui.filterName];
+    const activeTab = Filters[getFilterName(store.getState())];
     if (!notes || !activeTab) {
         return [];
     }
