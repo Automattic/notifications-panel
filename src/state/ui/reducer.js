@@ -5,7 +5,7 @@ import {
     NOTES_LOADING,
     SELECT_NOTE,
     SET_IS_SHOWING,
-    SET_FILTER
+    SET_FILTER,
 } from '../action-types';
 
 export const isLoading = (state = true, { type }) => {
@@ -23,8 +23,17 @@ export const isLoading = (state = true, { type }) => {
 export const isPanelOpen = (state = false, { type, isShowing }) =>
     (SET_IS_SHOWING === type ? isShowing : state);
 
-export const selectedNoteId = (state = null, { type, noteId }) =>
-    (SELECT_NOTE === type ? noteId : state);
+export const selectedNoteId = (state = null, { type, noteId }) => {
+    if (SELECT_NOTE === type) {
+        return noteId;
+    }
+
+    if (SET_FILTER === type) {
+        return null;
+    }
+
+    return state;
+};
 
 export const filterName = (state = 'all', { type, filterName }) => {
     return SET_FILTER === type ? filterName : state;
