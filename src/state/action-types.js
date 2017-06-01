@@ -5,7 +5,6 @@ export const NOTES_ADD = 'NOTES_ADD';
 export const NOTES_REMOVE = 'NOTES_REMOVE';
 export const NOTES_LOADING = 'NOTES_LOADING';
 export const NOTES_LOADED = 'NOTES_LOADED';
-export const OPEN_PANEL = 'OPEN_PANEL';
 export const SELECT_NOTE = 'SELECT_NOTE';
 export const RESET_LOCAL_APPROVAL = 'RESET_LOCAL_APPROVAL';
 export const RESET_LOCAL_LIKE = 'RESET_LOCAL_LIKE';

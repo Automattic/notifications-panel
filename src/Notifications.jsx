@@ -84,7 +84,6 @@ export class Notifications extends PureComponent {
          *
          * @TODO: Pass this information directly into the Redux initial state
          */
-        store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
         store.dispatch({ type: SET_IS_SHOWING, isShowing });
 
         client.setVisibility({ isShowing, isVisible });
@@ -95,22 +94,17 @@ export class Notifications extends PureComponent {
     }
 
     componentWillReceiveProps({ isShowing, isVisible, wpcom }) {
-        initAPI(wpcom);
-
-        if (this.props.isShowing && !isShowing) {
-            store.dispatch(actions.ui.closePanel());
-            // unselect the note so keyhandlers don't steal keystrokes
-            reset();
+        if (wpcom !== this.props.wpcom) {
+            initAPI(wpcom);
         }
 
-        if (!this.props.isShowing && isShowing) {
-            store.dispatch(actions.ui.openPanel());
-        }
-
-        if (this.props.isShowing !== isShowing) {
+        if (isShowing !== this.props.isShowing) {
             store.dispatch({ type: SET_IS_SHOWING, isShowing });
         }
-        client.setVisibility({ isShowing, isVisible });
+
+        if (isShowing !== this.props.isShowing || isVisible !== this.props.isVisible) {
+            client.setVisibility({ isShowing, isVisible });
+        }
     }
 
     render() {

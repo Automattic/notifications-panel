@@ -2,7 +2,6 @@ import {
     CLOSE_PANEL,
     NOTES_LOADED,
     NOTES_LOADING,
-    OPEN_PANEL,
     SELECT_NOTE,
     SET_LAYOUT,
     UNDO_ACTION,
@@ -20,10 +19,6 @@ export const loadNotes = () => ({
 
 export const loadedNotes = () => ({
     type: NOTES_LOADED,
-});
-
-export const openPanel = () => ({
-    type: OPEN_PANEL,
 });
 
 export const selectNote = noteId => ({
@@ -56,7 +51,6 @@ export default {
     closePanel,
     loadNotes,
     loadedNotes,
-    openPanel,
     selectNote,
     setLayout,
     undoAction,
