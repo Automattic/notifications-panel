@@ -371,11 +371,11 @@ const Layout = React.createClass({
         }
 
         /*
-			 * The following shortcuts require that
-			 * the modifier keys not be active. Shortcuts
-			 * that require a modifier key should be
-			 * captured above.
-			 */
+		 * The following shortcuts require that
+		 * the modifier keys not be active. Shortcuts
+		 * that require a modifier key should be
+		 * captured above.
+		 */
         if (this.props.global.input.modifierKeyIsActive(event)) {
             return;
         }
@@ -383,10 +383,6 @@ const Layout = React.createClass({
         const activateKeyboard = () => (this.props.global.input.lastInputWasKeyboard = true);
 
         switch (event.keyCode) {
-            case KEY_ESC:
-                this.props.closePanel();
-                stopEvent();
-                break;
             case KEY_RIGHT:
                 activateKeyboard();
                 this.props.unselectNote();
@@ -415,6 +411,10 @@ const Layout = React.createClass({
                 stopEvent();
                 activateKeyboard();
                 this.navigateToPrevNote();
+                break;
+            case KEY_N:
+                this.props.closePanel();
+                stopEvent();
                 break;
             case KEY_A: // All filter
                 if (!this.props.selectedNoteId) {
