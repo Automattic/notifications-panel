@@ -348,25 +348,25 @@ export const NoteList = React.createClass({
             <div className={classes}>
                 <FilterBar controller={this.props.filterController} />
                 <div ref={this.storeScrollableContainer} className={listViewClasses}>
-                    <ol ref={this.storeNoteList} className="wpnc__notes">
-                        <StatusBar
-                            statusClasses={this.state.statusClasses}
-                            statusMessage={this.state.statusMessage}
-                            statusTimeout={this.state.statusTimeout}
-                            statusReset={this.resetStatusBar}
-                        />
-                        {notes}
-                        {this.props.isLoading &&
-                            <div
-                                style={loadingIndicatorVisibility}
-                                className="wpnc__loading-indicator"
-                            >
-                                <div className="wpnc__spinner animated">
-                                    <span className="side left" />
-                                    <span className="side right" />
-                                </div>
-                            </div>}
-                    </ol>
+					<StatusBar
+						statusClasses={this.state.statusClasses}
+						statusMessage={this.state.statusMessage}
+						statusTimeout={this.state.statusTimeout}
+						statusReset={this.resetStatusBar}
+					/>
+					{notes &&
+						<ol ref={this.storeNoteList} className="wpnc__notes">
+							{notes}
+						</ol>}
+					{this.props.isLoading &&
+						<div
+							style={loadingIndicatorVisibility}
+							className="wpnc__loading-indicator">
+							<div className="wpnc__spinner animated">
+								<span className="side left" />
+								<span className="side right" />
+							</div>
+						</div>}
                 </div>
             </div>
         );
