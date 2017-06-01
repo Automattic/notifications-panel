@@ -55,15 +55,15 @@ export const noteReads = (state = {}, { type, noteId }) =>
     (types.SELECT_NOTE && noteId ? { ...state, [noteId]: true } : state);
 
 export const filteredNoteReads = (state = [], { type, noteId }) => {
-        if (types.SELECT_NOTE === type) {
-            return [ ...state, noteId ];
-        }
+    if (types.SELECT_NOTE === type) {
+        return [...state, noteId];
+    }
 
-        if (types.SET_FILTER === type) {
-            return [];
-        }
+    if (types.SET_FILTER === type) {
+        return [];
+    }
 
-        return state;
+    return state;
 };
 
 export default combineReducers({

@@ -36,7 +36,7 @@ export const selectedNoteId = (state = null, { type, noteId }) => {
 };
 
 export const filterName = (state = 'all', { type, filterName }) =>
-    ( SET_FILTER === type ? filterName : state );
+    (SET_FILTER === type ? filterName : state);
 
 export default combineReducers({
     isLoading,
