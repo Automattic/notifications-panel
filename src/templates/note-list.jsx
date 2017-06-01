@@ -301,7 +301,7 @@ export const NoteList = React.createClass({
 
         const emptyNoteList = 0 === notes.length;
 
-        var filter = Filters[this.props.filterName];
+        var filter = Filters[this.props.filterName]();
         var loadingIndicatorVisibility = { opacity: 0 };
         if (this.props.isLoading) {
             loadingIndicatorVisibility.opacity = 1;
