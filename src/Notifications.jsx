@@ -28,13 +28,6 @@ repliesCache.cleanup();
  */
 export const refreshNotes = () => client && client.refreshNotes.call(client);
 
-/**
- * Refresh to default note list view
- */
-export const reset = () => {
-    store.dispatch(actions.ui.unselectNote());
-};
-
 export class Notifications extends PureComponent {
     static propTypes = {
         customEnhancer: PropTypes.func,
@@ -96,6 +89,11 @@ export class Notifications extends PureComponent {
     componentWillReceiveProps({ isShowing, isVisible, wpcom }) {
         if (wpcom !== this.props.wpcom) {
             initAPI(wpcom);
+        }
+
+        if (this.props.isShowing && !isShowing) {
+            // unselect the note so keyhandlers don't steal keystrokes
+            store.dispatch(actions.ui.unselectNote());
         }
 
         if (isShowing !== this.props.isShowing) {
