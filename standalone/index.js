@@ -16,9 +16,6 @@ let isVisible = document.visibilityState === 'visible';
 let store = { dispatch: () => {}, getState: () => {} };
 const customEnhancer = next => (reducer, initialState) => (store = next(reducer, initialState));
 
-const refresh = () => store && store.dispatch({ type: 'APP_REFRESH_NOTES' });
-const reset = () => store && store.dispatch({ type: 'SELECT_NOTE', noteId: null });
-
 const customMiddleware = {
     APP_IS_READY: [() => sendMessage({ action: 'iFrameReady' })],
     APP_RENDER_NOTES: [
@@ -56,6 +53,9 @@ const render = () => {
 
 const init = () => {
     render();
+
+    const refresh = () => store.dispatch({ type: 'APP_REFRESH_NOTES' });
+    const reset = () => store.dispatch({ type: 'SELECT_NOTE', noteId: null });
 
     document.addEventListener('visibilitychange', refresh);
 
