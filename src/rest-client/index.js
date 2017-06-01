@@ -22,9 +22,7 @@ const settings = {
     max_limit: 100,
 };
 
-export function Client({ onRender }) {
-    this.onRender = onRender;
-
+export function Client() {
     this.noteList = [];
     this.gettingNotes = false;
     this.timeout = false;
@@ -326,10 +324,6 @@ function ready() {
     }
 
     const latestType = get(notes.slice(-1)[0], 'type', null);
-    this.onRender({
-        unseen: newNoteCount,
-        latestType,
-    });
     store.dispatch({ type: 'APP_RENDER_NOTES', newNoteCount, latestType });
 
     this.hasNewNoteData = false;
@@ -459,7 +453,10 @@ function handleStorageEvent(event) {
         try {
             const lastSeenTime = Number(event.newValue);
             if (updateLastSeenTime.call(this, lastSeenTime, true)) {
-                this.onRender({ unseen: 0 });
+                store.dispatch({
+                    type: 'APP_RENDER_NOTES',
+                    newNoteCount: 0,
+                });
             }
         } catch (e) {}
     }

@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { noop } from 'lodash';
 
 import { init as initStore, store } from './state';
-import { init as initPublicAPI } from './state/action-middleware/public-api';
 import { mergeHandlers } from './state/action-middleware/utils';
 import { SET_IS_SHOWING } from './state/action-types';
 import actions from './state/actions';
@@ -38,42 +37,30 @@ export const reset = () => {
 
 export class Notifications extends PureComponent {
     static propTypes = {
-        appResetter: PropTypes.func,
-        appUpdater: PropTypes.func,
+        customEnhancer: PropTypes.func,
+        customMiddleware: PropTypes.object,
         isShowing: PropTypes.bool,
         isVisible: PropTypes.bool,
         locale: PropTypes.string,
-        onReady: PropTypes.func,
-        onRender: PropTypes.func,
-        onTogglePanel: PropTypes.func,
-        onLayoutChange: PropTypes.func,
         receiveMessage: PropTypes.func,
         wpcom: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
-        appResetter: noop,
-        appUpdater: noop,
+        customEnhancer: a => a,
+        customMiddleware: {},
+        isShowing: false,
         isVisible: false,
         locale: 'en',
-        onReady: noop,
-        onRender: noop,
-        onTogglePanel: noop,
-        onLayoutChange: noop,
         receiveMessage: noop,
     };
 
     componentWillMount() {
         const {
-            appResetter,
-            appUpdater,
             customEnhancer,
-            customMiddleware = {},
+            customMiddleware,
             isShowing,
             isVisible,
-            onLayoutChange,
-            onRender,
-            onTogglePanel,
             receiveMessage,
             wpcom,
         } = this.props;
@@ -85,13 +72,9 @@ export class Notifications extends PureComponent {
             }),
         });
 
-        appResetter(reset);
-        appUpdater(() => this.forceUpdate());
-
         initAPI(wpcom);
-        initPublicAPI({ onLayoutChange, onTogglePanel });
 
-        client = new RestClient({ onRender });
+        client = new RestClient();
         client.global = globalData;
         client.sendMessage = receiveMessage;
 
@@ -108,7 +91,6 @@ export class Notifications extends PureComponent {
     }
 
     componentDidMount() {
-        this.props.onReady();
         store.dispatch({ type: 'APP_IS_READY' });
     }
 
