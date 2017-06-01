@@ -312,6 +312,7 @@ export const NoteList = React.createClass({
             notes = (
                 <EmptyMessage
                     emptyMessage={filter.emptyMessage}
+                    height={this.props.height}
                     linkMessage={filter.emptyLinkMessage}
                     link={filter.emptyLink}
                     name={filter.name}

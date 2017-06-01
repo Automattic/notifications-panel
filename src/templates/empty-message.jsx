@@ -53,7 +53,7 @@ export const EmptyMessage = React.createClass({
         return (
             <div
                 className="wpnc__empty-notes-container"
-                style={{ height: window.innerHeight - TITLE_OFFSET + 'px' }}
+                style={{ height: this.props.height - TITLE_OFFSET + 'px' }}
             >
                 {message}
             </div>
