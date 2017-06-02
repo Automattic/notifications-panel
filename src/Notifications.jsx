@@ -28,13 +28,6 @@ repliesCache.cleanup();
  */
 export const refreshNotes = () => client && client.refreshNotes.call(client);
 
-/**
- * Refresh to default note list view
- */
-export const reset = () => {
-    store.dispatch(actions.ui.unselectNote());
-};
-
 export class Notifications extends PureComponent {
     static propTypes = {
         customEnhancer: PropTypes.func,
@@ -84,7 +77,6 @@ export class Notifications extends PureComponent {
          *
          * @TODO: Pass this information directly into the Redux initial state
          */
-        store.dispatch(isShowing ? actions.ui.openPanel() : actions.ui.closePanel());
         store.dispatch({ type: SET_IS_SHOWING, isShowing });
 
         client.setVisibility({ isShowing, isVisible });
@@ -95,22 +87,22 @@ export class Notifications extends PureComponent {
     }
 
     componentWillReceiveProps({ isShowing, isVisible, wpcom }) {
-        initAPI(wpcom);
+        if (wpcom !== this.props.wpcom) {
+            initAPI(wpcom);
+        }
 
         if (this.props.isShowing && !isShowing) {
-            store.dispatch(actions.ui.closePanel());
             // unselect the note so keyhandlers don't steal keystrokes
-            reset();
+            store.dispatch(actions.ui.unselectNote());
         }
 
-        if (!this.props.isShowing && isShowing) {
-            store.dispatch(actions.ui.openPanel());
-        }
-
-        if (this.props.isShowing !== isShowing) {
+        if (isShowing !== this.props.isShowing) {
             store.dispatch({ type: SET_IS_SHOWING, isShowing });
         }
-        client.setVisibility({ isShowing, isVisible });
+
+        if (isShowing !== this.props.isShowing || isVisible !== this.props.isVisible) {
+            client.setVisibility({ isShowing, isVisible });
+        }
     }
 
     render() {
