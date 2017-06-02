@@ -62,7 +62,7 @@ const init = () => {
         'message',
         receiveMessage(({ action, hidden, showing }) => {
             if ('togglePanel' === action) {
-                if (!isShowing && showing) {
+                if (isShowing && !showing) {
                     reset();
                 }
 
