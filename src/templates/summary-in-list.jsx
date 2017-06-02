@@ -23,13 +23,11 @@ export const SummaryInList = React.createClass({
             window.open(this.props.note.url, '_blank');
         } else {
             if (this.props.currentNote == this.props.note.id) {
-                this.props.setLayout('narrow');
                 this.props.unselectNote();
             } else {
                 recordTracksEvent('calypso_notification_note_open', {
                     note_type: this.props.note.type,
                 });
-                this.props.setLayout('widescreen');
                 this.props.selectNote(this.props.note.id);
             }
         }
@@ -70,7 +68,6 @@ export const SummaryInList = React.createClass({
 
 const mapDispatchToProps = dispatch => ({
     selectNote: compose(dispatch, actions.ui.selectNote),
-    setLayout: compose(dispatch, actions.ui.setLayout),
     unselectNote: compose(dispatch, actions.ui.unselectNote),
 });
 

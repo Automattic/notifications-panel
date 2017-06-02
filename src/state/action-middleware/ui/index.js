@@ -25,7 +25,11 @@ export const advanceToNextNote = ({ dispatch, getState }, { noteId }) => {
     }
 };
 
+const toggleDrawer = ({ dispatch }, { noteId }) =>
+    dispatch(actions.ui.setLayout(noteId ? 'widescreen' : 'narrow'));
+
 export default {
+    [types.SELECT_NOTE]: [toggleDrawer],
     [types.SPAM_NOTE]: [advanceToNextNote],
     [types.TRASH_NOTE]: [advanceToNextNote],
 };
