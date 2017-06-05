@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React from 'react';
+import classNames from 'classnames';
 
 /**
  * Internal dependencies
@@ -24,15 +25,13 @@ const ActionButton = React.createClass({
 
         return (
             <HotkeyContainer shortcuts={hotkeys}>
-                <div className="wpnc__action-link">
-                    <div
-                        className={isActive ? 'active-action' : 'inactive-action'}
-                        title={title}
-                        onClick={onToggle}
-                    >
-                        <Gridicon icon={icon} size={24} /><p>{text}</p>
-                    </div>
-                </div>
+				<button
+					className={classNames( 'wpnc__action-link', isActive ? 'active-action' : 'inactive-action' )}
+					title={title}
+					onClick={onToggle}
+				>
+					<Gridicon icon={icon} size={24} /><p>{text}</p>
+				</button>
             </HotkeyContainer>
         );
     },
