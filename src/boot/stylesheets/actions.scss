@@ -75,6 +75,10 @@
 	&:only-child {
 		padding: 0 18px;
 	}
+
+	p {
+		overflow: hidden;
+	}
 }
 
 .wpnc__main div.wpnc__action-link {
