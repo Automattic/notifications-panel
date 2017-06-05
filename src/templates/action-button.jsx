@@ -25,14 +25,13 @@ const ActionButton = React.createClass({
         return (
             <HotkeyContainer shortcuts={hotkeys}>
                 <div className="wpnc__action-link">
-                    <a
-                        href="#"
+                    <div
                         className={isActive ? 'active-action' : 'inactive-action'}
                         title={title}
                         onClick={onToggle}
                     >
                         <Gridicon icon={icon} size={24} /><p>{text}</p>
-                    </a>
+                    </div>
                 </div>
             </HotkeyContainer>
         );

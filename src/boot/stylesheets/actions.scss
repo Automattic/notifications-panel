@@ -75,34 +75,44 @@
 	&:only-child {
 		padding: 0 18px;
 	}
-
-	a {
-		outline: none;
-	}
-
-	a.inactive-action:hover {
-		color: $orange-jazzy;
-	}
-
-	a.active-action:hover {
-		color: $gray-text-min;
-	}
 }
 
 .wpnc__main div.wpnc__action-link {
+	cursor: pointer;
 	text-align: center;
 	font-size: 12px;
+	height: 55px;
 
 	.wpnc__noticon {
 		font-size: 24px;
 	}
 
-	a.active-action {
+	.active-action {
 		color: $orange-jazzy;
+
+		&:hover {
+			color: $gray;
+
+			.gridicon {
+				fill: $gray;
+			}
+		}
+
+		.gridicon {
+			fill: $orange-jazzy;
+		}
 	}
 
-	a.inactive-action {
-		color: $gray-text-min;
+	.inactive-action {
+		color: $gray;
+
+		&:hover {
+			color: $orange-jazzy;
+
+			.gridicon {
+				fill: $orange-jazzy;
+			}
+		}
 
 		.gridicon {
 			fill: $gray;
