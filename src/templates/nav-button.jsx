@@ -16,7 +16,6 @@ export const NavButton = React.createClass({
                     disabled: !this.props.isEnabled,
                 })}
                 disabled={!this.props.isEnabled}
-                href="#"
                 onClick={this.props.isEnabled ? this.navigate : null}
             />
         );
