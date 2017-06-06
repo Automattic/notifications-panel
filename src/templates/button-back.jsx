@@ -7,6 +7,11 @@ import { localize } from 'i18n-calypso';
 
 import actions from '../state/actions';
 
+/**
+ * Internal dependencies
+ */
+import Gridicon from './gridicons';
+
 const routeBack = (global, unselectNote) => event => {
     event.preventDefault();
     global.input.lastInputWasKeyboard = false;
@@ -20,9 +25,11 @@ export const BackButton = ({ global, isEnabled, translate, unselectNote }) => {
 
     return isEnabled
         ? <a className="wpnc__back" onClick={routeBack(global, unselectNote)} href="#">
+              <Gridicon icon="arrow-left" size={18} />
               {backText}
           </a>
         : <a className="wpnc__back disabled" disabled="disabled" href="#">
+              <Gridicon icon="arrow-left" size={18} />
               {backText}
           </a>;
 };
