@@ -1,4 +1,8 @@
 .wpnc__note-actions {
+	.wpnc__note-actions__buttons {
+		padding-bottom: 16px;
+	}
+
 	.wpnc__reply-box {
 		font-family: $sans;
 		display: block;
@@ -53,15 +57,56 @@
 	}
 }
 
-.wpnc__note-actions__buttons div.wpnc__action-link {
+.wpnc__action-link {
+	background-color: transparent;
+	border: none;
+	box-sizing: border-box;
+	cursor: pointer;
 	display: inline-block;
-	vertical-align: top;
+	font-size: 12px;
 	max-width: 25%;
 	padding: 0 18px;
-	box-sizing: border-box;
+	text-align: center;
+	vertical-align: top;
+
+	&.active-action {
+		color: $orange-jazzy;
+
+		&:hover {
+			color: $gray-text-min;
+
+			.gridicon {
+				fill: $gray;
+			}
+		}
+
+		.gridicon {
+			fill: $orange-jazzy;
+		}
+	}
+
+	&.inactive-action {
+		color: $gray-text-min;
+
+		&:hover {
+			color: $orange-jazzy;
+
+			.gridicon {
+				fill: $orange-jazzy;
+			}
+		}
+
+		.gridicon {
+			fill: $gray;
+		}
+	}
 
 	@media screen and (max-width: 370px) {
 		padding: 0 12px;
+	}
+
+	&:focus {
+		outline: none;
 	}
 
 	&:first-child {
@@ -76,37 +121,11 @@
 		padding: 0 18px;
 	}
 
-	a {
-		outline: none;
-	}
-
-	a.inactive-action:hover {
-		color: $orange-jazzy;
-	}
-
-	a.active-action:hover {
-		color: $gray-text-min;
-	}
-}
-
-.wpnc__main div.wpnc__action-link {
-	text-align: center;
-	font-size: 12px;
-
 	.wpnc__noticon {
 		font-size: 24px;
 	}
 
-	a.active-action {
-		color: $orange-jazzy;
+	p {
+		overflow: hidden;
 	}
-
-	a.inactive-action {
-		color: $gray-text-min;
-
-		.gridicon {
-			fill: $gray;
-		}
-	}
-
 }

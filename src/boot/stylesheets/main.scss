@@ -532,12 +532,6 @@ body {
       	-webkit-overflow-scrolling: touch;
     	}
 
-    	.wpnc__action-link {
-    		p {
-    			overflow: hidden;
-    		}
-    	}
-
     	.wpnc__user {
     		p {
     			@extend %ellipsy-box;
