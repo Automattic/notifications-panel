@@ -27,7 +27,7 @@ export const NavButton = React.createClass({
                 href="#"
                 onClick={this.props.isEnabled ? this.navigate : null}
             >
-              <Gridicon icon="arrow-down" size={18} />
+              <Gridicon icon={this.props.iconName} size={18} />
             </a>
 
         );
@@ -35,6 +35,7 @@ export const NavButton = React.createClass({
 });
 
 NavButton.propTypes = {
+    iconName: PropTypes.string.isRequired,
     className: PropTypes.string,
     isEnabled: PropTypes.bool.isRequired,
     navigate: PropTypes.func.isRequired,
