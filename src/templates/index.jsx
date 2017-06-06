@@ -511,6 +511,7 @@ const Layout = React.createClass({
                                 />
                                 <div>
                                     <NavButton
+                                        iconName="arrow-up"
                                         className="wpnc__prev"
                                         isEnabled={
                                             (filteredNotes[0] &&
@@ -520,6 +521,7 @@ const Layout = React.createClass({
                                         navigate={this.navigateToPrevNote}
                                     />
                                     <NavButton
+                                        iconName="arrow-down"
                                         className="wpnc__next"
                                         isEnabled={
                                             (filteredNotes[0] &&

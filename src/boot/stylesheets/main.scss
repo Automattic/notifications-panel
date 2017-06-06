@@ -86,22 +86,14 @@ body {
     	.wpnc__next {
     		float: left;
     		outline: none;
+
+				.gridicon {
+					vertical-align: middle;
+				}
     	}
 
     	.wpnc__prev {
     		margin-right: 8px;
-    	}
-
-    	.wpnc__prev:before {
-    		@extend %wpnc__bignoticon;
-    		content: '\f430';
-    		transform: rotate( 90deg );
-    	}
-
-    	.wpnc__next:before {
-    		@extend %wpnc__bignoticon;
-    		content: '\f429';
-    		transform: rotate( 90deg ) translateX( 2px ); // Vertical nudge
     	}
 
     	.disabled {
