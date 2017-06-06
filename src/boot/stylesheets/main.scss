@@ -272,7 +272,7 @@ body {
     		height: $icon-size;
     	}
 
-    	.wpnc__note-icon .wpnc__noticon {
+    	.wpnc__note-icon .wpnc__gridicon {
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -367,7 +367,7 @@ body {
     		cursor: pointer;
     	}
 
-    	.wpnc__note-icon .wpnc__noticon {
+    	.wpnc__note-icon .wpnc__gridicon {
     		position: absolute;
     		bottom: -5px;
     		right: -8px;
@@ -379,12 +379,12 @@ body {
     		border-radius: 50%;
     	}
 
-    	.unread .wpnc__note-icon .wpnc__noticon {
+    	.unread .wpnc__note-icon .wpnc__gridicon {
     		background: $blue-medium;
     		border-color: $gray-light;
     	}
 
-    	.wpnc__comment-unapproved .wpnc__note-icon .wpnc__noticon {
+    	.wpnc__comment-unapproved .wpnc__note-icon .wpnc__gridicon {
     		background: $alert-yellow;
     		border-color: $alert-yellow-lighter;
     	}
@@ -408,7 +408,7 @@ body {
     			@extend %ellipsy-box;
     		}
 
-    		.wpnc__subject .wpnc__noticon {
+    		.wpnc__subject .wpnc__gridicon {
     			line-height: 1;
 					vertical-align: -3px;
     			color: $gray;
@@ -579,7 +579,7 @@ body {
     		padding: $padding-medium 0;
     		border-bottom: 1px solid lighten( $gray, 30 );
 
-    		.wpnc__noticon {
+    		.wpnc__gridicon {
     			padding: 0 10px;
 
 					.gridicon {
@@ -603,7 +603,7 @@ body {
     		border: none;
     	}
 
-    	.wpnc__note-icon .wpnc__noticon {
+    	.wpnc__note-icon .wpnc__gridicon {
     		font-size: 2em;
     		background-color: lighten( $gray, 20 );
     		border-color: lighten( $gray, 20 );

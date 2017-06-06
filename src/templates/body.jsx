@@ -154,7 +154,7 @@ export const NoteBody = React.createClass({
 
             replyBlock = (
                 <div className="wpnc__reply">
-                    <span className="wpnc__noticon"></span>
+                    <span className="wpnc__gridicon"></span>
                     {replyMessage}
                 </div>
             );
