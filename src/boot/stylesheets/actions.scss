@@ -41,6 +41,7 @@
 			font-size: 12px;
 		}
 		button.active {
+			display: block;
 			color: $blue-medium;
 		}
 		button.inactive {
