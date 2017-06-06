@@ -196,7 +196,7 @@ export const UndoListItem = React.createClass({
                         {undo_text}
                     </a>
                     <span className="wpnc__undo-message">{message}</span>
-                    <span className="wpnc__close-link wpnc__noticon" onClick={this.actImmediately}>
+                    <span className="wpnc__close-link" onClick={this.actImmediately}>
                         <Gridicon icon="cross" size={24} />
                     </span>
                 </p>
