@@ -13,6 +13,7 @@ import actions from '../state/actions';
 import Gridicon from './gridicons';
 
 const routeBack = (global, unselectNote) => event => {
+    event.stopPropagation();
     event.preventDefault();
     global.input.lastInputWasKeyboard = false;
     unselectNote();
@@ -24,11 +25,11 @@ export const BackButton = ({ global, isEnabled, translate, unselectNote }) => {
     });
 
     return isEnabled
-        ? <a className="wpnc__back" onClick={routeBack(global, unselectNote)} href="#">
+        ? <a className="wpnc__back" onClick={routeBack(global, unselectNote)}>
               <Gridicon icon="arrow-left" size={18} />
               {backText}
           </a>
-        : <a className="wpnc__back disabled" disabled="disabled" href="#">
+        : <a className="wpnc__back disabled" disabled="disabled">
               <Gridicon icon="arrow-left" size={18} />
               {backText}
           </a>;
