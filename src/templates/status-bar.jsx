@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Gridicon from './gridicons';
+
 export const StatusBar = React.createClass({
     getDefaultProps: function() {
         return {
@@ -64,10 +66,10 @@ export const StatusBar = React.createClass({
                     }}
                 />
                 <span
-                    className="wpnc__status-bar__wpnc__close-link wpnc__noticon"
+                    className="wpnc__status-bar__wpnc__close-link"
                     onClick={this.disappear}
                 >
-                    
+                    <Gridicon icon="cross" size={18} />
                 </span>
             </div>
         );
