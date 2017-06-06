@@ -486,7 +486,7 @@ body {
     	}
 
     	.wpnc__noticon {
-    		@extend %wpnc__noticon;
+				display: inline-block;
     	}
 
     	.wpnc__close-link {
