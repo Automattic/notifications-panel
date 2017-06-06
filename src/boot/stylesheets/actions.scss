@@ -25,11 +25,11 @@
 			resize: vertical;
 		}
 
-		textarea:focus + a {
+		textarea:focus + button {
 			display: block;
 		}
 
-		a {
+		button {
 			font-family: $sans;
 			color: $gray;
 			display: none;
@@ -40,11 +40,10 @@
 			font-weight: 600;
 			font-size: 12px;
 		}
-		a.active {
-			display: block;
+		button.active {
 			color: $blue-medium;
 		}
-		a.inactive {
+		button.inactive {
 			cursor: default;
 		}
 
