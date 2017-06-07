@@ -144,9 +144,6 @@ body {
     	font-size: $capital-font-size;
     }
 
-    .rtl header .back:before {
-    }
-
     .rtl header .back:after {
     	transform: rotate( 90deg );
     }
