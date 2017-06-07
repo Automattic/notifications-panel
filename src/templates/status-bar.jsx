@@ -65,12 +65,12 @@ export const StatusBar = React.createClass({
                         __html: this.props.statusMessage,
                     }}
                 />
-                <span
-                    className="wpnc__status-bar__wpnc__close-link"
+                <button
+                    className="wpnc__close-link"
                     onClick={this.disappear}
                 >
                     <Gridicon icon="cross" size={18} />
-                </span>
+                </button>
             </div>
         );
     },

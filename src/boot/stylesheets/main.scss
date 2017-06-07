@@ -488,15 +488,10 @@ body {
     	.wpnc__undo-message {
     		margin-left: 2em;
     	}
-
-    	.wpnc__close-link {
-    		width: 44px;
-    		height: 100%;
-    		line-height: 20px;
-    	}
     }
 
     .wpnc__close-link {
+		color: $white;
     	position: absolute;
     	right: 10px;
     	cursor: pointer;

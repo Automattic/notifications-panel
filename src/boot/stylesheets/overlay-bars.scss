@@ -9,10 +9,6 @@
 	background-color: $alert-red;
 	color: $white;
 
-  @media only screen and (min-width: 800px) {
-		width: 400px;
-	}
-
 	a,
 	a:visited {
 		color: $white;
@@ -26,17 +22,13 @@
 		color: $white;
 	}
 
-	.wpnc__status-bar__wpnc__close-link {
-		display: inline-block;
-
-		.gridicon {
-			vertical-align: middle;
-		}
+	span {
+		margin: 15px 5px 15px 5px;
 	}
 
-  span {
-		margin: 15px 5px 15px 5px;
-  }
+	.wpnc__close-link {
+		position: relative;
+	}
 }
 
 .wpnc__status-bar.success {
