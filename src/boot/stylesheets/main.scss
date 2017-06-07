@@ -397,7 +397,8 @@ body {
     		}
 
     		.wpnc__subject .wpnc__noticon {
-    			@extend %wpnc__noticon;
+    			line-height: 1;
+					vertical-align: -3px;
     			color: $gray;
     			padding: 2px 5px 0 0;
     		}
@@ -572,8 +573,11 @@ body {
     		border-bottom: 1px solid lighten( $gray, 30 );
 
     		.wpnc__noticon {
-    			@extend %wpnc__noticon;
     			padding: 0 10px;
+
+					.gridicon {
+						vertical-align: top;
+					}
     		}
 
     		a {
