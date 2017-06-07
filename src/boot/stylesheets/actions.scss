@@ -25,11 +25,11 @@
 			resize: vertical;
 		}
 
-		textarea:focus + a {
+		textarea:focus + button {
 			display: block;
 		}
 
-		a {
+		button {
 			font-family: $sans;
 			color: $gray;
 			display: none;
@@ -40,11 +40,11 @@
 			font-weight: 600;
 			font-size: 12px;
 		}
-		a.active {
+		button.active {
 			display: block;
 			color: $blue-medium;
 		}
-		a.inactive {
+		button.inactive {
 			cursor: default;
 		}
 
@@ -57,7 +57,7 @@
 	}
 }
 
-.wpnc__action-link {
+.wpnc__main .wpnc__action-link {
 	background-color: transparent;
 	border: none;
 	box-sizing: border-box;

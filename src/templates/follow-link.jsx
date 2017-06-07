@@ -74,10 +74,10 @@ export const FollowLink = React.createClass({
         }
 
         return (
-            <a className="follow-link" onClick={this.toggleFollowStatus} href="#">
+            <button className="follow-link" onClick={this.toggleFollowStatus}>
                 <Gridicon icon={gridicon_icon} size={18} />
                 {link_text}
-            </a>
+            </button>
         );
     },
 });

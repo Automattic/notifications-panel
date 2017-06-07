@@ -295,24 +295,23 @@ const CommentReplyInput = React.createClass({
                     context: 'verb: imperative',
                 });
                 submitLink = (
-                    <a
-                        href="#"
+                    <button
                         title={submitLinkTitle}
                         className="active"
                         onClick={this.handleSubmit}
                         onKeyDown={this.handleSendEnter}
                     >
                         {sendText}
-                    </a>
+                    </button>
                 );
             } else {
                 var submitLinkTitle = this.props.translate(
                     'Write your response in order to submit'
                 );
                 submitLink = (
-                    <a href="#" title={submitLinkTitle} className="inactive">
+                    <button title={submitLinkTitle} className="inactive">
                         {sendText}
-                    </a>
+                    </button>
                 );
             }
         }

@@ -44,6 +44,18 @@ body {
     	color: $gray;
     }
 
+    button {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		font-size: inherit;
+		padding: 0;
+
+		&.focus {
+			outline: none;
+		}
+	}
+
     header {
     	border-bottom: 1px solid lighten( $gray, 30 );
     	box-sizing: border-box;
