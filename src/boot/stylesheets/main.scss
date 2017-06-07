@@ -267,10 +267,12 @@ body {
     	}
 
     	.wpnc__note-icon .wpnc__noticon {
-    		@extend %wpnc__noticon;
-    		text-decoration: none;
+				display: flex;
+				align-items: center;
+				justify-content: center;
     		color: white;
-    		padding: 3px;
+				height: 22px;
+				width: 22px;
     		border: {
     			width: 2px;
     			style: solid;
@@ -361,8 +363,8 @@ body {
 
     	.wpnc__note-icon .wpnc__noticon {
     		position: absolute;
-    		bottom: -.333em;
-    		right: -.5em;
+    		bottom: -5px;
+    		right: -8px;
     		background-color: lighten( $gray, 5% );
     		border-color: $white;
     	}
