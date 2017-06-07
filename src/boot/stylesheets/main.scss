@@ -145,12 +145,9 @@ body {
     }
 
     .rtl header .back:before {
-    	content: none;
     }
 
     .rtl header .back:after {
-    	@extend %wpnc__noticon;
-    	content: '\f432';
     	transform: rotate( 90deg );
     }
 
