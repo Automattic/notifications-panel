@@ -1,23 +1,3 @@
-%clear-text {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-%wpnc__noticon {
-	@extend %clear-text;
-	display: inline-block;
-	font: normal 16px/1 'Noticons';
-	vertical-align: top;
-}
-
-%wpnc__bignoticon {
-	@extend %clear-text;
-	display: inline-block;
-	font: normal 18px/1 'Noticons';
-	font-weight: bold;
-	vertical-align: middle;
-}
-
 %container {
 	&:after {
 		content: ".";
