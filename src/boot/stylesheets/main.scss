@@ -39,20 +39,18 @@ body {
     	color: $blue-wordpress;
     }
 
-    a[disabled], .wpnc__single-view header .back[disabled] {
-    	pointer-events: none;
-    	color: $gray;
-    }
-
     button {
 		background-color: transparent;
 		border: none;
+		color: $blue-wordpress;
 		cursor: pointer;
 		font-size: inherit;
+		outline: none;
 		padding: 0;
 
-		&.focus {
-			outline: none;
+		&[disabled] {
+			pointer-events: none;
+			color: $gray;
 		}
 	}
 
@@ -81,6 +79,10 @@ body {
     		color: darken( $gray, 10% );
     		display: inline;
     	}
+
+		button {
+			line-height: 38px;
+		}
 
     	.wpnc__back {
     		@extend %headertext;

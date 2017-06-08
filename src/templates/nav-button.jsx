@@ -19,16 +19,15 @@ export const NavButton = React.createClass({
 
     render() {
         return (
-            <a
+            <button
                 className={classNames(this.props.className, {
                     disabled: !this.props.isEnabled,
                 })}
                 disabled={!this.props.isEnabled}
                 onClick={this.props.isEnabled ? this.navigate : null}
             >
-              <Gridicon icon={this.props.iconName} size={18} />
-            </a>
-
+                <Gridicon icon={this.props.iconName} size={18} />
+            </button>
         );
     },
 });
