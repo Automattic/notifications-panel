@@ -65,7 +65,7 @@ var UserHeader = React.createClass({
                 );
             } else {
                 return (
-                    <a className={classNames + ' disabled'} href="#" disabled="disabled">
+                    <a className={classNames + ' disabled'} disabled="disabled">
                         {children}
                     </a>
                 );
