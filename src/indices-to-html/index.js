@@ -26,7 +26,7 @@ function render_range(new_sub_text, new_sub_range, range_info, range_data, optio
         type_mappings = {
             b: 'strong', // be strong, my friend
             i: 'em', // I am, don't worry
-			noticon: 'gridicon',
+            noticon: 'gridicon',
         };
 
         // Replace unwanted tags with more popular and cool ones
