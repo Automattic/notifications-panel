@@ -25,14 +25,14 @@ export const BackButton = ({ global, isEnabled, translate, unselectNote }) => {
     });
 
     return isEnabled
-        ? <a className="wpnc__back" onClick={routeBack(global, unselectNote)}>
+        ? <button className="wpnc__back" onClick={routeBack(global, unselectNote)}>
               <Gridicon icon="arrow-left" size={18} />
               {backText}
-          </a>
-        : <a className="wpnc__back disabled" disabled="disabled">
+          </button>
+        : <button className="wpnc__back disabled" disabled="disabled">
               <Gridicon icon="arrow-left" size={18} />
               {backText}
-          </a>;
+          </button>;
 };
 
 BackButton.propTypes = {
