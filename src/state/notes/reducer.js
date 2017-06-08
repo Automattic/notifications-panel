@@ -51,8 +51,13 @@ export const noteLikes = (state = {}, { type, noteId, isLiked }) => {
     return state;
 };
 
-export const noteReads = (state = {}, { type, noteId }) =>
-    (types.SELECT_NOTE && noteId ? { ...state, [noteId]: true } : state);
+export const noteReads = (state = {}, { type, noteId }) => {
+    if ((types.READ_NOTE === type || types.SELECT_NOTE === type) && noteId) {
+        return { ...state, [noteId]: true };
+    }
+
+    return state;
+};
 
 export const filteredNoteReads = (state = [], { type, noteId }) => {
     if (types.SELECT_NOTE === type) {

@@ -6,6 +6,7 @@ export const NOTES_REMOVE = 'NOTES_REMOVE';
 export const NOTES_LOADING = 'NOTES_LOADING';
 export const NOTES_LOADED = 'NOTES_LOADED';
 export const SELECT_NOTE = 'SELECT_NOTE';
+export const READ_NOTE = 'READ_NOTE';
 export const RESET_LOCAL_APPROVAL = 'RESET_LOCAL_APPROVAL';
 export const RESET_LOCAL_LIKE = 'RESET_LOCAL_LIKE';
 export const SET_IS_SHOWING = 'SET_IS_SHOWING'; // special! do not use
