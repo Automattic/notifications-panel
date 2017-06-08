@@ -566,6 +566,4 @@ const mapDispatchToProps = {
     unselectNote: actions.ui.unselectNote,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-    pure: false,
-})(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

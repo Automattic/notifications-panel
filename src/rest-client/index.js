@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-import { difference, get, max, pick, property, range } from 'lodash';
+import { difference, get, pick, property, range } from 'lodash';
 
 import { store } from '../state';
 import actions from '../state/actions';
@@ -459,6 +459,13 @@ function handleStorageEvent(event) {
                 });
             }
         } catch (e) {}
+        return;
+    }
+
+    if ('note_read_status_' === event.key.substring(0, 17)) {
+        const noteId = parseInt(event.key.slice(17), 10);
+
+        return store.dispatch(actions.notes.readNote(noteId));
     }
 }
 

@@ -15,6 +15,7 @@ export const noteAction = action => noteId => ({
     noteId,
 });
 
+export const readNote = noteAction(types.READ_NOTE);
 export const spamNote = noteAction(types.SPAM_NOTE);
 export const trashNote = noteAction(types.TRASH_NOTE);
 
@@ -70,6 +71,7 @@ export default {
     addNotes,
     approveNote,
     likeNote,
+    readNote,
     removeNotes,
     resetLocalApproval,
     resetLocalLike,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import getIsNoteApproved from '../state/selectors/get-is-note-approved';
 import getIsNoteRead from '../state/selectors/get-is-note-read';
@@ -10,104 +11,62 @@ import NoteBody from './body';
 
 import { getActions } from '../helpers/notes';
 
-export const Note = React.createClass({
-    shouldComponentUpdate: function(nextProps) {
-        return (
-            this.props.note.note_hash !== nextProps.note.note_hash ||
-            this.props.listView !== nextProps.listView ||
-            this.props.currentNote !== nextProps.currentNote ||
-            this.props.selectedNote !== nextProps.selectedNote ||
-            nextProps.note.note_hash === 1
-        );
-    },
+const hasBadge = body =>
+    body.some(({ media }) => media && media.some(({ type }) => 'badge' === type));
 
-    render: function() {
-        var summary;
-        var classes = [
-            this.props.isRead ? 'read' : 'unread',
-            'wpnc__note',
-            `wpnc__${this.props.note.type}`,
-        ];
-        var body;
+export const Note = props => {
+    const { currentNote, detailView, global, isApproved, isRead, note, selectedNote } = props;
 
-        /* Check if this note is the currently selected note for navigation */
-        if (this.props.selectedNote == this.props.note.id) {
-            classes.push('wpnc__selected-note');
-        }
+    let hasCommentReply = false;
+    let hasUnapprovedComment = false;
 
-        /* Check if note has a badge */
-        for (var i = 0; i < this.props.note.body.length; i++) {
-            var block = this.props.note.body[i];
+    if ('comment' === note.type) {
+        const noteBody = note.body;
+        const noteActions = getActions(note);
+        if (noteBody.length > 1 && noteActions) {
+            /* Check if note has a reply to another comment */
+            if (noteBody[1] && noteBody[1].nest_level && noteBody[1].nest_level > 0) {
+                hasCommentReply = true;
+            }
 
-            if ('undefined' != typeof block.media) {
-                for (var j = 0; j < block.media.length; j++) {
-                    if ('badge' == block.media[j].type) {
-                        classes.push('wpnc__badge');
-                        i = this.props.note.body.length;
-                        break;
-                    }
-                }
+            /* Check if note has unapproved comment */
+            if ('approve-comment' in noteActions && !isApproved) {
+                hasUnapprovedComment = true;
             }
         }
+    }
 
-        if ('comment' == this.props.note.type) {
-            var noteBody = this.props.note.body;
-            var noteActions = getActions(this.props.note);
-            if (noteBody.length > 1 && noteActions) {
-                /* Check if note has a reply to another comment */
-                if (
-                    'undefined' != typeof noteBody[1] &&
-                    'undefined' != typeof noteBody[1].nest_level
-                ) {
-                    if (noteBody[1].nest_level > 0) {
-                        classes.push('comment-reply');
-                    }
-                }
+    const classes = classNames('wpnc__note', `wpnc__${note.type}`, {
+        'comment-reply': hasCommentReply,
+        read: isRead,
+        unread: !isRead,
+        wpnc__badge: hasBadge(note.body),
+        'wpnc__comment-unapproved': hasUnapprovedComment,
+        wpnc__current: detailView,
+        'wpnc__selected-note': parseInt(selectedNote, 10) === parseInt(note.id, 10),
+    });
 
-                /* Check if note has unapproved comment */
-                if ('approve-comment' in noteActions && !this.props.isApproved) {
-                    classes.push('wpnc__comment-unapproved');
-                }
-            }
-        }
-
-        if (this.props.detailView) {
-            classes.push('wpnc__current');
-            summary = this.props.note.header && this.props.note.header.length > 0
-                ? <SummaryInSingle
-                      key={'note-summary-single-' + this.props.note.id}
-                      note={this.props.note}
-                  />
-                : null;
-            body = (
-                <NoteBody
-                    key={'note-body-' + this.props.note.id}
-                    note={this.props.note}
-                    global={this.props.global}
-                />
-            );
-        } else {
-            summary = (
+    return (
+        <li id={'note-' + note.id} className={classes}>
+            {detailView &&
+                note.header &&
+                note.header.length > 0 &&
+                <SummaryInSingle key={'note-summary-single-' + note.id} note={note} />}
+            {!detailView &&
                 <SummaryInList
-                    currentNote={this.props.currentNote}
-                    key={'note-summary-list' + this.props.note.id}
-                    note={this.props.note}
-                    global={this.props.global}
-                />
-            );
-        }
-
-        return (
-            <li id={'note-' + this.props.note.id} className={classes.join(' ')}>
-                {summary}{body}
-            </li>
-        );
-    },
-});
+                    currentNote={currentNote}
+                    key={'note-summary-list' + note.id}
+                    note={note}
+                    global={global}
+                />}
+            {detailView && <NoteBody key={'note-body-' + note.id} note={note} global={global} />}
+        </li>
+    );
+};
 
 const mapStateToProps = (state, { note }) => ({
     isApproved: getIsNoteApproved(state, note),
     isRead: getIsNoteRead(state, note),
 });
 
-export default connect(mapStateToProps, null, null, { pure: false })(Note);
+export default connect(mapStateToProps)(Note);
