@@ -52,7 +52,7 @@ export const SummaryInList = React.createClass({
                             <img src="https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=128" />
                         }
                     />
-                    <span className="wpnc__noticon">
+                    <span className="wpnc__gridicon">
                         <Gridicon icon={noticon2gridicon(this.props.note.noticon)} size={16} />
                     </span>
 

@@ -26,6 +26,7 @@ function render_range(new_sub_text, new_sub_range, range_info, range_data, optio
         type_mappings = {
             b: 'strong', // be strong, my friend
             i: 'em', // I am, don't worry
+            noticon: 'gridicon',
         };
 
         // Replace unwanted tags with more popular and cool ones
@@ -33,7 +34,7 @@ function render_range(new_sub_text, new_sub_range, range_info, range_data, optio
             range_info_type = type_mappings[range_info.type];
         }
 
-        new_classes.push(`wpnc__${range_info.type}`);
+        new_classes.push(`wpnc__${range_info_type}`);
     }
 
     // We want to do different things depending on the range type.
@@ -77,8 +78,8 @@ function render_range(new_sub_text, new_sub_range, range_info, range_data, optio
             new_container = document.createElement(range_info_type);
             build_chunks(new_sub_text, new_sub_range, range_data, new_container, options);
             break;
-        case 'noticon':
-            // Noticons have special text, and are thus not recursed into
+        case 'gridicon':
+            // Gridicons have special text, and are thus not recursed into
             new_container = document.createElement('span');
             new_container.innerHTML = ReactDOMServer.renderToStaticMarkup(
                 React.createElement(Gridicon, {
