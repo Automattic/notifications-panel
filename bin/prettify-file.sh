@@ -2,7 +2,7 @@
 
 file="$1"
 printf $file
-if [[ ! $file =~ ^(src|standalone)/[^\.]+\.jsx?$ ]]; then
+if [[ ! $file =~ ^(src|standalone)/[^\.]+\.(jsx?|scss)$ ]]; then
 	printf "\nNot a prettifiable file\n"
 	exit 0
 fi
