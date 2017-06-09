@@ -12,4 +12,4 @@ if [ ! -f ./node_modules/.bin/prettier ]; then
 	exit 1
 fi
 
-./node_modules/.bin/prettier --print-width=100 --single-quote --tab-width=4 --trailing-comma=es5 --write ${file}
+./node_modules/.bin/prettier --print-width=100 --single-quote --use-tabs --tab-width=4 --trailing-comma=es5 --write ${file}
