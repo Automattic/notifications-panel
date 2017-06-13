@@ -327,9 +327,8 @@ body {
       flex-direction: column;
       top: 0;
     	right: 0;
-    	left: auto;
+    	left: 0;
       bottom: 0;
-      width: 400px;
       overflow: hidden;
 			&:not(.is-note-open) {
 				box-shadow: -3px 1px 10px -2px rgba($gray-dark, 0.075);
@@ -795,6 +794,12 @@ body {
 
     		box-shadow: none;
     	}
+
+        .wpnc__note-list {
+    		width: 400px;
+    		left: auto;
+    		right: 0px;
+        }
 
     	.wpnc__single-view {
     		right: 400px;
