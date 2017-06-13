@@ -327,7 +327,7 @@ body {
       flex-direction: column;
       top: 0;
     	right: 0;
-    	left: 0;
+    	left: 10px;
       bottom: 0;
       overflow: hidden;
 			&:not(.is-note-open) {
@@ -346,10 +346,6 @@ body {
 			&.is-empty-list {
 				overflow-y: hidden;
 			}
-
-    	@media only screen and (min-width: 409px) and (max-width: 430px) {
-    		left: 9px;
-    	}
 
     	h1 {
     		text-align: center;
