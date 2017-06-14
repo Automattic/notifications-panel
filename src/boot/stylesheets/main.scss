@@ -327,17 +327,12 @@ body {
       flex-direction: column;
       top: 0;
     	right: 0;
-    	left: auto;
+    	left: 0;
       bottom: 0;
-      width: 410px;
       overflow: hidden;
 			&:not(.is-note-open) {
 				box-shadow: -3px 1px 10px -2px rgba($gray-dark, 0.075);
 			}
-
-      @media only screen and (max-width: 799px) {
-  			width: 100%;
-  		}
     }
 
     .wpnc__list-view {
@@ -346,7 +341,6 @@ body {
     	overflow-y: scroll;
     	-webkit-overflow-scrolling: touch;
     	border-left: 1px solid lighten( $gray, 30 );
-    	box-shadow: -3px 1px 10px -2px rgba($gray-dark, 0.075);
 
 			&.is-empty-list {
 				overflow-y: hidden;
@@ -799,6 +793,11 @@ body {
 
     		box-shadow: none;
     	}
+
+		.wpnc__note-list {
+			left: auto;
+			width: 410px;
+		}
 
     	.wpnc__single-view {
     		right: 410px;
