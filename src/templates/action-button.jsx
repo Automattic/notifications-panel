@@ -13,8 +13,9 @@ import HotkeyContainer from './container-hotkey';
 const ActionButton = ({ isActive, hotkey, icon, onToggle, text, title }) =>
   <HotkeyContainer shortcuts={hotkey ? [{ hotkey, action: onToggle }] : null}>
     <button
-      className={classNames('wpnc__aciton-link', {
-        isActive: isActive ? 'active-action' : 'inactive-action',
+      className={classNames('wpnc__action-link', {
+        'active-action': isActive,
+        'inactive-action': !isActive,
       })}
       title={title}
       onClick={onToggle}
