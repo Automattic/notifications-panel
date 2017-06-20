@@ -12,24 +12,24 @@ import ActionButton from './action-button';
 import { keys } from '../helpers/input';
 
 const TrashButton = React.createClass({
-    displayName: 'TrashButton',
+  displayName: 'TrashButton',
 
-    propTypes: {
-        note: React.PropTypes.object.isRequired,
-    },
+  propTypes: {
+    note: React.PropTypes.object.isRequired,
+  },
 
-    render() {
-        const props = {
-            icon: 'trash',
-            isActive: false,
-            hotkey: keys.KEY_T,
-            onToggle: () => trashNote(this.props.note),
-            text: this.props.translate('Trash', { context: 'verb: imperative' }),
-            title: this.props.translate('Trash comment', { context: 'verb: imperative' }),
-        };
+  render() {
+    const props = {
+      icon: 'trash',
+      isActive: false,
+      hotkey: keys.KEY_T,
+      onToggle: () => trashNote(this.props.note),
+      text: this.props.translate('Trash', { context: 'verb: imperative' }),
+      title: this.props.translate('Trash comment', { context: 'verb: imperative' }),
+    };
 
-        return <ActionButton {...props} />;
-    },
+    return <ActionButton {...props} />;
+  },
 });
 
 export default localize(TrashButton);

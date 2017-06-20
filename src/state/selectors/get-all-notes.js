@@ -22,15 +22,15 @@ const parsedTimestamp = ({ timestamp }) => Date.parse(timestamp);
  * @returns {Object[]} list of notification objects
  */
 export const getAllNotes = notesState => {
-    const nextAllNotes = notesState.allNotes;
+  const nextAllNotes = notesState.allNotes;
 
-    if (prevAllNotes === nextAllNotes) {
-        return sortedNotes;
-    }
-
-    prevAllNotes = nextAllNotes;
-    sortedNotes = sortBy(values(nextAllNotes), [parsedTimestamp, noteId]).reverse();
+  if (prevAllNotes === nextAllNotes) {
     return sortedNotes;
+  }
+
+  prevAllNotes = nextAllNotes;
+  sortedNotes = sortBy(values(nextAllNotes), [parsedTimestamp, noteId]).reverse();
+  return sortedNotes;
 };
 
 export default state => getAllNotes(getNotes(state));

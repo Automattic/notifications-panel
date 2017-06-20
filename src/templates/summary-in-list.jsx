@@ -15,60 +15,60 @@ var debug = require('debug')('notifications:summary-in-list');
 var { recordTracksEvent } = require('../helpers/stats');
 
 export const SummaryInList = React.createClass({
-    handleClick: function(event) {
-        event.stopPropagation();
-        event.preventDefault();
+  handleClick: function(event) {
+    event.stopPropagation();
+    event.preventDefault();
 
-        if (event.metaKey || event.shiftKey) {
-            window.open(this.props.note.url, '_blank');
-        } else {
-            if (this.props.currentNote == this.props.note.id) {
-                this.props.unselectNote();
-            } else {
-                recordTracksEvent('calypso_notification_note_open', {
-                    note_type: this.props.note.type,
-                });
-                this.props.selectNote(this.props.note.id);
-            }
-        }
-    },
-
-    render: function() {
-        var subject = html(this.props.note.subject[0], {
-            links: false,
+    if (event.metaKey || event.shiftKey) {
+      window.open(this.props.note.url, '_blank');
+    } else {
+      if (this.props.currentNote == this.props.note.id) {
+        this.props.unselectNote();
+      } else {
+        recordTracksEvent('calypso_notification_note_open', {
+          note_type: this.props.note.type,
         });
-        var excerpt = null;
+        this.props.selectNote(this.props.note.id);
+      }
+    }
+  },
 
-        if (1 < this.props.note.subject.length) {
-            excerpt = <div className="wpnc__excerpt">{this.props.note.subject[1].text}</div>;
-        }
+  render: function() {
+    var subject = html(this.props.note.subject[0], {
+      links: false,
+    });
+    var excerpt = null;
 
-        return (
-            <div className="wpnc__summary" onClick={this.handleClick}>
-                <div className="wpnc__note-icon">
-                    <ImagePreloader
-                        src={this.props.note.icon}
-                        placeholder={
-                            <img src="https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=128" />
-                        }
-                    />
-                    <span className="wpnc__gridicon">
-                        <Gridicon icon={noticon2gridicon(this.props.note.noticon)} size={16} />
-                    </span>
+    if (1 < this.props.note.subject.length) {
+      excerpt = <div className="wpnc__excerpt">{this.props.note.subject[1].text}</div>;
+    }
 
-                </div>
-                <div className="wpnc__text-summary">
-                    <div className="wpnc__subject" dangerouslySetInnerHTML={{ __html: subject }} />
-                    {excerpt}
-                </div>
-            </div>
-        );
-    },
+    return (
+      <div className="wpnc__summary" onClick={this.handleClick}>
+        <div className="wpnc__note-icon">
+          <ImagePreloader
+            src={this.props.note.icon}
+            placeholder={
+              <img src="https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=128" />
+            }
+          />
+          <span className="wpnc__gridicon">
+            <Gridicon icon={noticon2gridicon(this.props.note.noticon)} size={16} />
+          </span>
+
+        </div>
+        <div className="wpnc__text-summary">
+          <div className="wpnc__subject" dangerouslySetInnerHTML={{ __html: subject }} />
+          {excerpt}
+        </div>
+      </div>
+    );
+  },
 });
 
 const mapDispatchToProps = dispatch => ({
-    selectNote: compose(dispatch, actions.ui.selectNote),
-    unselectNote: compose(dispatch, actions.ui.unselectNote),
+  selectNote: compose(dispatch, actions.ui.selectNote),
+  unselectNote: compose(dispatch, actions.ui.unselectNote),
 });
 
 export default connect(null, mapDispatchToProps, null, { pure: false })(SummaryInList);

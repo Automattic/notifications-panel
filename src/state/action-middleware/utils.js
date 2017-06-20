@@ -18,6 +18,4 @@ import { isArray, mergeWith } from 'lodash';
 const concatHandlers = (left, right) => (isArray(left) ? left.concat(right) : undefined);
 
 export const mergeHandlers = (...handlers) =>
-    (handlers.length > 1
-        ? mergeWith(Object.create(null), ...handlers, concatHandlers)
-        : handlers[0]);
+  handlers.length > 1 ? mergeWith(Object.create(null), ...handlers, concatHandlers) : handlers[0];
