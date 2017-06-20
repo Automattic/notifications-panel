@@ -10,33 +10,33 @@ import classNames from 'classnames';
 import Gridicon from './gridicons';
 
 export const NavButton = React.createClass({
-    navigate(event) {
-        event.stopPropagation();
-        event.preventDefault();
+  navigate(event) {
+    event.stopPropagation();
+    event.preventDefault();
 
-        this.props.navigate();
-    },
+    this.props.navigate();
+  },
 
-    render() {
-        return (
-            <button
-                className={classNames(this.props.className, {
-                    disabled: !this.props.isEnabled,
-                })}
-                disabled={!this.props.isEnabled}
-                onClick={this.props.isEnabled ? this.navigate : null}
-            >
-                <Gridicon icon={this.props.iconName} size={18} />
-            </button>
-        );
-    },
+  render() {
+    return (
+      <button
+        className={classNames(this.props.className, {
+          disabled: !this.props.isEnabled,
+        })}
+        disabled={!this.props.isEnabled}
+        onClick={this.props.isEnabled ? this.navigate : null}
+      >
+        <Gridicon icon={this.props.iconName} size={18} />
+      </button>
+    );
+  },
 });
 
 NavButton.propTypes = {
-    iconName: PropTypes.string.isRequired,
-    className: PropTypes.string,
-    isEnabled: PropTypes.bool.isRequired,
-    navigate: PropTypes.func.isRequired,
+  iconName: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  isEnabled: PropTypes.bool.isRequired,
+  navigate: PropTypes.func.isRequired,
 };
 
 export default NavButton;

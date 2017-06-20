@@ -12,26 +12,26 @@ import ActionButton from './action-button';
 import { keys } from '../helpers/input';
 
 const SpamButton = React.createClass({
-    displayName: 'TrashButton',
+  displayName: 'TrashButton',
 
-    propTypes: {
-        note: React.PropTypes.object.isRequired,
-    },
+  propTypes: {
+    note: React.PropTypes.object.isRequired,
+  },
 
-    render() {
-        const props = {
-            icon: 'spam',
-            isActive: false,
-            hotkey: keys.KEY_S,
-            onToggle: () => spamNote(this.props.note),
-            text: this.props.translate('Spam', { context: 'verb: Mark as Spam' }),
-            title: this.props.translate('Mark comment as spam', {
-                context: 'verb: imperative',
-            }),
-        };
+  render() {
+    const props = {
+      icon: 'spam',
+      isActive: false,
+      hotkey: keys.KEY_S,
+      onToggle: () => spamNote(this.props.note),
+      text: this.props.translate('Spam', { context: 'verb: Mark as Spam' }),
+      title: this.props.translate('Mark comment as spam', {
+        context: 'verb: imperative',
+      }),
+    };
 
-        return <ActionButton {...props} />;
-    },
+    return <ActionButton {...props} />;
+  },
 });
 
 export default localize(SpamButton);

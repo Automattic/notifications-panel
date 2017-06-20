@@ -9,35 +9,35 @@
 var debug = require('debug')('notifications:note');
 
 function getItem(key) {
-    var item;
-    try {
-        item = localStorage.getItem(key);
-        return JSON.parse(item);
-    } catch (e) {
-        if (e instanceof SyntaxError) {
-            return item;
-        }
-
-        debug('couldnt get localStorage item for: %s', key);
+  var item;
+  try {
+    item = localStorage.getItem(key);
+    return JSON.parse(item);
+  } catch (e) {
+    if (e instanceof SyntaxError) {
+      return item;
     }
 
-    return null;
+    debug('couldnt get localStorage item for: %s', key);
+  }
+
+  return null;
 }
 
 function setItem(key, value) {
-    try {
-        localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-        debug('couldnt set localStorage item for: %s', key);
-    }
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    debug('couldnt set localStorage item for: %s', key);
+  }
 }
 
 function removeItem(key) {
-    try {
-        localStorage.removeItem(key);
-    } catch (e) {
-        debug('couldnt remove item from localStorage for: %s', key);
-    }
+  try {
+    localStorage.removeItem(key);
+  } catch (e) {
+    debug('couldnt remove item from localStorage for: %s', key);
+  }
 }
 
 /**
@@ -56,36 +56,36 @@ function removeItem(key) {
  * @returns {undefined}
  */
 function cleanupRepliesCache() {
-    var keysToRemove = [];
+  var keysToRemove = [];
 
-    try {
-        for (var i = 0; i < localStorage.length; i++) {
-            var storedReplyKey = localStorage.key(i);
+  try {
+    for (var i = 0; i < localStorage.length; i++) {
+      var storedReplyKey = localStorage.key(i);
 
-            // cleanup caches replies older than a day
-            if ('reply_' == localStorage.key(i).substring(0, 6)) {
-                var storedReply = getItem(storedReplyKey);
+      // cleanup caches replies older than a day
+      if ('reply_' == localStorage.key(i).substring(0, 6)) {
+        var storedReply = getItem(storedReplyKey);
 
-                if (storedReply && Date.now() - storedReply[1] >= 24 * 60 * 60 * 1000) {
-                    keysToRemove.push(storedReplyKey);
-                }
-            }
+        if (storedReply && Date.now() - storedReply[1] >= 24 * 60 * 60 * 1000) {
+          keysToRemove.push(storedReplyKey);
         }
-    } catch (e) {
-        debug('couldnt cleanup cache');
+      }
     }
+  } catch (e) {
+    debug('couldnt cleanup cache');
+  }
 
-    keysToRemove.forEach(function(key) {
-        removeItem(key);
-    });
+  keysToRemove.forEach(function(key) {
+    removeItem(key);
+  });
 }
 
 var LocalStorageMixin = {
-    localStorage: {
-        getItem: getItem,
-        setItem: setItem,
-        removeItem: removeItem,
-    },
+  localStorage: {
+    getItem: getItem,
+    setItem: setItem,
+    removeItem: removeItem,
+  },
 };
 
 module.exports.cleanup = cleanupRepliesCache;

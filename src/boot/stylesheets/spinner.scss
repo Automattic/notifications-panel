@@ -38,19 +38,17 @@
 $size: 20px;
 $transition-speed: .4s;
 .wpnc__spinner {
-
   position: relative;
-    top: 50%;
-    left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 100%;
   width: $size;
   height: $size;
-  background: lighten( $gray, 20 );
+  background: lighten($gray, 20);
 
   // before & after make the donut hole
-  &:before,
-  &:after {
+  &:before, &:after {
     content: '';
     position: absolute;
     background: $white;
@@ -134,8 +132,7 @@ $transition-speed: .4s;
 }
 
 .wpnc__loading-indicator .wpnc__spinner {
-  &:before,
-  &:after {
+  &:before, &:after {
     background: $gray-light;
   }
 }

@@ -3,188 +3,175 @@ import React from 'react';
 import { html } from '../indices-to-html';
 
 const getPostRef = note => {
-    const { header = [] } = note;
-    const hRanges = header.map(({ ranges = [] }) => ranges).reduce((a, b) => [...a, ...b], []);
-    const hPosts = hRanges.filter(({ type }) => 'post' === type);
+  const { header = [] } = note;
+  const hRanges = header.map(({ ranges = [] }) => ranges).reduce((a, b) => [...a, ...b], []);
+  const hPosts = hRanges.filter(({ type }) => 'post' === type);
 
-    if (hPosts.length === 1) {
-        return hPosts[0];
-    }
+  if (hPosts.length === 1) {
+    return hPosts[0];
+  }
 
-    const { subject = [] } = note;
-    const sRanges = subject.map(({ ranges = [] }) => ranges).reduce((a, b) => [...a, ...b], []);
-    const sPosts = sRanges.filter(({ type }) => 'post' === type);
+  const { subject = [] } = note;
+  const sRanges = subject.map(({ ranges = [] }) => ranges).reduce((a, b) => [...a, ...b], []);
+  const sPosts = sRanges.filter(({ type }) => 'post' === type);
 
-    if (sPosts.length === 1) {
-        return sPosts[0];
-    }
+  if (sPosts.length === 1) {
+    return sPosts[0];
+  }
 
-    return null;
+  return null;
 };
 
 const linkProps = note => {
-    const post = getPostRef(note);
-    if (!post) {
-        return {};
-    }
+  const post = getPostRef(note);
+  if (!post) {
+    return {};
+  }
 
-    const { id, site_id, type } = post;
+  const { id, site_id, type } = post;
 
-    switch (type) {
-        case 'post':
-            return {
-                'data-link-type': type,
-                'data-site-id': site_id,
-                'data-post-id': id,
-            };
-        default:
-            return {};
-    }
+  switch (type) {
+    case 'post':
+      return {
+        'data-link-type': type,
+        'data-site-id': site_id,
+        'data-post-id': id,
+      };
+    default:
+      return {};
+  }
 };
 
-const Snippet = ({ note, snippet, url }) => (
-    <a href={url} {...linkProps(note)} target="_blank">
-        <span className="wpnc__excerpt">
-            {snippet.text}
-        </span>
-    </a>
-);
+const Snippet = ({ note, snippet, url }) =>
+  <a href={url} {...linkProps(note)} target="_blank">
+    <span className="wpnc__excerpt">
+      {snippet.text}
+    </span>
+  </a>;
 
 var UserHeader = React.createClass({
-    render: function() {
-        var grav = this.props.user.media[0];
-        var grav_tag = <img src={grav.url} height={grav.height} width={grav.width} />;
-        var home_url = this.props.user.ranges[0].url;
+  render: function() {
+    var grav = this.props.user.media[0];
+    var grav_tag = <img src={grav.url} height={grav.height} width={grav.width} />;
+    var home_url = this.props.user.ranges[0].url;
 
-        var get_home_link = function(classNames, children) {
-            if (home_url) {
-                return (
-                    <a className={classNames} href={home_url} target="_blank">
-                        {children}
-                    </a>
-                );
-            } else {
-                return (
-                    <a className={classNames + ' disabled'} disabled="disabled">
-                        {children}
-                    </a>
-                );
-            }
-        };
+    var get_home_link = function(classNames, children) {
+      if (home_url) {
+        return (
+          <a className={classNames} href={home_url} target="_blank">
+            {children}
+          </a>
+        );
+      } else {
+        return (
+          <a className={classNames + ' disabled'} disabled="disabled">
+            {children}
+          </a>
+        );
+      }
+    };
 
-        if (this.props.user.ranges.length > 1) {
-            var usercopy = {};
-            usercopy.ranges = this.props.user.ranges;
-            usercopy.text = this.props.user.text;
-            return (
-                <div className="wpnc__user wpnc__header">
-                    <img src={grav.url} />
-                    <div
-                        className="wpnc__user__usertitle"
-                        dangerouslySetInnerHTML={{
-                            __html: html(usercopy),
-                        }}
-                    />
-                    <Snippet
-                        note={this.props.note}
-                        snippet={this.props.snippet}
-                        url={this.props.url}
-                    />
+    if (this.props.user.ranges.length > 1) {
+      var usercopy = {};
+      usercopy.ranges = this.props.user.ranges;
+      usercopy.text = this.props.user.text;
+      return (
+        <div className="wpnc__user wpnc__header">
+          <img src={grav.url} />
+          <div
+            className="wpnc__user__usertitle"
+            dangerouslySetInnerHTML={{
+              __html: html(usercopy),
+            }}
+          />
+          <Snippet note={this.props.note} snippet={this.props.snippet} url={this.props.url} />
 
-                </div>
-            );
-        } else {
-            return (
-                <div className="wpnc__user wpnc__header">
-                    {get_home_link('wpnc__user__site', grav_tag)}
-                    <div>
-                        <span className="wpnc__user__username">
-                            {get_home_link('wpnc__user__home', this.props.user.text)}
-                        </span>
-                    </div>
-                    <Snippet
-                        note={this.props.note}
-                        snippet={this.props.snippet}
-                        url={this.props.url}
-                    />
-                </div>
-            );
-        }
-    },
+        </div>
+      );
+    } else {
+      return (
+        <div className="wpnc__user wpnc__header">
+          {get_home_link('wpnc__user__site', grav_tag)}
+          <div>
+            <span className="wpnc__user__username">
+              {get_home_link('wpnc__user__home', this.props.user.text)}
+            </span>
+          </div>
+          <Snippet note={this.props.note} snippet={this.props.snippet} url={this.props.url} />
+        </div>
+      );
+    }
+  },
 });
 
 var Header = React.createFactory(
-    React.createClass({
-        render: function() {
-            var subject = (
-                <div
-                    className="wpnc__subject"
-                    dangerouslySetInnerHTML={{
-                        __html: html(this.props.subject),
-                    }}
-                />
-            );
+  React.createClass({
+    render: function() {
+      var subject = (
+        <div
+          className="wpnc__subject"
+          dangerouslySetInnerHTML={{
+            __html: html(this.props.subject),
+          }}
+        />
+      );
 
-            return (
-                <div className="wpnc__summary">
-                    {subject}
-                    <Snippet
-                        note={this.props.note}
-                        snippet={this.props.snippet}
-                        url={this.props.url}
-                    />
-                </div>
-            );
-        },
-    })
+      return (
+        <div className="wpnc__summary">
+          {subject}
+          <Snippet note={this.props.note} snippet={this.props.snippet} url={this.props.url} />
+        </div>
+      );
+    },
+  })
 );
 
 const SummaryInSingle = React.createClass({
-    render: function() {
-        var header_url, parser;
-        if (!this.props.note.header || 0 === this.props.note.header.length) {
-            return <span />;
-        }
+  render: function() {
+    var header_url, parser;
+    if (!this.props.note.header || 0 === this.props.note.header.length) {
+      return <span />;
+    }
 
-        if (this.props.note.header.length > 1) {
-            if ('user' === this.props.note.header[0].ranges[0].type) {
-                header_url = this.props.note.url;
-                if (this.props.note.type === 'comment') {
-                    if (this.props.note.meta.ids.parent_comment) {
-                        parser = document.createElement('a');
-                        parser.href = this.props.note.url;
-                        parser.hash = '#comment-' + this.props.note.meta.ids.parent_comment;
-                        header_url = parser.href;
-                    }
-                }
-                return (
-                    <UserHeader
-                        note={this.props.note}
-                        snippet={this.props.note.header[1]}
-                        url={header_url}
-                        user={this.props.note.header[0]}
-                    />
-                );
-            }
-            return (
-                <Header
-                    note={this.props.note}
-                    snippet={this.props.note.header[1]}
-                    subject={this.props.note.header[0]}
-                    url={this.props.note.url}
-                />
-            );
-        } else {
-            return (
-                <Header
-                    note={this.props.note}
-                    snippet={''}
-                    subject={this.props.note.header[0]}
-                    url={this.props.note.url}
-                />
-            );
+    if (this.props.note.header.length > 1) {
+      if ('user' === this.props.note.header[0].ranges[0].type) {
+        header_url = this.props.note.url;
+        if (this.props.note.type === 'comment') {
+          if (this.props.note.meta.ids.parent_comment) {
+            parser = document.createElement('a');
+            parser.href = this.props.note.url;
+            parser.hash = '#comment-' + this.props.note.meta.ids.parent_comment;
+            header_url = parser.href;
+          }
         }
-    },
+        return (
+          <UserHeader
+            note={this.props.note}
+            snippet={this.props.note.header[1]}
+            url={header_url}
+            user={this.props.note.header[0]}
+          />
+        );
+      }
+      return (
+        <Header
+          note={this.props.note}
+          snippet={this.props.note.header[1]}
+          subject={this.props.note.header[0]}
+          url={this.props.note.url}
+        />
+      );
+    } else {
+      return (
+        <Header
+          note={this.props.note}
+          snippet={''}
+          subject={this.props.note.header[0]}
+          url={this.props.note.url}
+        />
+      );
+    }
+  },
 });
 
 export default SummaryInSingle;
