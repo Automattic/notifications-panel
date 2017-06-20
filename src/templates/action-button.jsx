@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 /**
@@ -10,34 +10,26 @@ import classNames from 'classnames';
 import Gridicon from './gridicons';
 import HotkeyContainer from './container-hotkey';
 
-const ActionButton = React.createClass({
-  propTypes: {
-    isActive: React.PropTypes.bool.isRequired,
-    hotkey: React.PropTypes.number,
-    onToggle: React.PropTypes.func.isRequired,
-    text: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string.isRequired,
-  },
+const ActionButton = ({ isActive, hotkey, icon, onToggle, text, title }) =>
+  <HotkeyContainer shortcuts={hotkey ? [{ hotkey, action: onToggle }] : null}>
+    <button
+      className={classNames('wpnc__aciton-link', {
+        isActive: isActive ? 'active-action' : 'inactive-action',
+      })}
+      title={title}
+      onClick={onToggle}
+    >
+      <Gridicon icon={icon} size={24} /><p>{text}</p>
+    </button>
+  </HotkeyContainer>;
 
-  render() {
-    let { hotkey, icon, isActive, onToggle, text, title } = this.props,
-      hotkeys = hotkey ? [{ hotkey, action: onToggle }] : null;
-
-    return (
-      <HotkeyContainer shortcuts={hotkeys}>
-        <button
-          className={classNames(
-            'wpnc__action-link',
-            isActive ? 'active-action' : 'inactive-action'
-          )}
-          title={title}
-          onClick={onToggle}
-        >
-          <Gridicon icon={icon} size={24} /><p>{text}</p>
-        </button>
-      </HotkeyContainer>
-    );
-  },
-});
+ActionButton.propTypes = {
+  isActive: PropTypes.bool.isRequired,
+  hotkey: PropTypes.number,
+  icon: PropTypes.string,
+  onToggle: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 export default ActionButton;
