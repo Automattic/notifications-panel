@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { localize } from 'i18n-calypso';
 
 /**
@@ -11,27 +11,21 @@ import { spamNote } from '../flux/note-actions';
 import ActionButton from './action-button';
 import { keys } from '../helpers/input';
 
-const SpamButton = React.createClass({
-  displayName: 'TrashButton',
-
-  propTypes: {
-    note: React.PropTypes.object.isRequired,
-  },
-
-  render() {
-    const props = {
+const SpamButton = ({ note, translate }) =>
+  <ActionButton
+    {...{
       icon: 'spam',
       isActive: false,
       hotkey: keys.KEY_S,
-      onToggle: () => spamNote(this.props.note),
-      text: this.props.translate('Spam', { context: 'verb: Mark as Spam' }),
-      title: this.props.translate('Mark comment as spam', {
-        context: 'verb: imperative',
-      }),
-    };
+      onToggle: () => spamNote(note),
+      text: translate('Spam', { context: 'verb: Mark as Spam' }),
+      title: translate('Mark comment as spam', { context: 'verb: imperative' }),
+    }}
+  />;
 
-    return <ActionButton {...props} />;
-  },
-});
+SpamButton.propTypes = {
+  note: PropTypes.object.isRequired,
+  translate: PropTypes.func.isRequired,
+};
 
 export default localize(SpamButton);
