@@ -64,7 +64,11 @@ const ActionsPane = ({ global, isApproved, isLiked, note, translate }) => {
 };
 
 ActionsPane.propTypes = {
+  global: PropTypes.object.isRequired,
+  isApproved: PropTypes.bool.isRequired,
+  isLiked: PropTypes.bool.isRequired,
   note: PropTypes.object.isRequired,
+  translate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { note }) => ({
