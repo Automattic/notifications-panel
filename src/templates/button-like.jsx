@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { localize } from 'i18n-calypso';
 
 /**
@@ -12,43 +12,36 @@ import ActionButton from './action-button';
 import { keys } from '../helpers/input';
 import { getReferenceId } from '../helpers/notes';
 
-const LikeButton = React.createClass({
-  displayName: 'LikeButton',
-
-  propTypes: {
-    commentId: React.PropTypes.number,
-    note: React.PropTypes.object.isRequired,
-  },
-
-  render() {
-    const props = {
+const LikeButton = ({ commentId, isLiked, note, translate }) =>
+  <ActionButton
+    {...{
       icon: 'star',
-      isActive: this.props.isLiked,
+      isActive: isLiked,
       hotkey: keys.KEY_L,
       onToggle: () =>
         setLikeStatus(
-          this.props.note.id,
-          getReferenceId(this.props.note, 'site'),
-          getReferenceId(this.props.note, 'post'),
-          getReferenceId(this.props.note, 'comment'),
-          !this.props.isLiked
+          note.id,
+          getReferenceId(note, 'site'),
+          getReferenceId(note, 'post'),
+          getReferenceId(note, 'comment'),
+          !isLiked
         ),
-      text: this.props.isLiked
-        ? this.props.translate('Liked', { context: 'verb: past-tense' })
-        : this.props.translate('Like', { context: 'verb: imperative' }),
-      title: this.props.isLiked
-        ? this.props.commentId
-          ? this.props.translate('Remove like from comment')
-          : this.props.translate('Remove like from post')
-        : this.props.commentId
-          ? this.props.translate('Like comment', {
-              context: 'verb: imperative',
-            })
-          : this.props.translate('Like post', { context: 'verb: imperative' }),
-    };
+      text: isLiked
+        ? translate('Liked', { context: 'verb: past-tense' })
+        : translate('Like', { context: 'verb: imperative' }),
+      title: isLiked
+        ? commentId ? translate('Remove like from comment') : translate('Remove like from post')
+        : commentId
+          ? translate('Like comment', { context: 'verb: imperative' })
+          : translate('Like post', { context: 'verb: imperative' }),
+    }}
+  />;
 
-    return <ActionButton {...props} />;
-  },
-});
+LikeButton.propTypes = {
+  commentId: PropTypes.number,
+  isLiked: PropTypes.bool.isRequired,
+  note: PropTypes.object.isRequired,
+  translate: PropTypes.func.isRequired,
+};
 
 export default localize(LikeButton);
