@@ -61,7 +61,19 @@ export class Notifications extends PureComponent {
     initStore({
       customEnhancer,
       customMiddleware: mergeHandlers(customMiddleware, {
-        APP_REFRESH_NOTES: [() => client && client.refreshNotes.call(client)],
+        APP_REFRESH_NOTES: [
+          (store, action) => {
+            if (!client) {
+              return;
+            }
+
+            if ('boolean' === typeof action.isVisible) {
+              client.setVisibility.call(client, { isShowing, isVisible: action.isVisible });
+            }
+
+            client.refreshNotes.call(client, action.isVisible);
+          },
+        ],
       }),
     });
 
