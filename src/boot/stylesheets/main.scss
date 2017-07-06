@@ -655,14 +655,53 @@ body {
           display: block;
         }
       }
+
+      pre {
+        background: $gray-light;
+        border: 1px solid lighten($gray, 20%);
+        border-radius: 3px;
+        padding: 4px;
+
+        code {
+          border: none;
+          background: none;
+        }
+      }
+
+      code {
+        font-family: $code;
+        font-size: 90%;
+        color: darken($gray, 20%);
+        background: $gray-light;
+        border: 1px solid lighten($gray, 20%);
+        border-radius: 3px;
+        padding: 0 2px;
+      }
     }
 
     .wpnc__paragraph:first-of-type {
       margin-top: 0;
     }
 
+    .wpnc__body-list {
+      list-style: disc;
+      padding: 0 16px;
+    }
+
+    .wpnc__body-todo {
+      list-style: none;
+
+      .wpnc__todo-done:before {
+        content: '◉ ';
+      }
+
+      .wpnc__todo-not-done:before {
+        content: '◎ ';
+      }
+    }
+
     blockquote {
-      margin: 0 $padding-medium;
+      margin: 0 $padding-medium $padding-medium;
       font-style: italic;
       color: $gray;
       background: transparent;
