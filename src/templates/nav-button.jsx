@@ -3,40 +3,41 @@
  */
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 
 /**
  * Internal dependencies
  */
 import Gridicon from './gridicons';
 
-export const NavButton = React.createClass({
-  navigate(event) {
+export class NavButton extends Component {
+  static propTypes = {
+    iconName: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    isEnabled: PropTypes.bool.isRequired,
+    navigate: PropTypes.func.isRequired,
+  };
+
+  navigate = event => {
     event.stopPropagation();
     event.preventDefault();
 
     this.props.navigate();
-  },
+  };
 
   render() {
+    const { className, iconName, isEnabled } = this.props;
+
     return (
       <button
-        className={classNames(this.props.className, {
-          disabled: !this.props.isEnabled,
-        })}
-        disabled={!this.props.isEnabled}
-        onClick={this.props.isEnabled ? this.navigate : null}
+        className={classNames(className, { disabled: !isEnabled })}
+        disabled={!isEnabled}
+        onClick={isEnabled ? this.navigate : noop}
       >
-        <Gridicon icon={this.props.iconName} size={18} />
+        <Gridicon icon={iconName} size={18} />
       </button>
     );
-  },
-});
-
-NavButton.propTypes = {
-  iconName: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  isEnabled: PropTypes.bool.isRequired,
-  navigate: PropTypes.func.isRequired,
-};
+  }
+}
 
 export default NavButton;

@@ -1,48 +1,46 @@
 /**
  * External dependencies
  */
-var React = require('react');
+import React, { Component, PropTypes } from 'react';
+import { noop } from 'lodash';
 
 /**
  * Module variables
  */
-var LoadStatus = {
+const LoadStatus = {
   PENDING: 'PENDING',
   LOADING: 'LOADING',
   LOADED: 'LOADED',
   FAILED: 'FAILED',
-},
-  noop = function() {};
+};
 
-export const ImageLoader = React.createClass({
-  propTypes: {
-    src: React.PropTypes.string.isRequired,
-    placeholder: React.PropTypes.element.isRequired,
-    children: React.PropTypes.node,
-  },
+export class ImageLoader extends Component {
+  static propTypes = {
+    src: PropTypes.string.isRequired,
+    placeholder: PropTypes.element.isRequired,
+    children: PropTypes.node,
+  };
 
-  getInitialState: function() {
-    return {
-      status: LoadStatus.PENDING,
-    };
-  },
+  state = {
+    status: LoadStatus.PENDING,
+  };
 
-  componentWillMount: function() {
+  componentWillMount() {
     this.createLoader();
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
       this.createLoader(nextProps);
     }
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.destroyLoader();
-  },
+  }
 
-  createLoader: function(nextProps) {
-    var src = (nextProps || this.props).src;
+  createLoader = nextProps => {
+    const src = (nextProps || this.props).src;
 
     this.destroyLoader();
 
@@ -54,9 +52,9 @@ export const ImageLoader = React.createClass({
     this.setState({
       status: LoadStatus.LOADING,
     });
-  },
+  };
 
-  destroyLoader: function() {
+  destroyLoader = () => {
     if (!this.image) {
       return;
     }
@@ -64,42 +62,28 @@ export const ImageLoader = React.createClass({
     this.image.onload = noop;
     this.image.onerror = noop;
     delete this.image;
-  },
+  };
 
-  onLoadComplete: function(event) {
+  onLoadComplete = event => {
     this.destroyLoader();
 
     this.setState({
       status: 'load' === event.type ? LoadStatus.LOADED : LoadStatus.FAILED,
     });
-  },
+  };
 
-  render: function() {
-    var children, imageProps;
-
-    switch (this.state.status) {
-      case LoadStatus.LOADING:
-        children = this.props.placeholder;
-        break;
-
-      case LoadStatus.LOADED:
-        children = <img src={this.props.src} />;
-        break;
-
-      case LoadStatus.FAILED:
-        children = this.props.children;
-        break;
-
-      default:
-        break;
-    }
+  render() {
+    const { children, placeholder, src } = this.props;
+    const { status } = this.state;
 
     return (
       <div className="image-preloader">
-        {children}
+        {status === LoadStatus.LOADING && placeholder}
+        {status === LoadStatus.LOADED && <img src={src} />}
+        {status === LoadStatus.FAILED && children}
       </div>
     );
-  },
-});
+  }
+}
 
 export default ImageLoader;
