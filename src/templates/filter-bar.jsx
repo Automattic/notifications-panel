@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import Filters from './filters';
 import getFilterName from '../state/selectors/get-filter-name';
 
-var debug = require('debug')('notifications:filterbar');
-var classnames = require('classnames');
-
-export const FilterBar = React.createClass({
-  selectFilter(event) {
+export class FilterBar extends Component {
+  selectFilter = event => {
     if (event) {
       event.stopPropagation();
       event.preventDefault();
@@ -16,52 +14,35 @@ export const FilterBar = React.createClass({
 
     const filterName = event.target.dataset.filterName;
     this.props.controller.selectFilter(filterName);
-  },
+  };
 
-  render: function() {
-    var filterItems = [];
+  render() {
+    const { filterName } = this.props;
 
-    if (this.props.current) {
-      return null;
-    }
-
-    for (var filterName in Filters) {
-      if (!Filters.hasOwnProperty(filterName)) {
-        continue;
-      }
-      filterItems.push(Filters[filterName]());
-    }
-
-    filterItems.sort(function(a, b) {
-      return a.index - b.index;
-    });
-
-    filterItems = filterItems.map(function(filter) {
-      const classes = classnames('wpnc__filter__segmented-control-item', {
-        selected: filter.name === this.props.filterName,
-      });
-
-      return (
-        <li
-          key={filter.name}
-          data-filter-name={filter.name}
-          className={classes}
-          onClick={this.selectFilter}
-        >
-          {filter.label}
-        </li>
-      );
-    }, this);
+    const filterItems = Object.keys(Filters)
+      .map(name => Filters[name]())
+      .sort((a, b) => a.index - b.index);
 
     return (
       <div className="wpnc__filter">
         <ul className="wpnc__filter__segmented-control">
-          {filterItems}
+          {filterItems.map(({ label, name }) =>
+            <li
+              key={name}
+              data-filter-name={name}
+              className={classNames('wpnc__filter__segmented-control-item', {
+                selected: name === filterName,
+              })}
+              onClick={this.selectFilter}
+            >
+              {label}
+            </li>
+          )}
         </ul>
       </div>
     );
-  },
-});
+  }
+}
 
 const mapStateToProps = state => ({
   filterName: getFilterName(state),

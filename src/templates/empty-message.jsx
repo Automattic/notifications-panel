@@ -1,64 +1,53 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { bumpStat } from '../rest-client/bump-stat';
 
 // from $title-offset in boot/sizes.scss
-var TITLE_OFFSET = 38;
+const TITLE_OFFSET = 38;
 
-export const EmptyMessage = React.createClass({
-  componentWillMount: function() {
+export class EmptyMessage extends Component {
+  componentWillMount() {
     if (this.props.showing) {
       bumpStat('notes-empty-message', this.props.name + '_shown');
     }
-  },
+  }
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     if (this.props.showing) {
       bumpStat('notes-empty-message', this.props.name + '_shown');
     }
-  },
+  }
 
-  handleClick: function() {
-    bumpStat('notes-empty-message', this.props.name + '_clicked');
-  },
+  handleClick = () => bumpStat('notes-empty-message', this.props.name + '_clicked');
 
-  render: function() {
-    var message;
-    if (this.props.link && this.props.linkMessage) {
-      message = (
-        <div className="wpnc__empty-notes">
-          <h2>{this.props.emptyMessage}</h2>
-          <p>
-            <a href={this.props.link} target="_blank" onClick={this.handleClick}>
-              {this.props.linkMessage}
-            </a>
-          </p>
-        </div>
-      );
-    } else if (this.props.linkMessage) {
-      message = (
-        <div className="wpnc__empty-notes">
-          <h2>{this.props.emptyMessage}</h2>
-          <p>{this.props.linkMessage}</p>
-        </div>
-      );
-    } else {
-      message = (
-        <div className="wpnc__empty-notes">
-          <h2>{this.props.emptyMessage}</h2>
-        </div>
-      );
-    }
+  render() {
+    const { emptyMessage, link, linkMessage } = this.props;
 
     return (
       <div
         className="wpnc__empty-notes-container"
         style={{ height: this.props.height - TITLE_OFFSET + 'px' }}
       >
-        {message}
+        {link &&
+          linkMessage &&
+          <div className="wpnc__empty-notes">
+            <h2>{emptyMessage}</h2>
+            <p><a href={link} target="_blank" onClick={this.handleClick}>{linkMessage}</a></p>
+          </div>}
+        {!link &&
+          linkMessage &&
+          <div className="wpnc__empty-notes">
+            <h2>{emptyMessage}</h2>
+            <p>{linkMessage}</p>
+          </div>}
+        {!link &&
+          !linkMessage &&
+          <div className="wpnc__empty-notes">
+            <h2>{emptyMessage}</h2>
+          </div>}
       </div>
     );
-  },
-});
+  }
+}
 
 export default EmptyMessage;
