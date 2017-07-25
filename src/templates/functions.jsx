@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { html as toHtml } from '../indices-to-html';
+import { pickBy } from 'lodash';
 
 /**
  * Adds markup to some common text patterns
@@ -230,3 +231,27 @@ export function zipWithSignature(blocks, note) {
 }
 
 export const validURL = /^(?:http(?:s?)\:\/\/|~\/|\/)?(?:\w+:\w+@)?((?:(?:[-\w\d{1-3}]+\.)+(?:com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|edu|co\.uk|ac\.uk|it|fr|tv|museum|asia|local|travel|blog|[a-z]{2}))|((\b25[0-5]\b|\b[2][0-4][0-9]\b|\b[0-1]?[0-9]?[0-9]\b)(\.(\b25[0-5]\b|\b[2][0-4][0-9]\b|\b[0-1]?[0-9]?[0-9]\b)){3}))(?::[\d]{1,5})?(?:(?:(?:\/(?:[-\w~!$+|.,=]|%[a-f\d]{2})+)+|\/)+|\?|#)?(?:(?:\?(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=?(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)(?:&(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=?(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)*)*(?:#(?:[-\w~!$ |\/.,*:;=]|%[a-f\d]{2})*)?$/i;
+
+export const linkProps = note => {
+  const { site, comment, post } = note.meta.ids;
+  let type;
+
+  if ( comment ) {
+    type = 'comment';
+  } else if ( post ) {
+    type = 'post';
+  }
+
+  switch (type) {
+    case 'post':
+    case 'comment':
+      return pickBy( {
+        'data-link-type': type,
+        'data-site-id': site,
+        'data-post-id': post,
+        'data-comment-id': comment,
+      } );
+    default:
+      return {};
+  }
+};
