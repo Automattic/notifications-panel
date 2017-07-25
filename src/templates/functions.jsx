@@ -236,21 +236,21 @@ export const linkProps = note => {
   const { site, comment, post } = note.meta.ids;
   let type;
 
-  if ( comment ) {
+  if (comment) {
     type = 'comment';
-  } else if ( post ) {
+  } else if (post) {
     type = 'post';
   }
 
   switch (type) {
     case 'post':
     case 'comment':
-      return pickBy( {
+      return pickBy({
         'data-link-type': type,
         'data-site-id': site,
         'data-post-id': post,
         'data-comment-id': comment,
-      } );
+      });
     default:
       return {};
   }
