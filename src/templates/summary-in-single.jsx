@@ -1,46 +1,7 @@
 import React from 'react';
 
 import { html } from '../indices-to-html';
-
-const getPostRef = note => {
-  const { header = [] } = note;
-  const hRanges = header.map(({ ranges = [] }) => ranges).reduce((a, b) => [...a, ...b], []);
-  const hPosts = hRanges.filter(({ type }) => 'post' === type);
-
-  if (hPosts.length === 1) {
-    return hPosts[0];
-  }
-
-  const { subject = [] } = note;
-  const sRanges = subject.map(({ ranges = [] }) => ranges).reduce((a, b) => [...a, ...b], []);
-  const sPosts = sRanges.filter(({ type }) => 'post' === type);
-
-  if (sPosts.length === 1) {
-    return sPosts[0];
-  }
-
-  return null;
-};
-
-const linkProps = note => {
-  const post = getPostRef(note);
-  if (!post) {
-    return {};
-  }
-
-  const { id, site_id, type } = post;
-
-  switch (type) {
-    case 'post':
-      return {
-        'data-link-type': type,
-        'data-site-id': site_id,
-        'data-post-id': id,
-      };
-    default:
-      return {};
-  }
-};
+import { linkProps } from './functions';
 
 const Snippet = ({ note, snippet, url }) =>
   <a href={url} {...linkProps(note)} target="_blank">

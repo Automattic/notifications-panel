@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
 
 import getIsNoteApproved from '../state/selectors/get-is-note-approved';
+import { linkProps } from './functions';
 
 import FollowLink from './follow-link';
 
@@ -86,7 +87,7 @@ export const UserBlock = React.createClass({
 
       timeIndicator = (
         <span className="wpnc__user__timeIndicator">
-          <a href={this.props.note.url} target="_blank">
+          <a href={this.props.note.url} target="_blank" {...linkProps(this.props.note)}>
             {this.getTimeString(this.props.note.timestamp)}
           </a>
           <span className="wpnc__user__bullet" />
