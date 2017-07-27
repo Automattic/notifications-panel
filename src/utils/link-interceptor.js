@@ -25,6 +25,12 @@ export const interceptLinks = event => {
     return true;
   }
 
+  const newTab = event.ctrlKey || event.metaKey;
+  if (newTab) {
+    window.open(href, '_blank');
+    return true;
+  }
+
   event.stopPropagation();
   event.preventDefault();
 
