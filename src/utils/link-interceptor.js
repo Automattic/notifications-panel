@@ -27,8 +27,7 @@ export const interceptLinks = event => {
 
   const newTab = event.ctrlKey || event.metaKey;
   if (newTab) {
-    window.open(href, '_blank');
-    return true;
+    return true; // will open in new tab b/c we dont eat the event
   }
 
   event.stopPropagation();
