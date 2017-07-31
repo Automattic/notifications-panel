@@ -25,9 +25,12 @@ export const interceptLinks = event => {
     return true;
   }
 
-  const newTab = event.ctrlKey || event.metaKey;
-  if (newTab) {
-    return true; // will open in new tab b/c we dont eat the event
+  // we don't want to interfere with the click
+  // if the user has specifically overwritten the
+  // normal behavior already by holding down
+  // one of the modifier keys.
+  if (event.ctrlKey || event.metaKey) {
+    return true;
   }
 
   event.stopPropagation();
