@@ -245,6 +245,7 @@ export const linkProps = (note, forcedType) => {
   }
 
   switch (type) {
+    case 'site':
     case 'post':
     case 'comment':
       return pickBy({

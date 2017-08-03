@@ -1,7 +1,7 @@
 import { store } from '../state';
 
 const openLink = href => ({ type: 'OPEN_LINK', href });
-const openSite = (siteId, href) => ({ type: 'OPEN_SITE', siteId, href });
+const openSite = ({ siteId, href }) => ({ type: 'OPEN_SITE', siteId, href });
 const openPost = (siteId, postId, href) => ({ type: 'OPEN_POST', siteId, postId, href });
 const openComment = ({ siteId, postId, href, commentId }) => ({
   type: 'OPEN_COMMENT',
