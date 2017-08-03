@@ -248,6 +248,11 @@ export const linkProps = (note, block) => {
     type = 'post';
   }
 
+  // if someone's home url is not to a wp site (twitter etc)
+  if (type === 'site' && !site) {
+    return {};
+  }
+
   switch (type) {
     case 'site':
     case 'post':
