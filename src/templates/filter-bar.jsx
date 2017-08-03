@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { localize } from 'i18n-calypso';
 
 import Filters from './filters';
 import getFilterName from '../state/selectors/get-filter-name';
@@ -48,4 +49,4 @@ const mapStateToProps = state => ({
   filterName: getFilterName(state),
 });
 
-export default connect(mapStateToProps)(FilterBar);
+export default connect(mapStateToProps)(localize( FilterBar ));
