@@ -20,7 +20,7 @@ var UserHeader = React.createClass({
     var get_home_link = function(classNames, children) {
       if (home_url) {
         return (
-          <a className={classNames} href={home_url} target="_blank" {...linkProps(note, 'site')}>
+          <a className={classNames} href={home_url} target="_blank" {...linkProps(note)}>
             {children}
           </a>
         );

@@ -108,7 +108,7 @@ export const UserBlock = React.createClass({
             className="wpnc__user__site"
             href={home_url}
             target="_blank"
-            {...linkProps(this.props.note, 'site')}
+            {...linkProps(this.props.note, this.props.block)}
           >
             {home_title}
           </a>
