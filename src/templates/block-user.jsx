@@ -104,7 +104,12 @@ export const UserBlock = React.createClass({
       homeTemplate = (
         <p className={homeClassName}>
           <span className="wpnc__user__ago">{timeIndicator}</span>
-          <a className="wpnc__user__site" href={home_url} target="_blank">
+          <a
+            className="wpnc__user__site"
+            href={home_url}
+            target="_blank"
+            {...linkProps(this.props.note, this.props.block)}
+          >
             {home_title}
           </a>
         </p>

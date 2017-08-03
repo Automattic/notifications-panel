@@ -26,6 +26,7 @@ const customMiddleware = {
   ],
   CLOSE_PANEL: [() => sendMessage({ action: 'togglePanel' })],
   OPEN_LINK: [(store, { href }) => window.open(href, '_blank')],
+  OPEN_SITE: [(store, { href }) => window.open(href, '_blank')],
   OPEN_POST: [(store, { href }) => window.open(href, '_blank')],
   OPEN_COMMENT: [(store, { href }) => window.open(href, '_blank')],
   SET_LAYOUT: [

@@ -1,6 +1,7 @@
 import { store } from '../state';
 
 const openLink = href => ({ type: 'OPEN_LINK', href });
+const openSite = ({ siteId, href }) => ({ type: 'OPEN_SITE', siteId, href });
 const openPost = (siteId, postId, href) => ({ type: 'OPEN_POST', siteId, postId, href });
 const openComment = ({ siteId, postId, href, commentId }) => ({
   type: 'OPEN_COMMENT',
@@ -40,6 +41,8 @@ export const interceptLinks = event => {
     store.dispatch(openPost(siteId, postId, href));
   } else if ('comment' === linkType) {
     store.dispatch(openComment({ siteId, postId, href, commentId }));
+  } else if ('site' === linkType) {
+    store.dispatch(openSite({ siteId, href }));
   } else {
     store.dispatch(openLink(href));
   }

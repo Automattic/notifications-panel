@@ -15,6 +15,7 @@ var UserHeader = React.createClass({
     var grav = this.props.user.media[0];
     var grav_tag = <img src={grav.url} height={grav.height} width={grav.width} />;
     var home_url = this.props.user.ranges[0].url;
+    const note = this.props.note;
 
     var get_home_link = function(classNames, children) {
       if (home_url) {
@@ -45,7 +46,7 @@ var UserHeader = React.createClass({
               __html: html(usercopy),
             }}
           />
-          <Snippet note={this.props.note} snippet={this.props.snippet} url={this.props.url} />
+          <Snippet note={note} snippet={this.props.snippet} url={this.props.url} />
 
         </div>
       );
@@ -58,7 +59,7 @@ var UserHeader = React.createClass({
               {get_home_link('wpnc__user__home', this.props.user.text)}
             </span>
           </div>
-          <Snippet note={this.props.note} snippet={this.props.snippet} url={this.props.url} />
+          <Snippet note={note} snippet={this.props.snippet} url={this.props.url} />
         </div>
       );
     }
