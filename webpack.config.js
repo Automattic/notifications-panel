@@ -62,7 +62,7 @@ module.exports = {
 		} ),
 		new HtmlWebpackPlugin( {
 			filename: 'root.html',
-			gitDescribe: spawnSync( 'git', [ 'describe', '--always', '--dirty' ] ).stdout.toString( 'utf8' ).replace( '\n', '' ),
+			gitDescribe: spawnSync( 'git', [ 'describe', '--always', '--dirty', '--long' ], { encoding: 'utf8' } ).stdout.replace( '\n', '' ),
 			hash: true,
 			nodePlatform: process.platform,
 			nodeVersion: process.version,
