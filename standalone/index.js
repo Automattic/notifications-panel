@@ -26,16 +26,16 @@ const customMiddleware = {
   ],
   CLOSE_PANEL: [() => sendMessage({ action: 'togglePanel' })],
   OPEN_LINK: [(store, { href }) => window.open(href, '_blank')],
-  OPEN_SITE: [(store, { siteId: site_id, href }) => {
-    sendMessage({ action: 'recordEvent', eventName: 'notifications_open_site', eventProperties:{ site_id }});
+  OPEN_SITE: [(store, { siteId, href }) => {
+    sendMessage({ action: 'openSite', siteId });
     window.open(href, '_blank');
   }],
-  OPEN_POST: [(store, { siteId: site_id, postId: post_id, href }) => {
-    sendMessage({ action: 'recordEvent', eventName: 'notifications_open_post', eventProperties:{ site_id, post_id }});
+  OPEN_POST: [(store, { siteId, postId, href }) => {
+    sendMessage({ action: 'openPost', siteId, postId });
     window.open(href, '_blank');
   }],
-  OPEN_COMMENT: [(store, { siteId: site_id, postId: post_id, commentId: comment_id, href }) => {
-    sendMessage({ action: 'recordEvent', eventName: 'notifications_open_comment', eventProperties:{ site_id, post_id, comment_id }});
+  OPEN_COMMENT: [(store, { siteId, postId, commentId, href }) => {
+    sendMessage({ action: 'openComment', siteId, postId, commentId });
     window.open(href, '_blank');
   }],
   SET_LAYOUT: [
