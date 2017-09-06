@@ -26,16 +26,16 @@ const customMiddleware = {
   ],
   CLOSE_PANEL: [() => sendMessage({ action: 'togglePanel' })],
   OPEN_LINK: [(store, { href }) => window.open(href, '_blank')],
-  OPEN_SITE: [(store, { siteId, href }) => {
-    sendMessage({ action: 'notifications_open_site', eventProperties:{ siteId }});
+  OPEN_SITE: [(store, { siteId: site_id, href }) => {
+    sendMessage({ action: 'recordEvent', eventName: 'notifications_open_site', eventProperties:{ site_id }});
     window.open(href, '_blank');
   }],
-  OPEN_POST: [(store, { siteId, postId, href }) => {
-    sendMessage({ action: 'recordEvent', eventName: 'notifications_open_post', eventProperties:{ siteId, postId }});
+  OPEN_POST: [(store, { siteId: site_id, postId: post_id, href }) => {
+    sendMessage({ action: 'recordEvent', eventName: 'notifications_open_post', eventProperties:{ site_id, post_id }});
     window.open(href, '_blank');
   }],
-  OPEN_COMMENT: [(store, { siteId, postId, commentId, href }) => {
-    sendMessage({ action: 'recordEvent', eventName: 'notifications_open_comment', eventProperties:{ siteId, postId, commentId }});
+  OPEN_COMMENT: [(store, { siteId: site_id, postId: post_id, commentId: comment_id, href }) => {
+    sendMessage({ action: 'recordEvent', eventName: 'notifications_open_comment', eventProperties:{ site_id, post_id, comment_id }});
     window.open(href, '_blank');
   }],
   SET_LAYOUT: [
