@@ -80,13 +80,16 @@ function cleanupRepliesCache() {
   });
 }
 
-var LocalStorageMixin = {
+export const LocalStorageMixin = {
   localStorage: {
     getItem: getItem,
     setItem: setItem,
     removeItem: removeItem,
   },
 };
+export const cleanup = cleanupRepliesCache;
 
-module.exports.cleanup = cleanupRepliesCache;
-module.exports.LocalStorageMixin = LocalStorageMixin;
+export default {
+  cleanup,
+  LocalStorageMixin,
+};
