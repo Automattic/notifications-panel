@@ -10,8 +10,8 @@ const Snippet = ({ note, snippet, url }) =>
     </span>
   </a>;
 
-var UserHeader = React.createClass({
-  render: function() {
+class UserHeader extends React.Component {
+  render() {
     var grav = this.props.user.media[0];
     var grav_tag = <img src={grav.url} height={grav.height} width={grav.width} />;
     var home_url = this.props.user.ranges[0].url;
@@ -63,12 +63,12 @@ var UserHeader = React.createClass({
         </div>
       );
     }
-  },
-});
+  }
+}
 
 var Header = React.createFactory(
-  React.createClass({
-    render: function() {
+  class extends React.Component {
+    render() {
       var subject = (
         <div
           className="wpnc__subject"
@@ -84,12 +84,12 @@ var Header = React.createFactory(
           <Snippet note={this.props.note} snippet={this.props.snippet} url={this.props.url} />
         </div>
       );
-    },
-  })
+    }
+  }
 );
 
-const SummaryInSingle = React.createClass({
-  render: function() {
+class SummaryInSingle extends React.Component {
+  render() {
     var header_url, parser;
     if (!this.props.note.header || 0 === this.props.note.header.length) {
       return <span />;
@@ -133,7 +133,7 @@ const SummaryInSingle = React.createClass({
         />
       );
     }
-  },
-});
+  }
+}
 
 export default SummaryInSingle;

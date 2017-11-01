@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
 
@@ -22,7 +23,8 @@ var { recordTracksEvent } = require('../helpers/stats');
 const hasTouch = () =>
   'ontouchstart' in window || (window.DocumentTouch && document instanceof DocumentTouch);
 
-const CommentReplyInput = React.createClass({
+const CommentReplyInput = createReactClass({
+  displayName: 'CommentReplyInput',
   mixins: [repliesCache.LocalStorageMixin, Suggestions],
 
   statics: {

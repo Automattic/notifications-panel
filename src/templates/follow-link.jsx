@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import createReactClass from 'create-react-class';
 import { localize } from 'i18n-calypso';
 
 import { wpcom } from '../rest-client/wpcom';
@@ -7,7 +8,9 @@ import { bumpStat } from '../rest-client/bump-stat';
 
 import Gridicon from './gridicons';
 
-export const FollowLink = React.createClass({
+export const FollowLink = createReactClass({
+  displayName: 'FollowLink',
+
   propTypes: {
     site: PropTypes.number,
     isFollowing: PropTypes.bool,
@@ -59,6 +62,7 @@ export const FollowLink = React.createClass({
       isFollowing: !isFollowing,
     });
   },
+
   render: function() {
     var gridicon_icon, link_text;
 

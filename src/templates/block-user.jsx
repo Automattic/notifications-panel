@@ -13,7 +13,7 @@ function getDisplayURL(url) {
   return (parser.hostname + parser.pathname).replace(/\/$/, '');
 }
 
-export const UserBlock = React.createClass({
+export class UserBlock extends React.Component {
   /**
 	 * Format a timestamp for showing how long
 	 * ago an event occurred. Specifically here
@@ -28,7 +28,7 @@ export const UserBlock = React.createClass({
 	 * @param {string} timestamp - Time stamp in Date.parse()'able format
 	 * @returns {string} - Time stamp formatted for display or '' if input invalid
 	 */
-  getTimeString: function(timestamp) {
+  getTimeString = timestamp => {
     var DAY_IN_SECONDS = 3600 * 24,
       MAX_LENGTH = 15,
       parsedTime = Date.parse(timestamp),
@@ -55,9 +55,9 @@ export const UserBlock = React.createClass({
     }
 
     return timeString;
-  },
+  };
 
-  render: function() {
+  render() {
     var grav = this.props.block.media[0],
       home_url = '',
       home_title = '',
@@ -157,8 +157,8 @@ export const UserBlock = React.createClass({
         </div>
       );
     }
-  },
-});
+  }
+}
 
 const mapStateToProps = (state, { note }) => ({
   isApproved: getIsNoteApproved(state, note),

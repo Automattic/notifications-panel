@@ -86,18 +86,16 @@ const fetchLocale = localeSlug => {
   xhr.send();
 };
 
-const Layout = React.createClass({
-  getInitialState: function() {
-    return {
-      lastSelectedIndex: 0,
-      navigationEnabled: true,
-      previousDetailScrollTop: 0,
-      previouslySelectedNoteId: null,
-      selectedNote: null,
-    };
-  },
+class Layout extends React.Component {
+  state = {
+    lastSelectedIndex: 0,
+    navigationEnabled: true,
+    previousDetailScrollTop: 0,
+    previouslySelectedNoteId: null,
+    selectedNote: null,
+  };
 
-  componentWillMount: function() {
+  componentWillMount() {
     this.filterController = FilterBarController(this.refreshNotesToDisplay);
     this.props.global.client = this.props.client;
     this.props.global.toggleNavigation = this.toggleNavigation;
@@ -118,16 +116,16 @@ const Layout = React.createClass({
     }
 
     window.addEventListener('keydown', this.handleKeyDown, false);
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     window.addEventListener('resize', this.redraw);
     if (this.noteList) {
       this.height = ReactDOM.findDOMNode(this.noteList).clientHeight;
     }
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.selectedNoteId) {
       this.setState({
         previousDetailScrollTop: this.detailView ? this.detailView.scrollTop : 0,
@@ -150,9 +148,9 @@ const Layout = React.createClass({
       selectedNote: nextProps.selectedNoteId,
       navigationEnabled: true,
     });
-  },
+  }
 
-  componentWillUpdate: function(nextProps) {
+  componentWillUpdate(nextProps) {
     const { selectedNoteId: nextNote } = nextProps;
     const { selectedNoteId: prevNote } = this.props;
     const noteList = ReactDOM.findDOMNode(this.noteList);
@@ -180,9 +178,9 @@ const Layout = React.createClass({
     if (!find(nextProps.notes, matchesProperty('id', nextProps.selectedNoteId))) {
       this.props.unselectNote();
     }
-  },
+  }
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     if (!this.detailView) {
       return;
     }
@@ -191,13 +189,13 @@ const Layout = React.createClass({
     this.detailView.scrollTop = selectedNote === previouslySelectedNoteId
       ? previousDetailScrollTop
       : 0;
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.redraw);
-  },
+  }
 
-  navigateByDirection(direction) {
+  navigateByDirection = direction => {
     const filteredNotes = this.filterController.getFilteredNotes(this.props.notes);
 
     if (!this.props.global.keyboardShortcutsAreEnabled) {
@@ -310,21 +308,21 @@ const Layout = React.createClass({
       },
       this.noteListVisibilityUpdater
     );
-  },
+  };
 
-  navigateToNextNote: function() {
+  navigateToNextNote = () => {
     this.navigateByDirection(1);
-  },
+  };
 
-  navigateToPrevNote: function() {
+  navigateToPrevNote = () => {
     this.navigateByDirection(-1);
-  },
+  };
 
-  toggleNavigation(navigationEnabled) {
+  toggleNavigation = navigationEnabled => {
     return 'boolean' === typeof navigationEnabled && this.setState({ navigationEnabled });
-  },
+  };
 
-  redraw() {
+  redraw = () => {
     if (this.isRefreshing) {
       return;
     }
@@ -337,13 +335,13 @@ const Layout = React.createClass({
       this.height = ReactDOM.findDOMNode(this.noteList).clientHeight;
     }
     this.forceUpdate();
-  },
+  };
 
-  modifierKeyIsActive: function(e) {
+  modifierKeyIsActive = e => {
     return e.altKey || e.ctrlKey || e.metaKey;
-  },
+  };
 
-  handleKeyDown: function(event) {
+  handleKeyDown = event => {
     if (!this.props.isShowing) {
       return;
     }
@@ -442,9 +440,9 @@ const Layout = React.createClass({
         }
         break;
     }
-  },
+  };
 
-  refreshNotesToDisplay: function(allNotes) {
+  refreshNotesToDisplay = allNotes => {
     const notes = this.filterController.getFilteredNotes(allNotes);
     if (
       this.state.selectedNote &&
@@ -454,19 +452,19 @@ const Layout = React.createClass({
     }
 
     this.setState({ notes });
-  },
+  };
 
-  storeNoteList(ref) {
+  storeNoteList = ref => {
     this.noteList = ref;
-  },
+  };
 
-  storeNoteListVisibilityUpdater(updater) {
+  storeNoteListVisibilityUpdater = updater => {
     this.noteListVisibilityUpdater = updater;
-  },
+  };
 
-  storeDetailViewRef(ref) {
+  storeDetailViewRef = ref => {
     this.detailView = ref;
-  },
+  };
 
   render() {
     const currentNote = find(this.props.notes, matchesProperty('id', this.props.selectedNoteId));
@@ -535,8 +533,8 @@ const Layout = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
 
 const mapStateToProps = state => ({
   isNoteHidden: noteId => getIsNoteHidden(state, noteId),

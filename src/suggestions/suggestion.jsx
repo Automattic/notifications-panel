@@ -26,8 +26,8 @@ const highlight = (content, textToHighlight, type) => {
   }, [[], false])[0];
 };
 
-export const Suggestion = React.createClass({
-  render: function() {
+export class Suggestion extends React.Component {
+  render() {
     var username = highlight(this.props.username, this.props.suggestionsQuery, 'username');
     username.unshift({ type: 'text', text: '@' });
 
@@ -59,7 +59,7 @@ export const Suggestion = React.createClass({
         </small>
       </li>
     );
-  },
-});
+  }
+}
 
 export default Suggestion;

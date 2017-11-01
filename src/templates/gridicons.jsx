@@ -5,16 +5,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-export default React.createClass({
-  displayName: 'Gridicons',
+export default class extends React.Component {
+  static displayName = 'Gridicons';
 
-  propTypes: {
+  static propTypes = {
     icon: PropTypes.string.isRequired,
     size: PropTypes.number,
     onClick: PropTypes.func,
-  },
+  };
 
-  render: function() {
+  render() {
     const { onClick, size = 24 } = this.props;
     const icon = `gridicons-${this.props.icon}`;
     const sharedProps = {
@@ -265,5 +265,5 @@ export default React.createClass({
           </svg>
         );
     }
-  },
-});
+  }
+}
