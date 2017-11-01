@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -8,9 +9,9 @@ export default React.createClass({
   displayName: 'Gridicons',
 
   propTypes: {
-    icon: React.PropTypes.string.isRequired,
-    size: React.PropTypes.number,
-    onClick: React.PropTypes.func,
+    icon: PropTypes.string.isRequired,
+    size: PropTypes.number,
+    onClick: PropTypes.func,
   },
 
   render: function() {

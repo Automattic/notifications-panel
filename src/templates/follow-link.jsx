@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { localize } from 'i18n-calypso';
 
@@ -8,8 +9,8 @@ import Gridicon from './gridicons';
 
 export const FollowLink = React.createClass({
   propTypes: {
-    site: React.PropTypes.number,
-    isFollowing: React.PropTypes.bool,
+    site: PropTypes.number,
+    isFollowing: PropTypes.bool,
   },
 
   followStatTypes: {
