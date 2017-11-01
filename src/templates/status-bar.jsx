@@ -2,28 +2,24 @@ import React from 'react';
 
 import Gridicon from './gridicons';
 
-export const StatusBar = React.createClass({
-  getDefaultProps: function() {
-    return {
-      statusTimeout: 4000,
-    };
-  },
+export class StatusBar extends React.Component {
+  static defaultProps = {
+    statusTimeout: 4000,
+  };
 
-  getInitialState: function() {
-    return {
-      isVisible: false,
-      timeoutHandle: null,
-    };
-  },
+  state = {
+    isVisible: false,
+    timeoutHandle: null,
+  };
 
-  disappear: function() {
+  disappear = () => {
     this.setState({
       isVisible: false,
       timeoutHandle: null,
     });
 
     this.props.statusReset();
-  },
+  };
 
   /*
 	 * Use the prop update trap in order to trigger
@@ -31,7 +27,7 @@ export const StatusBar = React.createClass({
 	 * in here, there is no need to have an explicit
 	 * `show()` function.
 	 */
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if ('' == nextProps.statusMessage) return;
 
     if (nextProps.statusMessage == this.props.statusMessage) return;
@@ -47,9 +43,9 @@ export const StatusBar = React.createClass({
       isVisible: true,
       timeoutHandle: timeout,
     });
-  },
+  }
 
-  render: function() {
+  render() {
     var visibility = this.state.isVisible ? { display: 'flex' } : { display: 'none' };
 
     var classes = ['wpnc__status-bar'];
@@ -70,7 +66,7 @@ export const StatusBar = React.createClass({
         </button>
       </div>
     );
-  },
-});
+  }
+}
 
 export default StatusBar;

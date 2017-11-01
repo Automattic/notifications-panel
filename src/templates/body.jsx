@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import { localize } from 'i18n-calypso';
 
 import { wpcom } from '../rest-client/wpcom';
@@ -14,8 +15,8 @@ import { bumpStat } from '../rest-client/bump-stat';
 import { html } from '../indices-to-html';
 import { p, zipWithSignature } from './functions';
 
-var ReplyBlock = React.createClass({
-  render: function() {
+class ReplyBlock extends React.Component {
+  render() {
     // explicitly send className of '' here so we don't get the default of
     // "paragraph"
     var replyText = p(html(this.props.block), '');
@@ -25,10 +26,12 @@ var ReplyBlock = React.createClass({
         {replyText}
       </div>
     );
-  },
-});
+  }
+}
 
-export const NoteBody = React.createClass({
+export const NoteBody = createReactClass({
+  displayName: 'NoteBody',
+
   getInitialState: function() {
     return {
       reply: null,

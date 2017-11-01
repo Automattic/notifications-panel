@@ -35,24 +35,20 @@ const getDOMNodeOrElse = ref => {
   }
 };
 
-export const NoteList = React.createClass({
-  getDefaultProps() {
-    return {
-      scrollTimeout: 200,
-    };
-  },
+export class NoteList extends React.Component {
+  static defaultProps = {
+    scrollTimeout: 200,
+  };
 
-  getInitialState: function() {
-    return {
-      undoAction: null,
-      undoNote: null,
-      scrollY: 0,
-      scrolling: false,
-      statusMessage: '',
-    };
-  },
+  state = {
+    undoAction: null,
+    undoNote: null,
+    scrollY: 0,
+    scrolling: false,
+    statusMessage: '',
+  };
 
-  componentWillMount: function() {
+  componentWillMount() {
     this.props.global.updateStatusBar = this.updateStatusBar;
     this.props.global.resetStatusBar = this.resetStatusBar;
     this.props.global.updateUndoBar = this.updateUndoBar;
@@ -61,24 +57,24 @@ export const NoteList = React.createClass({
     if ('function' === typeof this.props.storeVisibilityUpdater) {
       this.props.storeVisibilityUpdater(this.ensureSelectedNoteVisibility);
     }
-  },
+  }
 
   componentDidMount() {
     ReactDOM.findDOMNode(this.scrollableContainer).addEventListener('scroll', this.onScroll);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     ReactDOM.findDOMNode(this.scrollableContainer).removeEventListener('scroll', this.onScroll);
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.isPanelOpen && !nextProps.isPanelOpen) {
       // scroll to top, from toggling frame
       this.setState({ lastSelectedIndex: 0, scrollY: 0 });
     }
-  },
+  }
 
-  componentDidUpdate: function(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.noteList && !this.props.isLoading) {
       const element = ReactDOM.findDOMNode(this.scrollableContainer);
       if (
@@ -92,9 +88,9 @@ export const NoteList = React.createClass({
     if (prevProps.selectedNoteId !== this.props.selectedNoteId) {
       this.ensureSelectedNoteVisibility();
     }
-  },
+  }
 
-  onScroll() {
+  onScroll = () => {
     if (this.isScrolling) {
       return;
     }
@@ -114,28 +110,28 @@ export const NoteList = React.createClass({
 
     clearTimeout(this.scrollTimeout);
     this.scrollTimeout = setTimeout(this.onScrollEnd, this.props.scrollTimeout);
-  },
+  };
 
-  onScrollEnd() {
+  onScrollEnd = () => {
     this.setState({ scrolling: false });
-  },
+  };
 
-  updateStatusBar: function(message, classList, delay) {
+  updateStatusBar = (message, classList, delay) => {
     this.setState({
       statusClasses: classList,
       statusMessage: message,
       statusTimeout: delay,
     });
-  },
+  };
 
-  resetStatusBar: function() {
+  resetStatusBar = () => {
     this.setState({
       statusClasses: [],
       statusMessage: '',
     });
-  },
+  };
 
-  updateUndoBar: function(action, note) {
+  updateUndoBar = (action, note) => {
     this.setState(
       {
         undoAction: action,
@@ -148,16 +144,16 @@ export const NoteList = React.createClass({
         }
       }
     );
-  },
+  };
 
-  resetUndoBar: function() {
+  resetUndoBar = () => {
     this.setState({
       undoAction: null,
       undoNote: null,
     });
-  },
+  };
 
-  ensureSelectedNoteVisibility: function() {
+  ensureSelectedNoteVisibility = () => {
     var scrollTarget = null,
       selectedNote = this.props.selectedNote,
       noteElement = getDOMNodeOrElse((this.notes || {})[selectedNote]),
@@ -185,9 +181,9 @@ export const NoteList = React.createClass({
     if (scrollTarget !== null && listElement) {
       listElement.parentNode.scrollTop = scrollTarget;
     }
-  },
+  };
 
-  storeNote(ref) {
+  storeNote = ref => {
     if (!ref) {
       return;
     }
@@ -196,29 +192,29 @@ export const NoteList = React.createClass({
       ...this.notes,
       [ref.props['data-note-id']]: ref,
     };
-  },
+  };
 
-  storeNoteList(ref) {
+  storeNoteList = ref => {
     this.noteList = ref;
-  },
+  };
 
-  storeScrollableContainer(ref) {
+  storeScrollableContainer = ref => {
     this.scrollableContainer = ref;
-  },
+  };
 
-  storeUndoActImmediately(actImmediately) {
+  storeUndoActImmediately = actImmediately => {
     this.undoActImmediately = actImmediately;
-  },
+  };
 
-  storeUndoBar(ref) {
+  storeUndoBar = ref => {
     this.undoBar = ref;
-  },
+  };
 
-  storeUndoStartSequence(startSequence) {
+  storeUndoStartSequence = startSequence => {
     this.startUndoSequence = startSequence;
-  },
+  };
 
-  render: function() {
+  render() {
     const groupTitles = [
       this.props.translate('Today', {
         comment: 'heading for a list of notifications from today',
@@ -368,8 +364,8 @@ export const NoteList = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
