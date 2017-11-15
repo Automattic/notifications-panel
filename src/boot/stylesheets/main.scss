@@ -504,6 +504,13 @@ body {
       -webkit-overflow-scrolling: touch;
     }
 
+    .wpnc__image {
+      max-width: 100%;
+      margin: auto;
+      margin-left: 50%;
+      transform: translateX(-50%);
+    }
+
     .wpnc__user {
       p {
         @extend %ellipsy-box;
