@@ -847,7 +847,11 @@ body {
         margin-top: 0px;
       }
 
-      -webkit-transform: translate3d(0, 0, 0); // fix for getting scrollbar in right z-index
+      -webkit-transform: translate3d(
+        0,
+        0,
+        0
+      ); // fix for getting scrollbar in right z-index
     }
 
     .wpnc__single-view {
