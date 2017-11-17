@@ -504,6 +504,12 @@ body {
       -webkit-overflow-scrolling: touch;
     }
 
+    .wpnc__image {
+      display: block;
+      margin: auto;
+      max-width: 100%;
+    }
+
     .wpnc__user {
       p {
         @extend %ellipsy-box;
