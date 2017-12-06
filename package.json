@@ -36,7 +36,7 @@
     "debug": "2.6.3",
     "i18n-calypso": "1.7.2",
     "lodash": "4.17.4",
-    "node-sass": "4.5.1",
+    "node-sass": "4.5.3",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-redux": "5.0.6",
