@@ -245,23 +245,21 @@ export const SuggestionsMixin = {
   },
 
   ensureSelectedSuggestionVisibility() {
-    if (!this.suggestionsMixin_suggestionNodes) {
+    if (this.suggestionsAbove || !this.suggestionsMixin_suggestionNodes) {
       return;
     }
 
-    const suggestionElement = this.suggestionsMixin_suggestionNodes[this.state.selectedSuggestionId];
+    const suggestionElement = this.suggestionsMixin_suggestionNodes[
+      this.state.selectedSuggestionId
+    ];
 
     if (!suggestionElement) {
       return;
     }
 
-    const offsetTop = getOffsetTop(suggestionElement);
+    const offsetTop = getOffsetTop(suggestionElement) + suggestionElement.offsetHeight;
 
-    if (offsetTop - window.pageYOffset > 0) {
-      suggestionElement.scrollIntoView();
-    }
-
-    if (window.pageYOffset + window.innerHeight <= offsetTop) {
+    if (offsetTop > window.innerHeight) {
       suggestionElement.scrollIntoView();
     }
   },
@@ -276,7 +274,7 @@ export const SuggestionsMixin = {
     return (
       <div
         className="wpnc__suggestions"
-        ref={ div => this.suggestionsMixin_suggestionList = div }
+        ref={div => (this.suggestionsMixin_suggestionList = div)}
         onMouseEnter={() => (this.suggestionsCancelBlur = true)}
         onMouseLeave={() => (this.suggestionsCancelBlur = false)}
       >
@@ -284,7 +282,11 @@ export const SuggestionsMixin = {
           {suggestions.map(suggestion =>
             <Suggestion
               key={'user-suggestion-' + suggestion.ID}
-              getElement={ suggestionElement => this.suggestionsMixin_suggestionNodes = {...this.suggestionsMixin_suggestionNodes, [suggestion.ID]: suggestionElement} }
+              getElement={suggestionElement =>
+                (this.suggestionsMixin_suggestionNodes = {
+                  ...this.suggestionsMixin_suggestionNodes,
+                  [suggestion.ID]: suggestionElement,
+                })}
               onClick={this.handleSuggestionClick.bind(this, suggestion)}
               onMouseEnter={function(suggestion) {
                 this.setState({
