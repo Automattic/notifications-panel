@@ -199,6 +199,7 @@ export const SuggestionsMixin = {
       }
 
       this.insertSuggestion(target, getSuggestionById.call(this));
+      return this.setState({ suggestionsVisible: false });
     }
 
     if (KEY_ESC === keyCode || KEY_SPACE === keyCode) {
