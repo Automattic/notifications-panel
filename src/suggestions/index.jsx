@@ -220,11 +220,16 @@ export const SuggestionsMixin = {
     }
 
     const query = this.getQueryText(target);
+    const matcher = queryMatcher(query);
+    const suggestions = this.props.suggestions
+      .filter(({ name }) => matcher.test(name))
+      .slice(0, 10);
 
     this.setState({
       suggestionsQuery: query,
       suggestionsVisible: typeof query === 'string',
-      selectedSuggestionId: null,
+      selectedSuggestionId: suggestions.length > 0 ? suggestions[0].ID : null,
+      suggestions,
     });
   },
 
@@ -276,22 +281,11 @@ export const SuggestionsMixin = {
   },
 
   renderSuggestions() {
-    if (!this.state.suggestionsVisible) {
+    const { suggestions, suggestionsVisible, selectedSuggestionId } = this.state;
+
+    if (!suggestionsVisible || !suggestions.length) {
       return;
     }
-
-    const query = escapeRegExp(this.state.suggestionsQuery);
-    const matcher = queryMatcher(query);
-
-    const suggestions = this.props.suggestions
-      .filter(({ name }) => matcher.test(name))
-      .slice(0, 10);
-
-    if (!suggestions.length) {
-      return null;
-    }
-
-    const selectedSuggestionId = this.state.selectedSuggestionId || suggestions[0].ID;
 
     return (
       <div
