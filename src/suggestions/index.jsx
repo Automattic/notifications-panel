@@ -64,10 +64,6 @@ const getSuggestionById = function() {
 };
 
 export const SuggestionsMixin = {
-  componentWillMount() {
-    this.suggestionsAbove = false;
-  },
-
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleSuggestionsKeyDown, false);
     window.removeEventListener('keyup', this.handleSuggestionsKeyUp, false);
@@ -96,6 +92,10 @@ export const SuggestionsMixin = {
     const textArea = this.replyInput;
     const textAreaClientRect = textArea.getBoundingClientRect();
 
+    this.suggestionsAbove =
+      suggestionList.offsetHeight > window.innerHeight - textAreaClientRect.top &&
+      suggestionList.offsetHeight < textAreaClientRect.top;
+
     if (this.suggestionsAbove) {
       suggestionList.style.top =
         '-' +
@@ -104,10 +104,6 @@ export const SuggestionsMixin = {
           parseInt(this.suggestionListMarginTop)) +
         'px';
       suggestionList.style.marginTop = '0';
-    } else {
-      this.suggestionsAbove =
-        suggestionList.offsetHeight > window.innerHeight - textAreaClientRect.top &&
-        suggestionList.offsetHeight < textAreaClientRect.top;
     }
   },
 
