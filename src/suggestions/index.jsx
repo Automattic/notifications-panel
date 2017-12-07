@@ -1,7 +1,6 @@
 /**
  * Module dependencies.
  */
-import ReactDOM from 'react-dom';
 import React from 'react';
 import { escapeRegExp, find, findIndex } from 'lodash';
 
@@ -84,11 +83,11 @@ export const SuggestionsMixin = {
   },
 
   componentDidUpdate() {
-    if (!this.suggestionMixin_suggestionList) {
+    if (!this.suggestionsMixin_suggestionList) {
       return;
     }
 
-    const suggestionList = this.suggestionMixin_suggestionList;
+    const suggestionList = this.suggestionsMixin_suggestionList;
 
     if (!this.suggestionListMarginTop) {
       this.suggestionListMarginTop = window.getComputedStyle(suggestionList)['margin-top'];
@@ -250,9 +249,7 @@ export const SuggestionsMixin = {
       return;
     }
 
-    const suggestionElement = ReactDOM.findDOMNode(
-      this.suggestionsMixin_suggestionNodes[this.state.selectedSuggestionId]
-    );
+    const suggestionElement = this.suggestionsMixin_suggestionNodes[this.state.selectedSuggestionId];
 
     if (!suggestionElement) {
       return;
@@ -269,17 +266,6 @@ export const SuggestionsMixin = {
     }
   },
 
-  suggestionsMixin_storeSuggestionNode(ref) {
-    if (!ref) {
-      return;
-    }
-
-    this.suggestionsMixin_suggestionNodes = {
-      ...this.suggestionsMixin_suggestionNodes,
-      [ref.props['data-suggestion-id']]: ref,
-    };
-  },
-
   renderSuggestions() {
     const { suggestions, suggestionsVisible, selectedSuggestionId } = this.state;
 
@@ -290,15 +276,15 @@ export const SuggestionsMixin = {
     return (
       <div
         className="wpnc__suggestions"
+        ref={ div => this.suggestionsMixin_suggestionList = div }
         onMouseEnter={() => (this.suggestionsCancelBlur = true)}
         onMouseLeave={() => (this.suggestionsCancelBlur = false)}
       >
         <ul>
           {suggestions.map(suggestion =>
             <Suggestion
-              ref={this.suggestionsMixin_storeSuggestionNode}
-              data-suggestion-id={suggestion.ID}
               key={'user-suggestion-' + suggestion.ID}
+              getElement={ suggestionElement => this.suggestionsMixin_suggestionNodes = {...this.suggestionsMixin_suggestionNodes, [suggestion.ID]: suggestionElement} }
               onClick={this.handleSuggestionClick.bind(this, suggestion)}
               onMouseEnter={function(suggestion) {
                 this.setState({
