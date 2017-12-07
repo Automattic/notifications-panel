@@ -142,11 +142,11 @@ export const SuggestionsMixin = {
     const endString = this.state.value.slice(caretPosition);
 
     this.setState({
-      value: startString + suggestion.user_login + endString,
+      value: startString + suggestion.user_login + ' ' + endString,
       suggestionsVisible: false,
     });
 
-    this.setCaretPosition(element, startString.length + suggestion.user_login.length);
+    this.setCaretPosition(element, startString.length + suggestion.user_login.length + 1);
   },
 
   handleSuggestionsKeyDown(event) {
