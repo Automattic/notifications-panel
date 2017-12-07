@@ -24,6 +24,13 @@ const KEY_DOWN = 40;
  */
 const suggestionMatcher = /(?:^|\s)@([^\s]*)$/i;
 
+/**
+ * This pattern looks for a query
+ *
+ * @type {RegExp} matches @query
+ */
+const queryMatcher = query => new RegExp(`^${query}| ${query}`, 'i'); // start of string, or preceded by a space
+
 // Danger! Recursive
 // (relatively safe since the DOM tree is only so deep)
 const getOffsetTop = element => {
@@ -72,6 +79,8 @@ export const SuggestionsMixin = {
     window.addEventListener('keydown', this.handleSuggestionsKeyDown, false);
     window.addEventListener('keyup', this.handleSuggestionsKeyUp, false);
     window.addEventListener('blur', this.handleSuggestionBlur, true);
+
+    this.props.fetchSuggestions(this.props.note.meta.ids.site);
   },
 
   componentDidUpdate() {
@@ -126,7 +135,7 @@ export const SuggestionsMixin = {
 
     const [, suggestion] = match;
 
-    return suggestion;
+    return escapeRegExp(suggestion);
   },
 
   insertSuggestion(element, suggestion) {
@@ -166,7 +175,7 @@ export const SuggestionsMixin = {
     stopEvent.call(this, event);
 
     const query = escapeRegExp(this.state.suggestionsQuery);
-    const matcher = new RegExp(`^${query}| ${query}`, 'i'); // start of string, or preceded by a space
+    const matcher = queryMatcher(query);
 
     const suggestions = this.props.suggestions
       .filter(({ name }) => matcher.test(name))
@@ -211,10 +220,6 @@ export const SuggestionsMixin = {
     }
 
     const query = this.getQueryText(target);
-
-    if (query !== null) {
-      this.props.fetchSuggestions(this.props.note.meta.ids.site);
-    }
 
     this.setState({
       suggestionsQuery: query,
@@ -276,7 +281,7 @@ export const SuggestionsMixin = {
     }
 
     const query = escapeRegExp(this.state.suggestionsQuery);
-    const matcher = new RegExp(`^${query}| ${query}`, 'i'); // start of string, or preceded by a space
+    const matcher = queryMatcher(query);
 
     const suggestions = this.props.suggestions
       .filter(({ name }) => matcher.test(name))
