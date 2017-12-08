@@ -169,13 +169,7 @@ export const SuggestionsMixin = {
 
     stopEvent.call(this, event);
 
-    const query = escapeRegExp(this.state.suggestionsQuery);
-    const matcher = queryMatcher(query);
-
-    const suggestions = this.props.suggestions
-      .filter(({ name }) => matcher.test(name))
-      .slice(0, 10);
-
+    const { suggestions } = this.state;
     const prevIndex = getSuggestionIndexBySelectedId.call(this, suggestions);
 
     if (null === prevIndex) {
