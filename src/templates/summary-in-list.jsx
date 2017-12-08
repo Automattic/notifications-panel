@@ -14,8 +14,8 @@ import { html } from '../indices-to-html';
 var debug = require('debug')('notifications:summary-in-list');
 var { recordTracksEvent } = require('../helpers/stats');
 
-export const SummaryInList = React.createClass({
-  handleClick: function(event) {
+export class SummaryInList extends React.Component {
+  handleClick = event => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -31,9 +31,9 @@ export const SummaryInList = React.createClass({
         this.props.selectNote(this.props.note.id);
       }
     }
-  },
+  };
 
-  render: function() {
+  render() {
     var subject = html(this.props.note.subject[0], {
       links: false,
     });
@@ -63,8 +63,8 @@ export const SummaryInList = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   selectNote: compose(dispatch, actions.ui.selectNote),

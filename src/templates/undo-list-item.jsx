@@ -15,16 +15,14 @@ var { recordTracksEvent } = require('../helpers/stats');
 
 const KEY_U = 85;
 
-export const UndoListItem = React.createClass({
-  getInitialState: function() {
-    return {
-      undoTimer: null /* handle for queued action timer */,
-      undoTimeout: 4500 /* ms until action is actually executed */,
-      isVisible: true /* should this undo item be visible */,
-    };
-  },
+export class UndoListItem extends React.Component {
+  state = {
+    undoTimer: null /* handle for queued action timer */,
+    undoTimeout: 4500 /* ms until action is actually executed */,
+    isVisible: true /* should this undo item be visible */,
+  };
 
-  componentDidMount: function() {
+  componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown, false);
 
     if (this.props.storeImmediateActor) {
@@ -34,13 +32,13 @@ export const UndoListItem = React.createClass({
     if (this.props.storeStartSequence) {
       this.props.storeStartSequence(this.startUndoSequence);
     }
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown, false);
-  },
+  }
 
-  handleKeyDown: function(event) {
+  handleKeyDown = event => {
     if (!this.props.global.keyboardShortcutsAreEnabled) {
       return;
     }
@@ -52,12 +50,12 @@ export const UndoListItem = React.createClass({
     if (null !== this.state.undoTimer && !this.props.selectedNoteId && KEY_U === event.keyCode) {
       this.cancelAction(event);
     }
-  },
+  };
 
   /*
 	 * Use the prop update to trigger execution
 	 */
-  componentDidUpdate: function(prevProps) {
+  componentDidUpdate(prevProps) {
     if (null === this.props.action || '' === this.props.action) {
       return;
     }
@@ -65,15 +63,15 @@ export const UndoListItem = React.createClass({
     if (null === this.state.undoTimer && prevProps.action !== this.props.action) {
       this.startUndoSequence();
     }
-  },
+  }
 
-  startUndoSequence: function() {
+  startUndoSequence = () => {
     var timerHandle = setTimeout(this.executor, this.state.undoTimeout);
 
     this.instance && this.setState({ undoTimer: timerHandle });
-  },
+  };
 
-  executor: function() {
+  executor = () => {
     var actionHandlers = {
       spam: this.spamComment,
       trash: this.deleteComment,
@@ -85,9 +83,9 @@ export const UndoListItem = React.createClass({
     }
 
     actionHandlers[this.props.action]();
-  },
+  };
 
-  spamComment: function() {
+  spamComment = () => {
     var comment = wpcom()
       .site(this.props.note.meta.ids.site)
       .comment(this.props.note.meta.ids.comment);
@@ -111,9 +109,9 @@ export const UndoListItem = React.createClass({
     this.props.removeNotes([this.props.note.id]);
 
     component.finishExecution();
-  },
+  };
 
-  deleteComment() {
+  deleteComment = () => {
     wpcom()
       .site(this.props.note.meta.ids.site)
       .comment(this.props.note.meta.ids.comment)
@@ -126,18 +124,18 @@ export const UndoListItem = React.createClass({
     this.props.removeNotes([this.props.note.id]);
 
     this.finishExecution();
-  },
+  };
 
-  actImmediately: function(event) {
+  actImmediately = event => {
     if (event && event.preventDefault) {
       event.preventDefault();
     }
     clearTimeout(this.state.undoTimer);
     this.instance && this.setState({ isVisible: false });
     this.executor();
-  },
+  };
 
-  cancelAction(event) {
+  cancelAction = event => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -160,18 +158,18 @@ export const UndoListItem = React.createClass({
     }
     this.finishExecution();
     this.props.selectNote(this.props.note.id);
-  },
+  };
 
-  finishExecution: function() {
+  finishExecution = () => {
     this.instance && this.setState({ undoTimer: null });
     this.props.global.resetUndoBar();
-  },
+  };
 
-  storeInstance(ref) {
+  storeInstance = ref => {
     this.instance = ref;
-  },
+  };
 
-  render: function() {
+  render() {
     var actionMessages = {
       spam: this.props.translate('Comment marked as spam'),
       trash: this.props.translate('Comment trashed'),
@@ -194,8 +192,8 @@ export const UndoListItem = React.createClass({
         </p>
       </div>
     );
-  },
-});
+  }
+}
 
 const mapStateToProps = state => ({
   selectedNoteId: getSelectedNoteId(state),
