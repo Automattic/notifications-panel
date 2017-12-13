@@ -1,7 +1,6 @@
 /**
  * Module dependencies.
  */
-import ReactDOM from 'react-dom';
 import React from 'react';
 import { escapeRegExp, find, findIndex } from 'lodash';
 
@@ -23,6 +22,13 @@ const KEY_DOWN = 40;
  * @type {RegExp} matches @mentions
  */
 const suggestionMatcher = /(?:^|\s)@([^\s]*)$/i;
+
+/**
+ * This pattern looks for a query
+ *
+ * @type {RegExp} matches @query
+ */
+const queryMatcher = query => new RegExp(`^${query}| ${query}`, 'i'); // start of string, or preceded by a space
 
 // Danger! Recursive
 // (relatively safe since the DOM tree is only so deep)
@@ -58,10 +64,6 @@ const getSuggestionById = function() {
 };
 
 export const SuggestionsMixin = {
-  componentWillMount() {
-    this.suggestionsAbove = false;
-  },
-
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleSuggestionsKeyDown, false);
     window.removeEventListener('keyup', this.handleSuggestionsKeyUp, false);
@@ -72,14 +74,16 @@ export const SuggestionsMixin = {
     window.addEventListener('keydown', this.handleSuggestionsKeyDown, false);
     window.addEventListener('keyup', this.handleSuggestionsKeyUp, false);
     window.addEventListener('blur', this.handleSuggestionBlur, true);
+
+    this.props.fetchSuggestions(this.props.note.meta.ids.site);
   },
 
   componentDidUpdate() {
-    if (!this.suggestionMixin_suggestionList) {
+    if (!this.suggestionsMixin_suggestionList) {
       return;
     }
 
-    const suggestionList = this.suggestionMixin_suggestionList;
+    const suggestionList = this.suggestionsMixin_suggestionList;
 
     if (!this.suggestionListMarginTop) {
       this.suggestionListMarginTop = window.getComputedStyle(suggestionList)['margin-top'];
@@ -87,6 +91,10 @@ export const SuggestionsMixin = {
 
     const textArea = this.replyInput;
     const textAreaClientRect = textArea.getBoundingClientRect();
+
+    this.suggestionsAbove =
+      suggestionList.offsetHeight > window.innerHeight - textAreaClientRect.top &&
+      suggestionList.offsetHeight < textAreaClientRect.top;
 
     if (this.suggestionsAbove) {
       suggestionList.style.top =
@@ -96,10 +104,6 @@ export const SuggestionsMixin = {
           parseInt(this.suggestionListMarginTop)) +
         'px';
       suggestionList.style.marginTop = '0';
-    } else {
-      this.suggestionsAbove =
-        suggestionList.offsetHeight > window.innerHeight - textAreaClientRect.top &&
-        suggestionList.offsetHeight < textAreaClientRect.top;
     }
   },
 
@@ -126,7 +130,7 @@ export const SuggestionsMixin = {
 
     const [, suggestion] = match;
 
-    return suggestion;
+    return escapeRegExp(suggestion);
   },
 
   insertSuggestion(element, suggestion) {
@@ -142,11 +146,11 @@ export const SuggestionsMixin = {
     const endString = this.state.value.slice(caretPosition);
 
     this.setState({
-      value: startString + suggestion.user_login + endString,
+      value: startString + suggestion.user_login + ' ' + endString,
       suggestionsVisible: false,
     });
 
-    this.setCaretPosition(element, startString.length + suggestion.user_login.length);
+    this.setCaretPosition(element, startString.length + suggestion.user_login.length + 1);
   },
 
   handleSuggestionsKeyDown(event) {
@@ -165,13 +169,7 @@ export const SuggestionsMixin = {
 
     stopEvent.call(this, event);
 
-    const query = escapeRegExp(this.state.suggestionsQuery);
-    const matcher = new RegExp(`^${query}| ${query}`, 'i'); // start of string, or preceded by a space
-
-    const suggestions = this.props.suggestions
-      .filter(({ name }) => matcher.test(name))
-      .slice(0, 10);
-
+    const { suggestions } = this.state;
     const prevIndex = getSuggestionIndexBySelectedId.call(this, suggestions);
 
     if (null === prevIndex) {
@@ -199,6 +197,7 @@ export const SuggestionsMixin = {
       }
 
       this.insertSuggestion(target, getSuggestionById.call(this));
+      return this.setState({ suggestionsVisible: false });
     }
 
     if (KEY_ESC === keyCode || KEY_SPACE === keyCode) {
@@ -210,15 +209,16 @@ export const SuggestionsMixin = {
     }
 
     const query = this.getQueryText(target);
-
-    if (query !== null) {
-      this.props.fetchSuggestions(this.props.note.meta.ids.site);
-    }
+    const matcher = queryMatcher(query);
+    const suggestions = this.props.suggestions
+      .filter(({ name }) => matcher.test(name))
+      .slice(0, 10);
 
     this.setState({
       suggestionsQuery: query,
       suggestionsVisible: typeof query === 'string',
-      selectedSuggestionId: null,
+      selectedSuggestionId: suggestions.length > 0 ? suggestions[0].ID : null,
+      suggestions,
     });
   },
 
@@ -235,70 +235,48 @@ export const SuggestionsMixin = {
   },
 
   ensureSelectedSuggestionVisibility() {
-    if (!this.suggestionsMixin_suggestionNodes) {
+    if (this.suggestionsAbove || !this.suggestionsMixin_suggestionNodes) {
       return;
     }
 
-    const suggestionElement = ReactDOM.findDOMNode(
-      this.suggestionsMixin_suggestionNodes[this.state.selectedSuggestionId]
-    );
+    const suggestionElement = this.suggestionsMixin_suggestionNodes[
+      this.state.selectedSuggestionId
+    ];
 
     if (!suggestionElement) {
       return;
     }
 
-    const offsetTop = getOffsetTop(suggestionElement);
+    const offsetTop = getOffsetTop(suggestionElement) + suggestionElement.offsetHeight;
 
-    if (offsetTop - window.pageYOffset > 0) {
+    if (offsetTop > window.innerHeight) {
       suggestionElement.scrollIntoView();
     }
-
-    if (window.pageYOffset + window.innerHeight <= offsetTop) {
-      suggestionElement.scrollIntoView();
-    }
-  },
-
-  suggestionsMixin_storeSuggestionNode(ref) {
-    if (!ref) {
-      return;
-    }
-
-    this.suggestionsMixin_suggestionNodes = {
-      ...this.suggestionsMixin_suggestionNodes,
-      [ref.props['data-suggestion-id']]: ref,
-    };
   },
 
   renderSuggestions() {
-    if (!this.state.suggestionsVisible) {
+    const { suggestions, suggestionsVisible, selectedSuggestionId } = this.state;
+
+    if (!suggestionsVisible || !suggestions.length) {
       return;
     }
-
-    const query = escapeRegExp(this.state.suggestionsQuery);
-    const matcher = new RegExp(`^${query}| ${query}`, 'i'); // start of string, or preceded by a space
-
-    const suggestions = this.props.suggestions
-      .filter(({ name }) => matcher.test(name))
-      .slice(0, 10);
-
-    if (!suggestions.length) {
-      return null;
-    }
-
-    const selectedSuggestionId = this.state.selectedSuggestionId || suggestions[0].ID;
 
     return (
       <div
         className="wpnc__suggestions"
+        ref={div => (this.suggestionsMixin_suggestionList = div)}
         onMouseEnter={() => (this.suggestionsCancelBlur = true)}
         onMouseLeave={() => (this.suggestionsCancelBlur = false)}
       >
         <ul>
           {suggestions.map(suggestion =>
             <Suggestion
-              ref={this.suggestionsMixin_storeSuggestionNode}
-              data-suggestion-id={suggestion.ID}
               key={'user-suggestion-' + suggestion.ID}
+              getElement={suggestionElement =>
+                (this.suggestionsMixin_suggestionNodes = {
+                  ...this.suggestionsMixin_suggestionNodes,
+                  [suggestion.ID]: suggestionElement,
+                })}
               onClick={this.handleSuggestionClick.bind(this, suggestion)}
               onMouseEnter={function(suggestion) {
                 this.setState({

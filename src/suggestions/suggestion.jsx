@@ -35,6 +35,7 @@ export class Suggestion extends React.Component {
 
     return (
       <li
+        ref={this.props.getElement}
         key={this.props.username}
         className={this.props.selected ? 'cur' : ''}
         onClick={this.props.onClick}
