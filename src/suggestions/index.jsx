@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { escapeRegExp, find, findIndex } from 'lodash';
 
 import Suggestion from './suggestion';
@@ -63,20 +63,20 @@ const getSuggestionById = function() {
   return find(this.props.suggestions, ({ ID }) => ID === this.state.selectedSuggestionId) || null;
 };
 
-export const SuggestionsMixin = {
+class Suggestions extends Component {
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleSuggestionsKeyDown, false);
     window.removeEventListener('keyup', this.handleSuggestionsKeyUp, false);
     window.removeEventListener('blur', this.handleSuggestionBlur, true);
-  },
+  }
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleSuggestionsKeyDown, false);
     window.addEventListener('keyup', this.handleSuggestionsKeyUp, false);
     window.addEventListener('blur', this.handleSuggestionBlur, true);
 
-    this.props.fetchSuggestions(this.props.note.meta.ids.site);
-  },
+    this.props.fetchSuggestions(this.props.siteId);
+  }
 
   componentDidUpdate() {
     if (!this.suggestionsMixin_suggestionList) {
@@ -105,17 +105,17 @@ export const SuggestionsMixin = {
         'px';
       suggestionList.style.marginTop = '0';
     }
-  },
+  }
 
-  getCaretPosition: element => element.selectionStart,
+  getCaretPosition = element => element.selectionStart;
 
   setCaretPosition(element, position) {
     element.focus();
 
     setTimeout(() => element.setSelectionRange(position, position), 0);
-  },
+  }
 
-  getQueryText(element) {
+  getQueryText = element => {
     if (!element.value) {
       return null;
     }
@@ -131,9 +131,9 @@ export const SuggestionsMixin = {
     const [, suggestion] = match;
 
     return escapeRegExp(suggestion);
-  },
+  }
 
-  insertSuggestion(element, suggestion) {
+  insertSuggestion = (element, suggestion) => {
     if (!suggestion) {
       return;
     }
@@ -151,9 +151,9 @@ export const SuggestionsMixin = {
     });
 
     this.setCaretPosition(element, startString.length + suggestion.user_login.length + 1);
-  },
+  }
 
-  handleSuggestionsKeyDown(event) {
+  handleSuggestionsKeyDown = event => {
     if (!this.state.suggestionsVisible || this.props.suggestions.length === 0) {
       return;
     }
@@ -188,9 +188,9 @@ export const SuggestionsMixin = {
       },
       this.ensureSelectedSuggestionVisibility
     );
-  },
+  }
 
-  handleSuggestionsKeyUp({ keyCode, target }) {
+  handleSuggestionsKeyUp = ({ keyCode, target }) => {
     if (KEY_ENTER === keyCode) {
       if (!this.state.suggestionsVisible || this.props.suggestions.length === 0) {
         return;
@@ -220,11 +220,11 @@ export const SuggestionsMixin = {
       selectedSuggestionId: suggestions.length > 0 ? suggestions[0].ID : null,
       suggestions,
     });
-  },
+  }
 
   handleSuggestionClick(suggestion) {
     this.insertSuggestion(this.replyInput, suggestion);
-  },
+  }
 
   handleSuggestionBlur() {
     if (this.suggestionsCancelBlur || !this.isMounted()) {
@@ -232,7 +232,7 @@ export const SuggestionsMixin = {
     }
 
     this.setState({ suggestionsVisible: false });
-  },
+  }
 
   ensureSelectedSuggestionVisibility() {
     if (this.suggestionsAbove || !this.suggestionsMixin_suggestionNodes) {
@@ -252,7 +252,7 @@ export const SuggestionsMixin = {
     if (offsetTop > window.innerHeight) {
       suggestionElement.scrollIntoView();
     }
-  },
+  }
 
   renderSuggestions() {
     const { suggestions, suggestionsVisible, selectedSuggestionId } = this.state;
@@ -261,7 +261,17 @@ export const SuggestionsMixin = {
       return;
     }
 
-    return (
+    return [
+      <textarea
+        ref={this.storeReplyInput}
+        rows={this.state.rowCount}
+        value={value}
+        placeholder={this.props.placeholder}
+        onClick={this.props.handleClick}
+        onFocus={this.props.handleFocus}
+        onBlur={this.props.handleBlur}
+        onChange={this.props.handleChange}
+      />,
       <div
         className="wpnc__suggestions"
         ref={div => (this.suggestionsMixin_suggestionList = div)}
@@ -292,8 +302,18 @@ export const SuggestionsMixin = {
           )}
         </ul>
       </div>
+    ];
+  }
+
+  render() {
+    console.log( this.props.children);
+    return (
+      <Fragment>
+        { this.props.children }
+        <div className="wpnc__suggestions">Hello</div>
+      </Fragment>
     );
-  },
+  }
 };
 
-export default SuggestionsMixin;
+export default Suggestions;

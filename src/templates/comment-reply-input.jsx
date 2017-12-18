@@ -25,7 +25,7 @@ const hasTouch = () =>
 
 const CommentReplyInput = createReactClass({
   displayName: 'CommentReplyInput',
-  mixins: [repliesCache.LocalStorageMixin, Suggestions],
+  mixins: [repliesCache.LocalStorageMixin],
 
   statics: {
     stopEvent: function(event) {
@@ -318,9 +318,11 @@ const CommentReplyInput = createReactClass({
 
     return (
       <div className="wpnc__reply-box">
-        <textarea
+        <Suggestions
           ref={this.storeReplyInput}
           rows={this.state.rowCount}
+          siteId={ this.props.note.meta.ids.site }
+          fetchSuggestions={ this.props.fetchSuggestions }
           value={value}
           placeholder={this.props.defaultValue}
           onClick={this.handleClick}
@@ -329,7 +331,6 @@ const CommentReplyInput = createReactClass({
           onChange={this.handleChange}
         />
         {submitLink}
-        {this.renderSuggestions()}
       </div>
     );
   },
