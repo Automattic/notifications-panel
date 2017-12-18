@@ -321,8 +321,8 @@ const CommentReplyInput = createReactClass({
         <Suggestions
           ref={this.storeReplyInput}
           rows={this.state.rowCount}
-          siteId={ this.props.note.meta.ids.site }
-          fetchSuggestions={ this.props.fetchSuggestions }
+          siteId={this.props.note.meta.ids.site}
+          fetchSuggestions={this.props.fetchSuggestions}
           value={value}
           placeholder={this.props.defaultValue}
           onClick={this.handleClick}

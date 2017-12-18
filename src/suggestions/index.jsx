@@ -131,7 +131,7 @@ class Suggestions extends Component {
     const [, suggestion] = match;
 
     return escapeRegExp(suggestion);
-  }
+  };
 
   insertSuggestion = (element, suggestion) => {
     if (!suggestion) {
@@ -151,7 +151,7 @@ class Suggestions extends Component {
     });
 
     this.setCaretPosition(element, startString.length + suggestion.user_login.length + 1);
-  }
+  };
 
   handleSuggestionsKeyDown = event => {
     if (!this.state.suggestionsVisible || this.props.suggestions.length === 0) {
@@ -188,7 +188,7 @@ class Suggestions extends Component {
       },
       this.ensureSelectedSuggestionVisibility
     );
-  }
+  };
 
   handleSuggestionsKeyUp = ({ keyCode, target }) => {
     if (KEY_ENTER === keyCode) {
@@ -220,7 +220,7 @@ class Suggestions extends Component {
       selectedSuggestionId: suggestions.length > 0 ? suggestions[0].ID : null,
       suggestions,
     });
-  }
+  };
 
   handleSuggestionClick(suggestion) {
     this.insertSuggestion(this.replyInput, suggestion);
@@ -301,19 +301,19 @@ class Suggestions extends Component {
             />
           )}
         </ul>
-      </div>
+      </div>,
     ];
   }
 
   render() {
-    console.log( this.props.children);
+    console.log(this.props.children);
     return (
       <Fragment>
-        { this.props.children }
+        {this.props.children}
         <div className="wpnc__suggestions">Hello</div>
       </Fragment>
     );
   }
-};
+}
 
 export default Suggestions;
