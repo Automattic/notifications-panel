@@ -21,44 +21,57 @@ const customMiddleware = {
   APP_RENDER_NOTES: [
     (store, { latestType, newNoteCount }) =>
       newNoteCount > 0
-        ? sendMessage({ action: 'render', num_new: newNoteCount, latest_type: latestType })
+        ? sendMessage({
+            action: 'render',
+            num_new: newNoteCount,
+            latest_type: latestType,
+          })
         : sendMessage({ action: 'renderAllSeen' }),
   ],
   CLOSE_PANEL: [() => sendMessage({ action: 'togglePanel' })],
   OPEN_LINK: [(store, { href }) => window.open(href, '_blank')],
-  OPEN_SITE: [(store, { siteId, href }) => {
-    sendMessage({ action: 'openSite', siteId });
-    window.open(href, '_blank');
-  }],
-  OPEN_POST: [(store, { siteId, postId, href }) => {
-    sendMessage({ action: 'openPost', siteId, postId });
-    window.open(href, '_blank');
-  }],
-  OPEN_COMMENT: [(store, { siteId, postId, commentId, href }) => {
-    sendMessage({ action: 'openComment', siteId, postId, commentId });
-    window.open(href, '_blank');
-  }],
+  OPEN_SITE: [
+    (store, { siteId, href }) => {
+      sendMessage({ action: 'openSite', siteId });
+      window.open(href, '_blank');
+    },
+  ],
+  OPEN_POST: [
+    (store, { siteId, postId, href }) => {
+      sendMessage({ action: 'openPost', siteId, postId });
+      window.open(href, '_blank');
+    },
+  ],
+  OPEN_COMMENT: [
+    (store, { siteId, postId, commentId, href }) => {
+      sendMessage({ action: 'openComment', siteId, postId, commentId });
+      window.open(href, '_blank');
+    },
+  ],
   SET_LAYOUT: [
     (store, { layout }) =>
-      sendMessage({ action: 'widescreen', widescreen: layout === 'widescreen' }),
+      sendMessage({
+        action: 'widescreen',
+        widescreen: layout === 'widescreen',
+      }),
   ],
   VIEW_SETTINGS: [() => window.open('https://wordpress.com/me/notifications')],
 };
 
 const render = () => {
-    ReactDOM.render(
-        React.createElement(AuthWrapper(Notifications), {
-            clientId: 56641,
-            customEnhancer,
-            customMiddleware,
-            isShowing,
-            isVisible,
-            locale,
-            receiveMessage: sendMessage,
-            redirectPath: "/"
-        }),
-        document.getElementsByClassName("wpnc__main")[0]
-    );
+  ReactDOM.render(
+    React.createElement(AuthWrapper(Notifications), {
+      clientId: 56641,
+      customEnhancer,
+      customMiddleware,
+      isShowing,
+      isVisible,
+      locale,
+      receiveMessage: sendMessage,
+      redirectPath: '/',
+    }),
+    document.getElementsByClassName('wpnc__main')[0]
+  );
 };
 
 const init = () => {
