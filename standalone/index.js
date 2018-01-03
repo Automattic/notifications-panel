@@ -46,19 +46,19 @@ const customMiddleware = {
 };
 
 const render = () => {
-  ReactDOM.render(
-    React.createElement(AuthWrapper(Notifications), {
-      clientId: 52716,
-      customEnhancer,
-      customMiddleware,
-      isShowing,
-      isVisible,
-      locale,
-      receiveMessage: sendMessage,
-      redirectPath: '/',
-    }),
-    document.getElementsByClassName('wpnc__main')[0]
-  );
+    ReactDOM.render(
+        React.createElement(AuthWrapper(Notifications), {
+            clientId: 56641,
+            customEnhancer,
+            customMiddleware,
+            isShowing,
+            isVisible,
+            locale,
+            receiveMessage: sendMessage,
+            redirectPath: "/"
+        }),
+        document.getElementsByClassName("wpnc__main")[0]
+    );
 };
 
 const init = () => {
