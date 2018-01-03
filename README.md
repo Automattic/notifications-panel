@@ -19,12 +19,12 @@ The following sections describe what is required in order to locally develop thi
 ### Authentication domain
 
 When developing the app locally we need to fake its base URL because of the way that user authentication works.
-The [OAuth application](https://developer.wordpress.com/apps/52716) will only respond to a select number of domain origins.
+The [OAuth application](https://developer.wordpress.com/apps/56641) will only respond to a select number of domain origins.
 Thus the following line will need to exist in your local `/etc/hosts` file.
 The app will be served at this address when running the development server.
 
 ```
-127.0.0.1 notifications.dev
+127.0.0.1 notifications.localhost
 ```
 
 ### Installation
@@ -45,6 +45,6 @@ With the code and dependent libraries installed run the development server with 
 npm start
 ```
 
-After it boots up load the entry at [notifications.dev:8888](notifications.dev:8888) in your browser.
+After it boots up load the entry at [notifications.localhost:8888](notifications.localhost:8888) in your browser.
 
 [react]: https://facebook.github.io/react/

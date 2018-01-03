@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:prod": "NODE_ENV=production webpack -p",
-    "start": "make build && webpack-dev-server -d --host notifications.dev --port 8888 --inline --watch --hot --progress --content-base public",
+    "start": "make build && webpack-dev-server -d --host notifications.localhost --port 8888 --inline --watch --hot --progress --content-base public",
     "translate": "i18n-calypso -i ./public/build.min.js -o ./notifications-i18n.php -a notifications_i18n"
   },
   "browserslist": [
