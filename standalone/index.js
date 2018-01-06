@@ -1,10 +1,8 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import wpcom from 'wpcom';
-const debug = require('debug')('notifications:note');
 
 import Notifications, { refreshNotes } from '../src/Notifications';
-import AuthWrapper, { getStoredToken } from './auth-wrapper';
+import AuthWrapper from './auth-wrapper';
 import { receiveMessage, sendMessage } from './messaging';
 
 require('../src/boot/stylesheets/style.scss');
@@ -60,17 +58,6 @@ const customMiddleware = {
   VIEW_SETTINGS: [() => window.open('https://wordpress.com/me/notifications')],
 };
 
-const setTracksUser = () => {
-    wpcom( getStoredToken() )
-        .req
-        .get( { path: '/me', apiVersion: '1.1' }, { fields: 'ID,username' } )
-        .then( ( { ID, username } ) => {
-            window._tkq = window._tkq || [];
-            window._tkq.push( [ 'identifyUser', ID, username ] ) ;
-        })
-        .catch( () => debug( 'Error fetching user.') );
-};
-
 const render = () => {
   ReactDOM.render(
     React.createElement(AuthWrapper(Notifications), {
@@ -89,7 +76,6 @@ const render = () => {
 
 const init = () => {
   render();
-  setTracksUser();
 
   const refresh = () => store.dispatch({ type: 'APP_REFRESH_NOTES', isVisible });
   const reset = () => store.dispatch({ type: 'SELECT_NOTE', noteId: null });
