@@ -85,10 +85,21 @@ export const AuthWrapper = Wrapped => class extends Component {
         window.location.replace(uri);
     };
 
+    setTracksUser = () =>
+        this.state.wpcom
+        .me()
+        .get( { fields: 'ID,username' } )
+        .then( ( { ID, username } ) => {
+            window._tkq = window._tkq || [];
+            window._tkq.push( [ 'identifyUser', ID, username ] ) ;
+        } )
+        .catch( () => {} );
+
     render() {
         const { clientId, redirectPath, ...childProps } = this.props;
 
         if (this.state.wpcom) {
+            this.setTracksUser();
             return <Wrapped {...childProps} {...{ wpcom: this.state.wpcom }} />;
         }
 
