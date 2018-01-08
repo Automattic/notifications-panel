@@ -66,6 +66,12 @@ export const AuthWrapper = Wrapped => class extends Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+      if (!prevState.wpcom && this.state.wpcom) {
+        this.setTracksUser();
+      }
+    }
+
     maybeRedirectToOAuthLogin = () => {
         if (this.state.oAuthToken) {
             return this.setState({ wpcom: wpcom(this.state.oAuthToken) });
@@ -99,7 +105,6 @@ export const AuthWrapper = Wrapped => class extends Component {
         const { clientId, redirectPath, ...childProps } = this.props;
 
         if (this.state.wpcom) {
-            this.setTracksUser();
             return <Wrapped {...childProps} {...{ wpcom: this.state.wpcom }} />;
         }
 
