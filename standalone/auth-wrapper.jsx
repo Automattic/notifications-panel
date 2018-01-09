@@ -66,6 +66,12 @@ export const AuthWrapper = Wrapped => class extends Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+      if (!prevState.wpcom && this.state.wpcom) {
+        this.setTracksUser();
+      }
+    }
+
     maybeRedirectToOAuthLogin = () => {
         if (this.state.oAuthToken) {
             return this.setState({ wpcom: wpcom(this.state.oAuthToken) });
@@ -84,6 +90,16 @@ export const AuthWrapper = Wrapped => class extends Component {
 
         window.location.replace(uri);
     };
+
+    setTracksUser = () =>
+        this.state.wpcom
+        .me()
+        .get( { fields: 'ID,username' } )
+        .then( ( { ID, username } ) => {
+            window._tkq = window._tkq || [];
+            window._tkq.push( [ 'identifyUser', ID, username ] ) ;
+        } )
+        .catch( () => {} );
 
     render() {
         const { clientId, redirectPath, ...childProps } = this.props;
