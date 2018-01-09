@@ -98,7 +98,7 @@ export const AuthWrapper = Wrapped => class extends Component {
         .then( ( { ID, username } ) => {
             window._tkq = window._tkq || [];
             window._tkq.push( [ 'identifyUser', ID, username ] ) ;
-        } );
+        .catch( () => {} );
 
     render() {
         const { clientId, redirectPath, ...childProps } = this.props;
