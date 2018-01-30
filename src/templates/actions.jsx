@@ -48,10 +48,10 @@ const ActionsPane = ({ global, isApproved, isLiked, note, translate }) => {
   return (
     <div className="wpnc__note-actions">
       <div className="wpnc__note-actions__buttons">
-        {hasAction(['like-post', 'like-comment']) && <LikeButton {...{ note, isLiked }} />}
         {hasAction('approve-comment') && <ApproveButton {...{ note, isApproved }} />}
-        {hasAction('trash-comment') && <TrashButton note={note} />}
         {hasAction('spam-comment') && <SpamButton note={note} />}
+        {hasAction('trash-comment') && <TrashButton note={note} />}
+        {hasAction(['like-post', 'like-comment']) && <LikeButton {...{ note, isLiked }} />}
         {hasAction('edit-comment') && <EditButton note={note} />}
       </div>
       {!!actions['replyto-comment'] &&
