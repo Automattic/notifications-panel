@@ -56,6 +56,10 @@ const customMiddleware = {
       }),
   ],
   VIEW_SETTINGS: [() => window.open('https://wordpress.com/me/notifications')],
+  EDIT_COMMENT: [
+    (store, { siteId, commentId }) =>
+      window.open(`https://wordpress.com/comment/${siteId}/${commentId}`),
+  ],
 };
 
 const render = () => {

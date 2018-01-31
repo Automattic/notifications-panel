@@ -1,5 +1,6 @@
 import {
   CLOSE_PANEL,
+  EDIT_COMMENT,
   NOTES_LOADED,
   NOTES_LOADING,
   SELECT_NOTE,
@@ -47,6 +48,12 @@ export const setFilter = filterName => ({
   filterName,
 });
 
+export const editComment = (siteId, commentId) => ({
+  type: EDIT_COMMENT,
+  siteId,
+  commentId,
+});
+
 export default {
   closePanel,
   loadNotes,
@@ -57,4 +64,5 @@ export default {
   unselectNote,
   viewSettings,
   setFilter,
+  editComment,
 };
