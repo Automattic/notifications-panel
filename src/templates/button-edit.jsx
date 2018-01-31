@@ -11,24 +11,20 @@ import { localize } from 'i18n-calypso';
  */
 import ActionButton from './action-button';
 import { keys } from '../helpers/input';
-import { linkProps } from './functions';
+import { getEditCommentLink } from '../helpers/notes';
 import { editComment } from '../state/ui/actions';
 
-const EditButton = ({ editComment, note, translate }) => {
-  const { 'data-comment-id': commentId, 'data-site-id': siteId } = linkProps(note);
-  return (
-    <ActionButton
-      {...{
-        icon: 'pencil',
-        isActive: false,
-        hotkey: keys.KEY_E,
-        onToggle: () => editComment(siteId, commentId),
-        text: translate('Edit', { context: 'verb: imperative' }),
-        title: translate('Edit comment', { context: 'verb: imperative' }),
-      }}
-    />
-  );
-};
+const EditButton = ({ editComment, note, translate }) =>
+  <ActionButton
+    {...{
+      icon: 'pencil',
+      isActive: false,
+      hotkey: keys.KEY_E,
+      onToggle: () => editComment(getEditCommentLink(note)),
+      text: translate('Edit', { context: 'verb: imperative' }),
+      title: translate('Edit comment', { context: 'verb: imperative' }),
+    }}
+  />;
 
 EditButton.propTypes = {
   editComment: PropTypes.func.isRequired,
