@@ -48,9 +48,12 @@ export const setFilter = filterName => ({
   filterName,
 });
 
-export const editComment = editCommentLink => ({
+export const editComment = (siteId, postId, commentId, href) => ({
   type: EDIT_COMMENT,
-  editCommentLink,
+  siteId,
+  postId,
+  commentId,
+  href,
 });
 
 export default {

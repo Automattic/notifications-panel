@@ -56,7 +56,12 @@ const customMiddleware = {
       }),
   ],
   VIEW_SETTINGS: [() => window.open('https://wordpress.com/me/notifications')],
-  EDIT_COMMENT: [(store, { editCommentLink }) => window.open(editCommentLink)],
+  EDIT_COMMENT: [
+    (store, { siteId, postId, commentId, href }) => {
+      sendMessage({ action: 'editComment', siteId, postId, commentId });
+      window.open(href, '_blank');
+    },
+  ],
 };
 
 const render = () => {
