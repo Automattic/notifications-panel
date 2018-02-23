@@ -10,7 +10,7 @@ import getSiteSuggestions from '../state/selectors/get-site-suggestions';
  * Internal dependencies
  */
 import { disableKeyboardShortcuts, enableKeyboardShortcuts } from '../flux/input-actions';
-
+import Spinner from './spinner';
 import Suggestions from '../suggestions';
 import repliesCache from '../comment-replies-cache';
 import { wpcom } from '../rest-client/wpcom';
@@ -286,10 +286,7 @@ const CommentReplyInput = createReactClass({
 
     if (this.state.isSubmitting) {
       submitLink = (
-        <div className="wpnc__spinner animated">
-          <span className="side left" />
-          <span className="side right" />
-        </div>
+        <Spinner className="wpnc__spinner" />
       );
     } else {
       if (value.length) {
