@@ -17,6 +17,7 @@ import FilterBar from './filter-bar';
 import Filters from './filters';
 import ListHeader from './list-header';
 import Note from './note';
+import Spinner from './spinner';
 import StatusBar from './status-bar';
 import UndoListItem from './undo-list-item';
 
@@ -355,10 +356,7 @@ export class NoteList extends React.Component {
             {notes}
             {this.props.isLoading &&
               <div style={loadingIndicatorVisibility} className="wpnc__loading-indicator">
-                <div className="wpnc__spinner animated">
-                  <span className="side left" />
-                  <span className="side right" />
-                </div>
+                <Spinner className="wpnc__spinner" />
               </div>}
           </ol>
         </div>

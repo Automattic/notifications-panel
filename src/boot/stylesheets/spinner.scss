@@ -1,138 +1,40 @@
-//CSS Spinner http://codepen.io/MichaelArestad/pen/4f837dd51dc09256115afc9218edda2c
-@keyframes ui-wpnc__spinner-rotate-right {
-  0% {
-    transform: rotate(0deg);
+.wpnc__main {
+  .wpnc__spinner {
+    position: relative;
+    top: 50%;
   }
-  25% {
-    transform: rotate(180deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  75% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
-@keyframes ui-wpnc__spinner-rotate-left {
-  0% {
-    transform: rotate(0deg);
+  // Start https://github.com/Automattic/wp-calypso/blob/master/client/components/spinner/style.scss
+  @keyframes rotate-spinner {
+    100% {
+      transform: rotate( 360deg );
+    }
   }
-  25% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  75% {
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
-$size: 20px;
-$transition-speed: .4s;
-.wpnc__spinner {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 100%;
-  width: $size;
-  height: $size;
-  background: lighten($gray, 20);
+  .spinner {
+    display: flex;
+    align-items: center;
+  }
 
-  // before & after make the donut hole
-  &:before, &:after {
-    content: '';
-    position: absolute;
-    background: $white;
+  .spinner__outer, .spinner__inner {
+    margin: auto;
+    box-sizing: border-box;
+    border: 0.1em solid transparent;
     border-radius: 50%;
+    animation: 3s linear infinite;
+    animation-name: rotate-spinner;
   }
-  &:before {
-    $stroke: 1px;
 
-    width: $size - ($stroke * 2);
-    height: $size - ($stroke * 2);
-    top: $stroke;
-    left: $stroke;
+  .spinner__outer {
+    border-top-color: $blue-medium;
   }
-  &:after {
-    $stroke: 3px;
 
-    width: $size - ($stroke * 2);
-    height: $size - ($stroke * 2);
-    top: $stroke;
-    left: $stroke;
-  }
-  &:hover {
-    .left:before {
-      transition-delay: $transition-speed;
-    }
-    .right:before {
-      transition-delay: 0;
-    }
-  }
-  .side {
-    width: 50%;
+  .spinner__inner {
+    width: 100%;
     height: 100%;
-    overflow: hidden;
-    position: absolute;
-
-    &:before {
-      content: '';
-      border-radius: 500px;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: $blue-medium;
-      transition: all $transition-speed .4s linear;
-    }
+    border-top-color: $blue-medium;
+    border-right-color: $blue-medium;
+    opacity: 0.4;
   }
-  .left {
-    left: 0;
-
-    &:before {
-      left: 100%;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      transform-origin: 0 50%;
-      transition-delay: 0;
-    }
-  }
-  .right {
-    left: 50%;
-
-    &:before {
-      left: -100%;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      transform-origin: 100% 50%;
-    }
-  }
-}
-
-.animated {
-  .side:before {
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    animation-duration: 3s;
-  }
-  .left:before {
-    animation-name: ui-wpnc__spinner-rotate-left;
-  }
-  .right:before {
-    animation-name: ui-wpnc__spinner-rotate-right;
-  }
-}
-
-.wpnc__loading-indicator .wpnc__spinner {
-  &:before, &:after {
-    background: $gray-light;
-  }
+  // End https://github.com/Automattic/wp-calypso/blob/master/client/components/spinner/style.scss
 }
