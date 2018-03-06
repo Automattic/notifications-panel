@@ -356,7 +356,7 @@ export class NoteList extends React.Component {
             {notes}
             {this.props.isLoading &&
               <div style={loadingIndicatorVisibility} className="wpnc__loading-indicator">
-                <Spinner className="wpnc__spinner" />
+                <Spinner />
               </div>}
           </ol>
         </div>
