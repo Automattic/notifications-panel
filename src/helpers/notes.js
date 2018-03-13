@@ -29,3 +29,16 @@ export function getReferenceId(note, type) {
 
   return note.meta.ids[type];
 }
+
+/**
+ * Returns the edit link for the note comment.
+ * It's a Calypso link for WP.com sites and
+ * Jetpack sites with the `edit_links_calypso_redirect` option set.
+ * It's a wp-admin link otherwise.
+ *
+ * @param note
+ * @returns {String}
+ */
+export function getEditCommentLink(note) {
+  return getActionBlock(note.body).edit_comment_link;
+}

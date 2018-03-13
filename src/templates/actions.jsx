@@ -7,6 +7,7 @@ import getIsNoteApproved from '../state/selectors/get-is-note-approved';
 import getIsNoteLiked from '../state/selectors/get-is-note-liked';
 
 import ApproveButton from './button-approve';
+import EditButton from './button-edit';
 import LikeButton from './button-like';
 import ReplyInput from './comment-reply-input';
 import SpamButton from './button-spam';
@@ -47,10 +48,11 @@ const ActionsPane = ({ global, isApproved, isLiked, note, translate }) => {
   return (
     <div className="wpnc__note-actions">
       <div className="wpnc__note-actions__buttons">
-        {hasAction(['like-post', 'like-comment']) && <LikeButton {...{ note, isLiked }} />}
         {hasAction('approve-comment') && <ApproveButton {...{ note, isApproved }} />}
-        {hasAction('trash-comment') && <TrashButton note={note} />}
         {hasAction('spam-comment') && <SpamButton note={note} />}
+        {hasAction('trash-comment') && <TrashButton note={note} />}
+        {hasAction(['like-post', 'like-comment']) && <LikeButton {...{ note, isLiked }} />}
+        {hasAction('edit-comment') && <EditButton note={note} />}
       </div>
       {!!actions['replyto-comment'] &&
         <ReplyInput
