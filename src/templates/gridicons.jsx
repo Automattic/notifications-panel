@@ -268,7 +268,6 @@ export default class extends React.Component {
       case 'gridicons-pencil':
         return (
           <svg {...sharedProps} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <title>Cart</title>
             <g>
               <path d="M13,6l5,5l-9.507,9.507c-0.686-0.686-0.689-1.794-0.012-2.485l-0.003-0.003c-0.691,0.677-1.799,0.674-2.485-0.012
 		c-0.677-0.677-0.686-1.762-0.036-2.455l-0.008-0.008c-0.693,0.649-1.779,0.64-2.455-0.036L13,6z M20.586,5.586l-2.172-2.172
