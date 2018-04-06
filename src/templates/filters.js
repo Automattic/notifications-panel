@@ -93,7 +93,7 @@ export const Filters = {
       emptyLinkMessage: i18n.translate("Get noticed: comment on posts you've read.", {
         comment: 'Notifications likes filter: no Notifications',
       }),
-      emptyLink: 'https://wordpress.com/posts/',
+      emptyLink: 'https://wordpress.com/activities/likes/',
 
       filter: ({ type }) => 'comment_like' === type || 'like' === type,
     };
