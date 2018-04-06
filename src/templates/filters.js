@@ -57,7 +57,7 @@ export const Filters = {
           comment: 'Notifications comments filter: no notifications',
         }
       ),
-      emptyLink: 'https://wordpress.com/read/',
+      emptyLink: 'https://wordpress.com/read/search/',
 
       filter: ({ type }) => 'comment' === type,
     };
@@ -75,7 +75,7 @@ export const Filters = {
       emptyLinkMessage: i18n.translate("Get noticed: comment on posts you've read.", {
         comment: 'Notifications follows filter: no notifications',
       }),
-      emptyLink: 'https://wordpress.com/read/',
+      emptyLink: 'https://wordpress.com/activities/likes/',
 
       filter: ({ type }) => 'follow' === type,
     };
@@ -93,7 +93,7 @@ export const Filters = {
       emptyLinkMessage: i18n.translate("Get noticed: comment on posts you've read.", {
         comment: 'Notifications likes filter: no Notifications',
       }),
-      emptyLink: 'https://wordpress.com/posts/',
+      emptyLink: 'https://wordpress.com/activities/likes/',
 
       filter: ({ type }) => 'comment_like' === type || 'like' === type,
     };
