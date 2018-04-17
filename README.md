@@ -51,4 +51,4 @@ After it boots up load the entry at [notifications.localhost:8888](notifications
 
 ### Automattic employees
 
-If notable UI changes are being made in PRs, be sure to inform the app teams so that they can bring the various apps into alignment.
+If notable UI changes are being made in PRs, be sure to open a corresponding issue in the [iOS](https://github.com/wordpress-mobile/WordPress-iOS) and [Android](https://github.com/wordpress-mobile/WordPress-Android) repositories, so that those teams can bring the apps into alignment.
