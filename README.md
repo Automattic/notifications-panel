@@ -48,3 +48,7 @@ npm start
 After it boots up load the entry at [notifications.localhost:8888](notifications.localhost:8888) in your browser.
 
 [react]: https://facebook.github.io/react/
+
+### Automatticians
+
+If notable UI changes are being made in PRs, be sure to inform the app teams so that they can bring the various apps into alignment.
