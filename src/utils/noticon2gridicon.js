@@ -16,6 +16,7 @@ export const noticon2gridicon = c =>
       '\uf414': 'warning',
       '\uf418': 'checkmark',
       '\uf447': 'cart',
+      'offline': 'offline'
     },
     c,
     'info'

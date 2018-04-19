@@ -36,6 +36,14 @@ export default class extends React.Component {
           </svg>
         );
 
+      case 'gridicons-offline':
+        return (
+          <svg {...sharedProps} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <rect x="0" fill="none" width="24" height="24" />
+            <g><path d="M10 3h8l-4 6h4L6 21l4-9H6l4-9" /></g>
+          </svg>
+        );
+
       case 'gridicons-spam':
         return (
           <svg {...sharedProps} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
