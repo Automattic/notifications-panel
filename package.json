@@ -1,6 +1,6 @@
 {
   "name": "notifications-panel",
-  "version": "2.2.0",
+  "version": "2.2.0-alpha.1",
   "description": "The core notifications panel for WordPress.com notifications",
   "main": "src/Notifications.jsx",
   "scripts": {
