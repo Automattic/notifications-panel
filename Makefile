@@ -69,4 +69,4 @@ distclean: clean
 translate: public/build.min.js
 	@$(NPM) run translate
 
-.PHONY: githooks run build clean distclean test translate
+.PHONY: githooks run build clean distclean translate
