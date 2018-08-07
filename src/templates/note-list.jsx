@@ -354,7 +354,7 @@ export class NoteList extends React.Component {
               statusReset={this.resetStatusBar}
             />
             {notes}
-            {this.props.isLoading &&
+            {this.props.isLoading && this.props.isPanelOpen &&
               <div style={loadingIndicatorVisibility} className="wpnc__loading-indicator">
                 <Spinner />
               </div>}
