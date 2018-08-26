@@ -1,6 +1,6 @@
 # WordPress.com Notifications Panel
 
-> **Note** This repository isn't ready for general use. Please check before using anywhere. It's not ready for deploying to an iframe environment even though it's designed for that eventual situation. Currently as an `npm` module it brings with it no build system and only the actual source code gets included.
+> **Note** This repository is in the process of closing down. Please _DO NOT_ attempt to update the code here. Instead please update the code in Automattic/wp-calypso. This repository should no longer be used.
 
 This repository contains the [React][react] component which displays WordPress.com notifications and provides for management of those notifications.
 
