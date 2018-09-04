@@ -13,6 +13,16 @@ function getDisplayURL(url) {
   return (parser.hostname + parser.pathname).replace(/\/$/, '');
 }
 
+function getProtocol( url ) {
+	var parser = document.createElement( 'a' );
+	parser.href = url;
+	return parser.protocol;
+}
+
+// This is the default blavatar sent by wpcom in the notification data if
+// blavatar is blank
+var defaultBlavatarURL = 'https://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536';
+
 export class UserBlock extends React.Component {
   /**
 	 * Format a timestamp for showing how long
@@ -59,12 +69,14 @@ export class UserBlock extends React.Component {
 
   render() {
     var grav = this.props.block.media[0],
+      component = this,
       home_url = '',
       home_title = '',
       timeIndicator,
       homeTemplate,
       followLink,
-      noteActions;
+      noteActions,
+      image;
 
     if (this.props.block.meta) {
       if (this.props.block.meta.links) {
@@ -133,10 +145,18 @@ export class UserBlock extends React.Component {
     }
 
     if (home_url) {
+			if ( grav.url.indexOf( defaultBlavatarURL ) > -1 ) {
+				grav.url = getProtocol( home_url ) + '//' + getHostName( home_url ) + '/favicon.ico';
+				image = <img ref='icon' src={grav.url} onError={ function() {
+					component.refs.icon.getDOMNode().src = defaultBlavatarURL;
+				} } />;
+			} else {
+				image = <img src={grav.url} />;
+			}
       return (
         <div className="wpnc__user">
           <a className="wpnc__user__site" href={home_url} target="_blank">
-            <img src={grav.url} height={grav.height} width={grav.width} />
+            { image }
           </a>
           <span className="wpnc__user__username">
             <a className="wpnc__user__home" href={home_url} target="_blank">
@@ -150,7 +170,7 @@ export class UserBlock extends React.Component {
     } else {
       return (
         <div className="wpnc__user">
-          <img src={grav.url} height={grav.height} width={grav.width} />
+          <img src={grav.url} />
           <span className="wpnc__user__username">{this.props.block.text}</span>
           {homeTemplate}
           {followLink}
