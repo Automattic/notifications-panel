@@ -20,7 +20,7 @@ export const init = ({ customEnhancer, customMiddleware = {} } = {}) => {
   const middle = withMiddleware(customMiddleware);
   const create = customEnhancer ? customEnhancer(middle) : middle;
 
-  store = create(reducer, reducer(undefined, { type: '@@INIT' }));
+  const store = create(reducer, reducer(undefined, { type: '@@INIT' }));
 
   return store;
 };
